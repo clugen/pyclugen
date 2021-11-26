@@ -1,6 +1,6 @@
 """
    Multidimensional cluster generation in Python.
-   .. include:: ../../README.md
+   .. include:: ../README.md
 """
 
 from .core import points_on_line
