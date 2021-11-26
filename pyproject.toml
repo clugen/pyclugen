@@ -1,3 +1,12 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.mypy]
+python_version = 3.8
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--mypy"
+norecursedirs = ["hooks", "*.egg", ".eggs", "dist", "build", "docs", ".tox", ".git", "__pycache__"]
+testpaths = [ "tests" ]
