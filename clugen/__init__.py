@@ -3,4 +3,8 @@
    .. include:: ../README.md
 """
 
-from .core import points_on_line
+__all__ = [
+    "points_on_line",
+]
+
+from clugen.core import points_on_line
