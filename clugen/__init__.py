@@ -1,6 +1,6 @@
-"""
-   Multidimensional cluster generation in Python.
-   .. include:: ../README.md
+"""Multidimensional cluster generation in Python.
+
+.. include:: ../README.md
 """
 
 __all__ = [
