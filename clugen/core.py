@@ -28,17 +28,17 @@ def points_on_line(
 
     >>> import clugen as cg
     >>> import numpy as np
-    >>> center = np.array([[5.0, 5.0]]).T
-    >>> dir = np.array([[1.0, 0.0]]).T
-    >>> dc = np.array([np.linspace(-4, 4, 5)]).T
-    >>> cg.points_on_line(center, dir, dc) # 2D, 5 points
+    >>> cg.points_on_line(np.array([[5.0, 5.0]]).T,
+    ...                   np.array([[1.0, 0.0]]).T,
+    ...                   np.array([np.linspace(-4, 4, 5)]).T) # 2D, 5 points
     array([[1., 5.],
            [3., 5.],
            [5., 5.],
            [7., 5.],
            [9., 5.]])
 
-    >>> cg.points_on_line(np.array([[-2,0,0,2.]]).T, np.array([[0,0,-1.,0]]).T,
+    >>> cg.points_on_line(np.array([[-2,0,0,2.]]).T,
+    ...                   np.array([[0,0,-1.,0]]).T,
     ...                   np.array([[10, -10]]).T) # 4D, 2 points
     array([[ -2.,   0., -10.,   2.],
            [ -2.,   0.,  10.,   2.]])
