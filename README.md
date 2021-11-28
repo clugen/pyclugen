@@ -39,6 +39,12 @@ pre-commit install
 
 On Windows replace `source env/bin/activate` with `. env\Scripts\activate`.
 
+To build the documentation run:
+
+```text
+pdoc3 --force --html --output-dir docs/build/ --template-dir docs/templates clugen/
+```
+
 ## License
 
 [MIT License](LICENSE.txt)
