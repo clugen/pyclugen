@@ -4,7 +4,15 @@
 
 """Tests for the core module."""
 
+import numpy as np
 
-def test_points_on_line():
+import clugen as cg
+
+
+def test_points_on_line(ndims):
     """Test points_on_line()."""
-    assert True
+    ctr = np.ones((ndims, 1))
+    direc = np.ones((ndims, 1)) * 2
+    dc = np.array([[-1.5, 2, -1.6, 10, 0, 1.1]]).T
+    pol = cg.points_on_line(ctr, direc, dc)
+    assert pol.shape == (dc.size, ndims)
