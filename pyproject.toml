@@ -16,3 +16,4 @@ testpaths = ["clugen", "tests"]
 profile = "black"
 src_paths = ["clugen", "tests"]
 line_length = 88
+skip_gitignore = "True"
