@@ -7,8 +7,10 @@
 .. include:: ../README.md
 """
 
-__all__ = [
-    "points_on_line",
-]
 
-from clugen.core import points_on_line
+__all__ = ["points_on_line", "rand_unit_vector"]
+
+from clugen.core import points_on_line, rand_unit_vector
+
+__pdoc__ = {}
+__pdoc__["shared"] = False

@@ -13,7 +13,7 @@ import clugen as cg
 
 
 def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
-    """Test the points_on_line function."""
+    """Test the points_on_line() function."""
     # Number of directions to test
     ndirs = 3
 
@@ -56,3 +56,15 @@ def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
                 d = norm((pt - ctr) - vdot((pt - ctr), direc) * direc)
                 # Check that it is approximately zero
                 assert_allclose(d, 0, atol=1e-14)
+
+
+def test_rand_unit_vector(ndims, prng):
+    """Test the rand_unit_vector() function."""
+    # Get a random unit vector
+    r = cg.rand_unit_vector(ndims, rng=prng)
+
+    # Check that returned vector has the correct dimensions
+    assert r.shape == (ndims,)
+
+    # Check that returned vector has norm == 1
+    assert_allclose(norm(r), 1, atol=1e-14)

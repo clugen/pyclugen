@@ -4,7 +4,10 @@
 
 """Core functions."""
 
+import numpy as np
 import numpy.typing as npt
+
+from .shared import _default_rng
 
 
 def points_on_line(
@@ -57,3 +60,20 @@ def points_on_line(
       Coordinates of points on the specified line ( \(p \times n\) matrix).
     """
     return center.T + dist_center @ direction.T
+
+
+def rand_unit_vector(
+    num_dims: int, rng: np.random.Generator = _default_rng
+) -> npt.NDArray:
+    """Get a random unit vector with `num_dims` dimensions.
+
+    Args:
+      num_dims: Number of dimensions.
+      rng: Optional pseudo-random number generator.
+
+    Returns:
+      A random unit vector with `num_dims` dimensions.
+    """
+    r = rng.random(num_dims) - 0.5
+    r = r / np.linalg.norm(r)
+    return r
