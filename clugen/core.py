@@ -63,6 +63,42 @@ def points_on_line(
     return center.T + dist_center @ direction.T
 
 
+def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
+    """Get a random unit vector orthogonal to `u`.
+
+    Note that `u` is expected to be a unit vector itself.
+
+    Args:
+      u: A unit vector.
+      rng: Optional pseudo-random number generator.
+
+    Returns:
+      A random unit vector orthogonal to `u`.
+    """
+    # If 1D, just return a random unit vector
+    if u.size == 1:
+        return rand_unit_vector(1, rng=rng)
+
+    # Find a random, non-parallel vector to u
+    while True:
+
+        # Find normalized random vector
+        r = rand_unit_vector(u.size, rng=rng)
+
+        # If not parallel to u we can keep it and break the loop
+        if not np.isclose(np.abs(np.vdot(u, r)), 1):
+            break
+
+    # Get vector orthogonal to u using 1st iteration of Gram-Schmidt process
+    v = r - np.vdot(u, r) / np.vdot(u, u) * u
+
+    # Normalize it
+    v = v / np.linalg.norm(v)
+
+    # And return it
+    return v
+
+
 def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
     """Get a random unit vector with `num_dims` dimensions.
 
@@ -84,6 +120,6 @@ def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
     Returns:
       A random unit vector with `num_dims` dimensions.
     """
-    r = rng.random(num_dims) - 0.5
+    r = rng.random((num_dims, 1)) - 0.5
     r = r / np.linalg.norm(r)
     return r

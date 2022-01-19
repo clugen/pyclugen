@@ -10,6 +10,7 @@ from numpy.linalg import norm
 from numpy.testing import assert_allclose
 
 import clugen as cg
+from clugen.core import rand_ortho_vector
 
 
 def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
@@ -58,13 +59,33 @@ def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
                 assert_allclose(d, 0, atol=1e-14)
 
 
+def test_rand_ortho_vector(ndims, prng, uvector):
+    """Test the rand_ortho_vector() function."""
+    # Get a base vector
+    u = uvector(ndims)
+
+    # Invoke the rand_ortho_vector function on the base vector
+    r = rand_ortho_vector(u, rng=prng)
+
+    # Check that returned vector has the correct dimensions
+    assert r.shape == (ndims, 1)
+
+    # Check that returned vector has norm == 1
+    assert_allclose(norm(r), 1, atol=1e-14)
+
+    # Check that vectors u and r are orthogonal (only for nd > 1)
+    if ndims > 1:
+        # The dot product of orthogonal vectors must be (approximately) zero
+        assert_allclose(vdot(u, r), 0, atol=1e-12)
+
+
 def test_rand_unit_vector(ndims, prng):
     """Test the rand_unit_vector() function."""
     # Get a random unit vector
     r = cg.rand_unit_vector(ndims, rng=prng)
 
     # Check that returned vector has the correct dimensions
-    assert r.shape == (ndims,)
+    assert r.shape == (ndims, 1)
 
     # Check that returned vector has norm == 1
     assert_allclose(norm(r), 1, atol=1e-14)
