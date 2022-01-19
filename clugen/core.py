@@ -5,14 +5,15 @@
 """Core functions."""
 
 import numpy as np
-import numpy.typing as npt
+from numpy.random import Generator
+from numpy.typing import NDArray
 
 from .shared import _default_rng
 
 
 def points_on_line(
-    center: npt.NDArray, direction: npt.NDArray, dist_center: npt.NDArray
-) -> npt.NDArray:
+    center: NDArray, direction: NDArray, dist_center: NDArray
+) -> NDArray:
     r"""Determine coordinates of points on a line.
 
     Determine coordinates of points on a line with `center` and `direction`,
@@ -62,9 +63,7 @@ def points_on_line(
     return center.T + dist_center @ direction.T
 
 
-def rand_unit_vector(
-    num_dims: int, rng: np.random.Generator = _default_rng
-) -> npt.NDArray:
+def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
     """Get a random unit vector with `num_dims` dimensions.
 
     ## Examples:
