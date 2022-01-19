@@ -4,7 +4,8 @@
 
 """Core functions."""
 
-import numpy as np
+from numpy import abs, isclose, vdot
+from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import NDArray
 
@@ -86,14 +87,14 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
         r = rand_unit_vector(u.size, rng=rng)
 
         # If not parallel to u we can keep it and break the loop
-        if not np.isclose(np.abs(np.vdot(u, r)), 1):
+        if not isclose(abs(vdot(u, r)), 1):
             break
 
     # Get vector orthogonal to u using 1st iteration of Gram-Schmidt process
-    v = r - np.vdot(u, r) / np.vdot(u, u) * u
+    v = r - vdot(u, r) / vdot(u, u) * u
 
     # Normalize it
-    v = v / np.linalg.norm(v)
+    v = v / norm(v)
 
     # And return it
     return v
@@ -121,5 +122,5 @@ def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
       A random unit vector with `num_dims` dimensions.
     """
     r = rng.random((num_dims, 1)) - 0.5
-    r = r / np.linalg.norm(r)
+    r = r / norm(r)
     return r
