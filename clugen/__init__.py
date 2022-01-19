@@ -9,6 +9,7 @@
 
 
 __all__ = [
+    "fix_empty",
     "points_on_line",
     "rand_ortho_vector",
     "rand_unit_vector",
@@ -21,6 +22,7 @@ from clugen.core import (
     rand_unit_vector,
     rand_vector_at_angle,
 )
+from clugen.helper import fix_empty
 
 __pdoc__ = {}
 __pdoc__["shared"] = False
