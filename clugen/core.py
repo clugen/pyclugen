@@ -90,7 +90,7 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
     True
 
     Args:
-      u: A \(n \times 1\) unit vector.
+      u: \(n \times 1\) unit vector.
       rng: Optional pseudo-random number generator.
 
     Returns:
@@ -157,9 +157,27 @@ def rand_vector_at_angle(
 
     Note that `u` is expected to be a unit vector itself.
 
+    ## Examples:
+
+    >>> from clugen import rand_vector_at_angle
+    >>> from numpy import arccos, array, degrees, pi, vdot
+    >>> from numpy.linalg import norm
+    >>> from numpy.random import Generator, PCG64
+    >>> rng = Generator(PCG64(123))
+    >>> u = array([ 1.0, 0, 0.5, -0.5 ]).reshape((4, 1)) # Define a 4D vector
+    >>> u = u / norm(u) # Normalize the vector
+    >>> v = rand_vector_at_angle(u, pi/4, rng=rng) # Get a vector at 45 degrees
+    >>> v
+    array([[ 0.633066  ],
+           [-0.50953554],
+           [-0.10693823],
+           [-0.57285705]])
+    >>> degrees(arccos(vdot(u, v) / norm(u) * norm(v))) # Angle between u and v
+    45.0
+
     Args:
-      u: A \(n \times 1\) unit vector.
-      angle: An angle in radians.
+      u: \(n \times 1\) unit vector.
+      angle: Angle in radians.
       rng: Optional pseudo-random number generator.
 
     Returns:
