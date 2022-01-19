@@ -5,12 +5,18 @@
 """Tests for the core module."""
 
 import pytest
-from numpy import vdot
+from numpy import abs, isclose, pi, vdot
 from numpy.linalg import norm
 from numpy.testing import assert_allclose
 
-import clugen as cg
-from clugen.core import rand_ortho_vector
+from clugen.core import (
+    points_on_line,
+    rand_ortho_vector,
+    rand_unit_vector,
+    rand_vector_at_angle,
+)
+
+from .helpers import angle_btw
 
 
 def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
@@ -42,7 +48,7 @@ def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
 
             # Invoke the points_on_line function
             with pytest.warns(None) as wrec:
-                pts = cg.points_on_line(ctr, direc, dist2ctr)
+                pts = points_on_line(ctr, direc, dist2ctr)
 
             # Check that the points_on_line function runs without warnings
             assert len(wrec) == 0
@@ -61,7 +67,7 @@ def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
 
 def test_rand_ortho_vector(ndims, prng, uvector):
     """Test the rand_ortho_vector() function."""
-    # Get a base vector
+    # Get a base unit vector
     u = uvector(ndims)
 
     # Invoke the rand_ortho_vector function on the base vector
@@ -82,10 +88,29 @@ def test_rand_ortho_vector(ndims, prng, uvector):
 def test_rand_unit_vector(ndims, prng):
     """Test the rand_unit_vector() function."""
     # Get a random unit vector
-    r = cg.rand_unit_vector(ndims, rng=prng)
+    r = rand_unit_vector(ndims, rng=prng)
 
     # Check that returned vector has the correct dimensions
     assert r.shape == (ndims, 1)
 
     # Check that returned vector has norm == 1
     assert_allclose(norm(r), 1, atol=1e-14)
+
+
+def test_rand_vector_at_angle(ndims, prng, uvector, angle_std):
+    """Test the rand_vector_at_angle() function."""
+    # Get a base unit vector
+    u = uvector(ndims)
+
+    # Invoke the rand_vector_at_angle function on the base vector
+    r = rand_vector_at_angle(u, angle_std, rng=prng)
+
+    # Check that returned vector has the correct dimensions
+    assert r.shape == (ndims, 1)
+
+    # Check that returned vector has norm == 1
+    assert_allclose(norm(r), 1, atol=1e-14)
+
+    # Check that vectors u and r have an angle of angle_std between them
+    if ndims > 1 and abs(angle_std) < pi / 2:
+        isclose(angle_btw(u, r), abs(angle_std), atol=1e-12)

@@ -6,6 +6,7 @@
 
 import numpy as np
 import pytest
+from numpy import pi
 
 
 @pytest.fixture(params=[0, 123, 9999, 9876543])
@@ -57,3 +58,9 @@ def uvector(prng):
         return v / np.linalg.norm(v)
 
     return _uvector
+
+
+@pytest.fixture(params=[0, pi / 256, pi / 32, pi / 4, pi / 2, pi, 2 * pi])
+def angle_std(request):
+    """Provides angles."""
+    return request.param

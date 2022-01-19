@@ -4,7 +4,9 @@
 
 """Core functions."""
 
-from numpy import abs, isclose, vdot
+from math import tan
+
+from numpy import abs, isclose, pi, vdot
 from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import NDArray
@@ -146,3 +148,29 @@ def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
     r = rng.random((num_dims, 1)) - 0.5
     r = r / norm(r)
     return r
+
+
+def rand_vector_at_angle(
+    u: NDArray, angle: float, rng: Generator = _default_rng
+) -> NDArray:
+    r"""Get a random unit vector which is at `angle` radians of vector `u`.
+
+    Note that `u` is expected to be a unit vector itself.
+
+    Args:
+      u: A \(n \times 1\) unit vector.
+      angle: An angle in radians.
+      rng: Optional pseudo-random number generator.
+
+    Returns:
+      A `num_dims` \(\times 1\) random unit vector which is at `angle` radians
+      with vector `u`.
+    """
+    if isclose(abs(angle), pi / 2) and u.size > 1:
+        return rand_ortho_vector(u, rng=rng)
+    elif -pi / 2 < angle < pi / 2 and u.size > 1:
+        v = u + rand_ortho_vector(u, rng=rng) * tan(angle)
+        return v / norm(v)
+    else:
+        # For |θ| > π/2 or the 1D case, simply return a random vector
+        return rand_unit_vector(u.size, rng=rng)
