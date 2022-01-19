@@ -65,16 +65,34 @@ def points_on_line(
 
 
 def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
-    """Get a random unit vector orthogonal to `u`.
+    r"""Get a random unit vector orthogonal to `u`.
 
     Note that `u` is expected to be a unit vector itself.
 
+    ## Examples
+
+    >>> from clugen import rand_ortho_vector
+    >>> from numpy.linalg import norm
+    >>> from numpy.random import Generator, PCG64
+    >>> rng = Generator(PCG64(123))
+    >>> r = rng.random((3, 1)) # Get a random 3D vector
+    >>> r = r / norm(r) # Normalize it
+    >>> r_ort = rand_ortho_vector(r, rng=rng) # Get random unit vector orthogonal to r
+    >>> r_ort
+    array([[-0.1982903 ],
+           [-0.61401512],
+           [ 0.76398062]])
+
+    >>> from numpy import isclose, vdot
+    >>> isclose(vdot(r, r_ort), 0) # Check that vectors are indeed orthogonal
+    True
+
     Args:
-      u: A unit vector.
+      u: A \(n \times 1\) unit vector.
       rng: Optional pseudo-random number generator.
 
     Returns:
-      A random unit vector orthogonal to `u`.
+      A \(n \times 1\) random unit vector orthogonal to `u`.
     """
     # If 1D, just return a random unit vector
     if u.size == 1:
@@ -101,7 +119,7 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
 
 
 def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
-    """Get a random unit vector with `num_dims` dimensions.
+    r"""Get a `num_dims` \(\times 1\) random unit vector.
 
     ## Examples:
 
@@ -123,7 +141,7 @@ def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
       rng: Optional pseudo-random number generator.
 
     Returns:
-      A random unit vector with `num_dims` dimensions.
+      A `num_dims` \(\times 1\) random unit vector.
     """
     r = rng.random((num_dims, 1)) - 0.5
     r = r / norm(r)
