@@ -107,12 +107,16 @@ def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
 
     >>> import clugen as cg
     >>> cg.rand_unit_vector(4) # doctest: +SKIP
-    array([-0.77876028,  0.33941554, -0.42085082,  0.31814165])
+    array([[-0.48915817],
+           [-0.1507109 ],
+           [ 0.8540957 ],
+           [ 0.09236367]])
 
     >>> import numpy.random as nprand
     >>> rng = nprand.Generator(nprand.PCG64(123))
     >>> cg.rand_unit_vector(2, rng=rng)
-    array([ 0.3783202 , -0.92567479])
+    array([[ 0.3783202 ],
+           [-0.92567479]])
 
     Args:
       num_dims: Number of dimensions.
