@@ -9,7 +9,38 @@ from numpy.typing import NDArray
 
 
 def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
-    """Certifies that, given enough points, no clusters are left empty."""
+    r"""Certifies that, given enough points, no clusters are left empty.
+
+    This is done by removing a point from the largest cluster and adding it to an
+    empty cluster while there are empty clusters. If the total number of points is
+    smaller than the number of clusters (or if the `allow_empty` parameter is set
+    to `true`), this function does nothing.
+
+    This function is used internally by `module.clusizes()` and might be useful
+    for custom cluster sizing implementations given as the `clusizes_fn` parameter
+    of the main `main.clugen()` function.
+
+    Note that the array is changed in-place.
+
+    ## Examples:
+
+    >>> from numpy import array
+    >>> from clugen import fix_empty
+    >>> clusters = array([3, 4, 5, 0, 0])
+    >>> fix_empty(clusters)
+    array([3, 3, 4, 1, 1])
+    >>> clusters # Verify that the array was changed in-place
+    array([3, 3, 4, 1, 1])
+
+    Args:
+      clu_num_points: Number of points in each cluster (vector of size \(c\)),
+        where \(c\) is the number of clusters.
+      allow_empty: Allow empty clusters?
+
+    Returns:
+      Number of points in each cluster, after being fixed by this function (vector
+      of size \(c\) which is the same reference than `clu_num_points`).
+    """
     # If the allow_empty parameter is set to true, don't do anything and return
     # immediately; this is useful for quick `clusizes_fn` one-liners
     if not allow_empty:
