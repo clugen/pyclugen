@@ -8,6 +8,11 @@ from numpy import argmax, sum
 from numpy.typing import NDArray
 
 
+def clupoints_n_1_template():
+    """Placeholder."""
+    pass
+
+
 def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
     r"""Certifies that, given enough points, no clusters are left empty.
 
@@ -61,3 +66,8 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
                 clu_num_points[i0] += 1
 
     return clu_num_points
+
+
+def fix_num_points():
+    """Placeholder."""
+    pass
