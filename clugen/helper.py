@@ -4,7 +4,7 @@
 
 """Helper functions."""
 
-from numpy import argmax, sum
+from numpy import argmax, argmin, sum
 from numpy.typing import NDArray
 
 
@@ -68,6 +68,42 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
     return clu_num_points
 
 
-def fix_num_points():
-    """Placeholder."""
-    pass
+def fix_num_points(clu_num_points: NDArray, num_points: int) -> NDArray:
+    r"""Certifies that the values in the `clu_num_points` array add up to `num_points`.
+
+    If this is not the case, the `clu_num_points` array is modified in-place,
+    incrementing the value corresponding to the smallest cluster while
+    `sum(clu_num_points) < num_points`, or decrementing the value corresponding to
+    the largest cluster while `sum(clu_num_points) > num_points`.
+
+    This function is used internally by `module.clusizes()` and might be useful for
+    custom cluster sizing implementations given as the `clusizes_fn` parameter of
+    the main `main.clugen()` function.
+
+    ## Examples:
+
+    >>> from numpy import array
+    >>> from clugen import fix_num_points
+    >>> clusters = array([1, 6, 3])  # 10 total points
+    >>> fix_num_points(clusters, 12) # But we want 12 total points
+    array([3, 6, 3])
+    >>> clusters # Verify that the array was changed in-place
+    array([3, 6, 3])
+
+    Args:
+      clu_num_points: Number of points in each cluster (vector of size \(c\)),
+        where \(c\) is the number of clusters.
+      num_points: The expected total number of points.
+
+    Returns:
+      Number of points in each cluster, after being fixed by this function (vector
+      of size \(c\) which is the same reference than `clu_num_points`).
+    """
+    while sum(clu_num_points) < num_points:
+        imin = argmin(clu_num_points)
+        clu_num_points[imin] += 1
+    while sum(clu_num_points) > num_points:
+        imax = argmax(clu_num_points)
+        clu_num_points[imax] -= 1
+
+    return clu_num_points
