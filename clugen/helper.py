@@ -23,16 +23,17 @@ def clupoints_n_1_template(
 ) -> NDArray:
     """Placeholder."""
     # Number of dimensions
-    num_dims = clu_dir.shape[0]
+    num_dims = clu_dir.size
 
     # Number of points in this cluster
-    clu_num_points = projs.size
+    clu_num_points = projs.shape[0]
 
     # Get distances from points to their projections on the line
     points_dist = dist_fn(clu_num_points, lat_disp)
 
     # Get normalized vectors, orthogonal to the current line, for each point
     orth_vecs = zeros((clu_num_points, num_dims))
+
     for j in range(clu_num_points):
         orth_vecs[j, :] = rand_ortho_vector(clu_dir, rng=rng).ravel()
 
