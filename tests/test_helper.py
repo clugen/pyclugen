@@ -7,7 +7,28 @@
 import numpy as np
 from numpy.testing import assert_equal
 
-from clugen.helper import fix_empty, fix_num_points
+from clugen.core import points_on_line
+from clugen.helper import clupoints_n_1_template, fix_empty, fix_num_points
+
+
+def test_clupoints_n_1_template(
+    ndims, num_points, llength_mu, lat_std, prng, vector, uvector
+):
+    """Test the clupoints_n_1_template() function."""
+    # Distance from points to projections will be 10
+    dist_pt = 10
+
+    # Very simple dist_fn, always puts points at a distance of dist_pt
+    def dist_fn(clu_num_points, ldisp):
+        return prng.choice(np.array([-dist_pt, dist_pt]), (clu_num_points, 1))
+
+    # Create some point projections
+    proj_dist_fn2ctr = llength_mu * prng.random((num_points, 1)) - llength_mu / 2
+    proj = points_on_line(vector(ndims), uvector(ndims), proj_dist_fn2ctr)
+
+    # The clupoints_n_1_template function should run without warnings
+    pts = clupoints_n_1_template(proj, lat_std, uvector(ndims), dist_fn, rng=prng)
+    print(pts)
 
 
 def test_fix_empty():

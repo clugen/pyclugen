@@ -4,13 +4,46 @@
 
 """Helper functions."""
 
-from numpy import argmax, argmin, sum
+from typing import Callable
+
+from numpy import abs, argmax, argmin, sum, zeros
+from numpy.random import Generator
 from numpy.typing import NDArray
 
+from .core import rand_ortho_vector
+from .shared import _default_rng
 
-def clupoints_n_1_template():
+
+def clupoints_n_1_template(
+    projs: NDArray,
+    lat_disp: float,
+    clu_dir: NDArray,
+    dist_fn: Callable[[int, float], NDArray],
+    rng: Generator = _default_rng,
+) -> NDArray:
     """Placeholder."""
-    pass
+    # Number of dimensions
+    num_dims = clu_dir.shape[0]
+
+    # Number of points in this cluster
+    clu_num_points = projs.size
+
+    # Get distances from points to their projections on the line
+    points_dist = dist_fn(clu_num_points, lat_disp)
+
+    # Get normalized vectors, orthogonal to the current line, for each point
+    orth_vecs = zeros((clu_num_points, num_dims))
+    for j in range(clu_num_points):
+        orth_vecs[j, :] = rand_ortho_vector(clu_dir, rng=rng).ravel()
+
+    # Set vector magnitudes
+    orth_vecs = abs(points_dist) * orth_vecs
+
+    # Add perpendicular vectors to point projections on the line,
+    # yielding final cluster points
+    points = projs + orth_vecs
+
+    return points
 
 
 def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:

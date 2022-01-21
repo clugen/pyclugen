@@ -33,6 +33,12 @@ def num_points(request):
     return request.param
 
 
+@pytest.fixture(params=[0.0, 5.0, 500.0])
+def lat_std(request):
+    """Provides values for lat_std."""
+    return request.param
+
+
 @pytest.fixture(params=[0, 10])
 def llength_mu(request):
     """Provides a line length average."""
