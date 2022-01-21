@@ -21,7 +21,26 @@ def clupoints_n_1_template(
     dist_fn: Callable[[int, float], NDArray],
     rng: Generator = _default_rng,
 ) -> NDArray:
-    """Placeholder."""
+    r"""Generate points from their \(n\)-D projections on a cluster-supporting line.
+
+    Each point is placed on a hyperplane orthogonal to that line and centered at
+    the point's projection. The function specified in `dist_fn` is used to perform
+    the actual placement.
+
+    This function is used internally by `module.clupoints_n_1()` and may be useful for
+    constructing user-defined final point placement strategies for the `point_dist_fn`
+    parameter of the main `main.clugen()` function.
+
+    Args:
+      projs: Point projections on the cluster-supporting line ( \(p \times n\) matrix).
+      lat_disp: Dispersion of points from their projection.
+      clu_dir: Direction of the cluster-supporting line (unit vector).
+      dist_fn: Function to place points on a second line, orthogonal to the first.
+      rng: An optional pseudo-random number generator for reproducible executions.
+
+    Returns:
+      Generated points ( \(p \times n\) matrix).
+    """
     # Number of dimensions
     num_dims = clu_dir.size
 
