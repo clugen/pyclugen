@@ -4,7 +4,21 @@
 
 """Tests for the algorithm module functions."""
 
-from clugen.module import clucenters
+from numpy import abs, all, pi
+
+from clugen.module import angle_deltas, clucenters
+
+
+def test_angle_deltas(prng, num_clusters, angle_std):
+    """Test the angle_deltas() function."""
+    # Get angle deltas
+    angles = angle_deltas(num_clusters, angle_std, rng=prng)
+
+    # Check that return value has the correct dimensions
+    assert angles.shape == (num_clusters,)
+
+    # Check that all angles are between -π/2 and π/2
+    assert all(abs(angles) <= pi / 2)
 
 
 def test_clucenters(ndims, prng, num_clusters, clu_offset, clu_sep):

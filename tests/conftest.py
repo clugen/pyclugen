@@ -56,7 +56,7 @@ def llength_mu(request):
 
 @pytest.fixture(params=[0, pi / 256, pi / 32, pi / 4, pi / 2, pi, 2 * pi])
 def angle_std(request):
-    """Provides angles."""
+    """Provides an angle standard deviation."""
     return request.param
 
 
