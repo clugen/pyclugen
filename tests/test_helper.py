@@ -2,7 +2,7 @@
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
-"""Tests for the helper module."""
+"""Tests for the helper functions."""
 
 import numpy as np
 from numpy.testing import assert_equal
