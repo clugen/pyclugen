@@ -36,12 +36,12 @@ def clupoints_n_1_template(
     >>> from numpy import array, zeros
     >>> from numpy.random import Generator, PCG64
     >>> from clugen import clupoints_n_1_template, points_on_line
-    >>> ctr = zeros((2,1))
-    >>> dir = array([1,0]).reshape((2,1))
-    >>> pdist = array([-0.5, -0.2, 0.1, 0.3]).reshape((4,1))
+    >>> ctr = zeros(2)
+    >>> dir = array([1, 0])
+    >>> pdist = array([-0.5, -0.2, 0.1, 0.3])
     >>> rng = Generator(PCG64(123))
     >>> proj = points_on_line(ctr, dir, pdist)
-    >>> clupoints_n_1_template(proj, 0, dir, lambda p, l: rng.random((p, 1)), rng=rng)
+    >>> clupoints_n_1_template(proj, 0, dir, lambda p, l: rng.random(p), rng=rng)
     array([[-0.5       ,  0.68235186],
            [-0.2       , -0.05382102],
            [ 0.1       ,  0.22035987],
@@ -73,7 +73,7 @@ def clupoints_n_1_template(
         orth_vecs[j, :] = rand_ortho_vector(clu_dir, rng=rng).ravel()
 
     # Set vector magnitudes
-    orth_vecs = abs(points_dist) * orth_vecs
+    orth_vecs = abs(points_dist).reshape(-1, 1) * orth_vecs
 
     # Add perpendicular vectors to point projections on the line,
     # yielding final cluster points

@@ -50,7 +50,7 @@ def vector(prng):
     """Provides random vectors."""
 
     def _vector(numel):
-        return prng.random((numel, 1))
+        return prng.random(numel)
 
     return _vector
 
@@ -60,7 +60,7 @@ def uvector(prng):
     """Provides random unit vectors."""
 
     def _uvector(numel):
-        v = prng.random((numel, 1))
+        v = prng.random(numel)
         return v / np.linalg.norm(v)
 
     return _uvector

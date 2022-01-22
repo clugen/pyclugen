@@ -5,7 +5,7 @@
 """Tests for the core module."""
 
 import pytest
-from numpy import abs, isclose, pi, vdot
+from numpy import abs, dot, isclose, pi
 from numpy.linalg import norm
 from numpy.testing import assert_allclose
 
@@ -59,8 +59,7 @@ def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
             # Check that distance of points to the line is approximately zero
             for pt in pts:
                 # Get distance from current point to line
-                pt = pt.reshape((ndims, 1))
-                d = norm((pt - ctr) - vdot((pt - ctr), direc) * direc)
+                d = norm((pt - ctr) - dot((pt - ctr), direc) * direc)
                 # Check that it is approximately zero
                 assert_allclose(d, 0, atol=1e-14)
 
@@ -74,7 +73,7 @@ def test_rand_ortho_vector(ndims, prng, uvector):
     r = rand_ortho_vector(u, rng=prng)
 
     # Check that returned vector has the correct dimensions
-    assert r.shape == (ndims, 1)
+    assert r.shape == (ndims,)
 
     # Check that returned vector has norm == 1
     assert_allclose(norm(r), 1, atol=1e-14)
@@ -82,7 +81,7 @@ def test_rand_ortho_vector(ndims, prng, uvector):
     # Check that vectors u and r are orthogonal (only for nd > 1)
     if ndims > 1:
         # The dot product of orthogonal vectors must be (approximately) zero
-        assert_allclose(vdot(u, r), 0, atol=1e-12)
+        assert_allclose(dot(u, r), 0, atol=1e-12)
 
 
 def test_rand_unit_vector(ndims, prng):
@@ -91,7 +90,7 @@ def test_rand_unit_vector(ndims, prng):
     r = rand_unit_vector(ndims, rng=prng)
 
     # Check that returned vector has the correct dimensions
-    assert r.shape == (ndims, 1)
+    assert r.shape == (ndims,)
 
     # Check that returned vector has norm == 1
     assert_allclose(norm(r), 1, atol=1e-14)
@@ -106,7 +105,7 @@ def test_rand_vector_at_angle(ndims, prng, uvector, angle_std):
     r = rand_vector_at_angle(u, angle_std, rng=prng)
 
     # Check that returned vector has the correct dimensions
-    assert r.shape == (ndims, 1)
+    assert r.shape == (ndims,)
 
     # Check that returned vector has norm == 1
     assert_allclose(norm(r), 1, atol=1e-14)
