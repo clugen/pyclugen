@@ -24,8 +24,9 @@ def points_on_line(
 
     This works by using the vector formulation of the line equation assuming
     `direction` is a \(n\)-dimensional unit vector. In other words, considering
-    \(\mathbf{d}=\)`direction` ( \(n \times 1\) ), \(\mathbf{c}=\)`center`
-    ( \(n \times 1\) ), and \(\mathbf{w}=\) `dist_center` ( \(p \times 1\) ),
+    \(\mathbf{d}=\)`direction.reshape(-1,1)` ( \(n \times 1\) vector),
+    \(\mathbf{c}=\)`center.reshape(-1,1)` ( \(n \times 1\) vector), and
+    \(\mathbf{w}=\) `dist_center.reshape(-1,1)` ( \(p \times 1\) vector),
     the coordinates of points on the line are given by:
 
     $$
