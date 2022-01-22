@@ -8,6 +8,7 @@ from numpy import abs, arctan2, cos, diag, pi, sign, sin, where
 from numpy.random import Generator
 from numpy.typing import NDArray
 
+from .helper import clupoints_n_1_template
 from .shared import _default_rng
 
 
@@ -106,9 +107,22 @@ def clucenters(
     return num_clusters * (ctr_rel @ diag(clu_sep)) + clu_offset
 
 
-def clupoints_n_1():
+def clupoints_n_1(
+    projs: NDArray,
+    lat_disp: float,
+    line_len: float,
+    clu_dir: NDArray,
+    clu_ctr: NDArray,
+    rng: Generator = _default_rng,
+) -> NDArray:
     """Placeholder."""
-    pass
+    # Define function to get distances from points to their projections on the
+    # line (i.e., using the normal distribution)
+    def dist_fn(clu_num_points, ldisp):
+        return ldisp * rng.normal(size=clu_num_points)
+
+    # Use clupoints_n_1_template() to do the heavy lifting
+    return clupoints_n_1_template(projs, lat_disp, clu_dir, dist_fn, rng=rng)
 
 
 def clupoints_n():
