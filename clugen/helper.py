@@ -21,7 +21,7 @@ def clupoints_n_1_template(
     dist_fn: Callable[[int, float], NDArray],
     rng: Generator = _default_rng,
 ) -> NDArray:
-    r"""Generate points from their \(n\)-D projections on a cluster-supporting line.
+    r"""Create \(p\) points from their \(n\)-D projections on a cluster-supporting line.
 
     Each point is placed on a hyperplane orthogonal to that line and centered at
     the point's projection. The function specified in `dist_fn` is used to perform
@@ -30,6 +30,22 @@ def clupoints_n_1_template(
     This function is used internally by `module.clupoints_n_1()` and may be useful for
     constructing user-defined final point placement strategies for the `point_dist_fn`
     parameter of the main `main.clugen()` function.
+
+    ## Examples:
+
+    >>> from numpy import array, zeros
+    >>> from numpy.random import Generator, PCG64
+    >>> from clugen import clupoints_n_1_template, points_on_line
+    >>> ctr = zeros((2,1))
+    >>> dir = array([1,0]).reshape((2,1))
+    >>> pdist = array([-0.5, -0.2, 0.1, 0.3]).reshape((4,1))
+    >>> rng = Generator(PCG64(123))
+    >>> proj = points_on_line(ctr, dir, pdist)
+    >>> clupoints_n_1_template(proj, 0, dir, lambda p, l: rng.random((p, 1)), rng=rng)
+    array([[-0.5       ,  0.68235186],
+           [-0.2       , -0.05382102],
+           [ 0.1       ,  0.22035987],
+           [ 0.3       , -0.18437181]])
 
     Args:
       projs: Point projections on the cluster-supporting line ( \(p \times n\) matrix).
