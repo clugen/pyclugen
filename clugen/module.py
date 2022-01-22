@@ -4,16 +4,25 @@
 
 """Algorithm module functions."""
 
-from numpy import diag
+from numpy import abs, arctan2, cos, diag, pi, sign, sin, where
 from numpy.random import Generator
 from numpy.typing import NDArray
 
 from .shared import _default_rng
 
 
-def angle_deltas():
-    """Placeholder."""
-    pass
+def angle_deltas(
+    num_clusters: int, angle_disp: float, rng: Generator = _default_rng
+) -> NDArray:
+    r"""Placeholder."""
+    # Get random angle differences using the normal distribution
+    angles = angle_disp * rng.normal(size=num_clusters)
+
+    # Reduce angle differences to the interval [-π, π]
+    angles = arctan2(sin(angles), cos(angles))
+
+    # Make sure angle differences are within interval [-π/2, π/2]
+    return where(abs(angles) > pi / 2, angles - sign(angles) * pi / 2, angles)
 
 
 def clucenters(
