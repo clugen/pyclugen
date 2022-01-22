@@ -14,7 +14,36 @@ from .shared import _default_rng
 def angle_deltas(
     num_clusters: int, angle_disp: float, rng: Generator = _default_rng
 ) -> NDArray:
-    r"""Placeholder."""
+    r"""Get angles between average cluster direction and cluster-supporting lines.
+
+    Determine the angles between the average cluster direction and the
+    cluster-supporting lines. These angles are obtained from a wrapped normal
+    distribution ( \(\mu=0\), \(\sigma=\)`angle_disp`) with support in the interval
+    \(\left[-\pi/2,\pi/2\right]\). Note this is different from the standard
+    wrapped normal distribution, the support of which is given by the interval
+    \(\left[-\pi,\pi\right]\).
+
+    ## Examples:
+
+    >>> from clugen import angle_deltas
+    >>> from numpy import degrees, pi
+    >>> from numpy.random import Generator, PCG64
+    >>> prng = Generator(PCG64(123))
+    >>> a_rad = angle_deltas(4, pi/8, rng=prng) # Angle dispersion of 22.5 degrees
+    >>> a_rad
+    array([-0.38842705, -0.14442948,  0.50576707,  0.07617358])
+    >>> degrees(a_rad) # Show angle deltas in degrees
+    array([-22.25523038,  -8.27519966,  28.97831838,   4.36442443])
+
+    Args:
+      num_clusters: Number of clusters.
+      angle_disp: Angle dispersion, in radians.
+      rng: Optional pseudo-random number generator.
+
+    Returns:
+       Angles between the average cluster direction and the cluster-supporting
+       lines, given in radians in the interval \(\left[-\pi/2,\pi/2\right]\).
+    """
     # Get random angle differences using the normal distribution
     angles = angle_disp * rng.normal(size=num_clusters)
 
