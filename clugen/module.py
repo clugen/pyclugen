@@ -115,7 +115,48 @@ def clupoints_n_1(
     clu_ctr: NDArray,
     rng: Generator = _default_rng,
 ) -> NDArray:
-    """Placeholder."""
+    r"""Generate points from their \(n\)-D projections on a cluster-supporting line.
+
+    Each point is placed around its projection using the normal distribution
+    ( \(\mu=0\), \(σ=\)`lat_disp`).
+
+    This function's main intended use is by the `main.clugen()` function, generating
+    the final points when the `point_dist_fn` parameter is set to `"n"`.
+
+    ## Examples:
+
+    >>> from clugen import clupoints_n_1, points_on_line
+    >>> from numpy import array, linspace
+    >>> from numpy.random import Generator, PCG64
+    >>> prng = Generator(PCG64(123))
+    >>> projs = points_on_line(array([5,5]),
+    ...                        array([1,0]),
+    ...                        linspace(-4,4,5)) # Get 5 point projections on a 2D line
+    >>> projs
+    array([[1., 5.],
+           [3., 5.],
+           [5., 5.],
+           [7., 5.],
+           [9., 5.]])
+    >>> clupoints_n_1(projs, 0.5, 1.0, array([1,0]), array([0,0]), rng=prng)
+    array([[1.        , 5.49456068],
+           [3.        , 5.18389333],
+           [5.        , 5.64396263],
+           [7.        , 5.09698721],
+           [9.        , 5.46011545]])
+
+    Args:
+      projs: Point projections on the cluster-supporting line ( \(p \times n\) matrix).
+      lat_disp: Standard deviation for the normal distribution, i.e., cluster
+        lateral dispersion.
+      line_len: Length of cluster-supporting line (ignored).
+      clu_dir: Direction of the cluster-supporting line.
+      clu_ctr: Center position of the cluster-supporting line (ignored).
+      rng: Optional pseudo-random number generator.
+
+    Returns:
+      Generated points ( \(p \times n\) matrix).
+    """
     # Define function to get distances from points to their projections on the
     # line (i.e., using the normal distribution)
     def dist_fn(clu_num_points, ldisp):
