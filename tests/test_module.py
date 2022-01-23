@@ -42,7 +42,7 @@ def test_clupoints_n_1(ndims, num_points, prng, lat_std, llength_mu, uvector, ve
     proj_dist_fn2ctr = llength_mu * prng.random(num_points) - llength_mu / 2
     proj = points_on_line(ctr, direc, proj_dist_fn2ctr)
 
-    # Get the points
+    # Invoke the function being tested and get the points
     pts = clupoints_n_1(proj, lat_std, llength_mu, direc, ctr, rng=prng)
 
     # Check that number of points is the same as the number of projections
@@ -56,3 +56,20 @@ def test_clupoints_n_1(ndims, num_points, prng, lat_std, llength_mu, uvector, ve
     # orthogonal vector to the cluster line
     for u in pts - proj:
         assert_allclose(dot(direc, u), 0, atol=1e-7)
+
+
+def test_clupoints_n(ndims, num_points, prng, lat_std, llength_mu, uvector, vector):
+    """Test the clupoints_n() function."""
+    # Get center and direction
+    ctr = vector(ndims)
+    direc = uvector(ndims)
+
+    # Create some point projections
+    proj_dist_fn2ctr = llength_mu * prng.random(num_points) - llength_mu / 2
+    proj = points_on_line(ctr, direc, proj_dist_fn2ctr)
+
+    # Invoke the function being tested and get the points
+    pts = clupoints_n_1(proj, lat_std, llength_mu, direc, ctr, rng=prng)
+
+    # Check that number of points is the same as the number of projections
+    assert pts.shape == proj.shape
