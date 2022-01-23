@@ -4,11 +4,11 @@
 
 """Tests for the algorithm module functions."""
 
-from numpy import abs, all, dot, pi
+from numpy import abs, all, dot, min, pi, sum
 from numpy.testing import assert_allclose
 
 from clugen.core import points_on_line
-from clugen.module import angle_deltas, clucenters, clupoints_n_1
+from clugen.module import angle_deltas, clucenters, clupoints_n_1, clusizes
 
 
 def test_angle_deltas(prng, num_clusters, angle_std):
@@ -73,3 +73,24 @@ def test_clupoints_n(ndims, num_points, prng, lat_std, llength_mu, uvector, vect
 
     # Check that number of points is the same as the number of projections
     assert pts.shape == proj.shape
+
+
+def test_clusizes(prng, num_clusters, num_points, allow_empty):
+    """Test the clusizes() function."""
+    # Don't test if number of points is less than number of clusters and we
+    # don't allow empty clusters
+    if not allow_empty and num_points < num_clusters:
+        return
+
+    # Obtain the cluster sizes
+    clu_sizes = clusizes(num_clusters, num_points, allow_empty, rng=prng)
+
+    # Check that the output has the correct number of clusters
+    assert clu_sizes.shape == (num_clusters,)
+
+    # Check that the total number of points is correct
+    assert sum(clu_sizes) == num_points
+
+    # If empty clusters are not allowed, check that all of them have points
+    if not allow_empty:
+        assert min(clu_sizes) > 0
