@@ -303,5 +303,25 @@ def llengths(
     llength_disp: float,
     rng: Generator = _default_rng,
 ) -> NDArray:
-    """Placeholder."""
+    r"""Determine length of cluster-supporting lines.
+
+    Line lengths are determined using the folded normal distribution (
+    \(\mu=\)`llength`, \(\sigma=\)`llength_disp`).
+
+    ## Examples
+
+    >>> from numpy.random import Generator, MT19937
+    >>> from clugen import llengths
+    >>> prng = Generator(MT19937(123))
+    >>> llengths(4, 20, 3.5, rng=prng)
+    array([19.50968733, 19.92482858, 25.99013804, 18.58029672])
+
+    Args:
+      num_clusters: Number of clusters.
+      llength: Average line length.
+      llength_disp: Line length dispersion.
+
+    Returns:
+      Lengths of cluster-supporting lines (vector of size `num_clusters`).
+    """
     return abs(llength + llength_disp * rng.normal(size=num_clusters))
