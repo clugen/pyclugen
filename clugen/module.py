@@ -4,11 +4,11 @@
 
 """Algorithm module functions."""
 
-from numpy import abs, arctan2, cos, diag, pi, sign, sin, where
+from numpy import abs, arctan2, cos, diag, pi, rint, sign, sin, sum, where
 from numpy.random import Generator
 from numpy.typing import NDArray
 
-from .helper import clupoints_n_1_template
+from .helper import clupoints_n_1_template, fix_empty, fix_num_points
 from .shared import _default_rng
 
 
@@ -232,9 +232,44 @@ def clupoints_n(
     return points
 
 
-def clusizes():
+def clusizes(
+    num_clusters: int,
+    num_points: int,
+    allow_empty: bool,
+    rng: Generator = _default_rng,
+) -> NDArray:
     """Placeholder."""
-    pass
+    # Determine number of points in each cluster using the normal distribution
+
+    # Consider the mean an equal division of points between clusters
+    mean = num_points / num_clusters
+    # The standard deviation is such that the interval [0, 2 * mean] will contain
+    # ≈99.7% of cluster sizes
+    std = mean / 3
+
+    # Determine points with the normal distribution
+    clu_num_points = std * rng.normal(size=num_clusters) + mean
+
+    # Set negative values to zero
+    clu_num_points = where(clu_num_points > 0, clu_num_points, 0)
+
+    # Fix imbalances, so that num_points is respected
+    if sum(clu_num_points) > 0:  # Be careful not to divide by zero
+        clu_num_points *= num_points / sum(clu_num_points)
+
+    # Round the real values to integers since a cluster sizes is represented by
+    # an integer
+    clu_num_points = rint(clu_num_points).astype(int)
+
+    # Make sure total points is respected, which may not be the case at this time due
+    # to rounding
+    fix_num_points(clu_num_points, num_points)
+
+    # If empty clusters are not allowed, make sure there aren't any
+    if not allow_empty:
+        fix_empty(clu_num_points)
+
+    return clu_num_points
 
 
 def llengths():
