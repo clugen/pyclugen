@@ -54,6 +54,12 @@ def llength_mu(request):
     return request.param
 
 
+@pytest.fixture(params=[0, 15])
+def llength_sigma(request):
+    """Provides a line length dispersion."""
+    return request.param
+
+
 @pytest.fixture(params=[True, False])
 def allow_empty(request):
     """Provides the values for the allow_empty parameter."""

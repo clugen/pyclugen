@@ -8,7 +8,7 @@ from numpy import abs, all, dot, min, pi, sum
 from numpy.testing import assert_allclose
 
 from clugen.core import points_on_line
-from clugen.module import angle_deltas, clucenters, clupoints_n_1, clusizes
+from clugen.module import angle_deltas, clucenters, clupoints_n_1, clusizes, llengths
 
 
 def test_angle_deltas(prng, num_clusters, angle_std):
@@ -94,3 +94,15 @@ def test_clusizes(prng, num_clusters, num_points, allow_empty):
     # If empty clusters are not allowed, check that all of them have points
     if not allow_empty:
         assert min(clu_sizes) > 0
+
+
+def test_llengths(prng, num_clusters, llength_mu, llength_sigma):
+    """Test the llengths() function."""
+    # Obtain the line lengths
+    lens = llengths(num_clusters, llength_mu, llength_sigma, rng=prng)
+
+    # Check that return value has the correct dimensions
+    assert lens.shape == (num_clusters,)
+
+    # Check that all lengths are >= 0
+    assert all(lens >= 0)
