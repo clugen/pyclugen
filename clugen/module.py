@@ -117,11 +117,12 @@ def clupoints_n_1(
 ) -> NDArray:
     r"""Generate points from their \(n\)-D projections on a cluster-supporting line.
 
-    Each point is placed around its projection using the normal distribution
-    ( \(\mu=0\), \(σ=\)`lat_disp`).
+    Each point is placed on a hyperplane orthogonal to that line and centered at
+    the point's projection, using the normal distribution ( \(\mu=0\),
+    \(σ=\)`lat_disp`).
 
     This function's main intended use is by the `main.clugen()` function, generating
-    the final points when the `point_dist_fn` parameter is set to `"n"`.
+    the final points when the `point_dist_fn` parameter is set to `"n-1"`.
 
     ## Examples:
 
@@ -166,9 +167,69 @@ def clupoints_n_1(
     return clupoints_n_1_template(projs, lat_disp, clu_dir, dist_fn, rng=rng)
 
 
-def clupoints_n():
-    """Placeholder."""
-    pass
+def clupoints_n(
+    projs: NDArray,
+    lat_disp: float,
+    line_len: float,
+    clu_dir: NDArray,
+    clu_ctr: NDArray,
+    rng: Generator = _default_rng,
+) -> NDArray:
+    r"""Generate points from their \(n\)-D projections on a cluster-supporting line.
+
+    Each point is placed around its projection using the normal distribution
+    ( \(\mu=0\), \(σ=\)`lat_disp`).
+
+    This function's main intended use is by the `main.clugen()` function, generating
+    the final points when the `point_dist_fn` parameter is set to `"n"`.
+
+    ## Examples:
+
+    >>> from clugen import clupoints_n, points_on_line
+    >>> from numpy import array, linspace
+    >>> from numpy.random import Generator, PCG64
+    >>> prng = Generator(PCG64(123))
+    >>> projs = points_on_line(array([5,5]),
+    ...                        array([1,0]),
+    ...                        linspace(-4,4,5)) # Get 5 point projections on a 2D line
+    >>> projs
+    array([[1., 5.],
+           [3., 5.],
+           [5., 5.],
+           [7., 5.],
+           [9., 5.]])
+    >>> clupoints_n(projs, 0.5, 1.0, array([1,0]), array([0,0]), rng=prng)
+    array([[0.50543932, 4.81610667],
+           [3.64396263, 5.09698721],
+           [5.46011545, 5.2885519 ],
+           [6.68176818, 5.27097611],
+           [8.84170227, 4.83880544]])
+
+    Args:
+      projs: Point projections on the cluster-supporting line ( \(p \times n\) matrix).
+      lat_disp: Standard deviation for the normal distribution, i.e., cluster
+        lateral dispersion.
+      line_len: Length of cluster-supporting line (ignored).
+      clu_dir: Direction of the cluster-supporting line.
+      clu_ctr: Center position of the cluster-supporting line (ignored).
+      rng: Optional pseudo-random number generator.
+
+    Returns:
+      Generated points ( \(p \times n\) matrix).
+    """
+    # Number of dimensions
+    num_dims = clu_dir.size
+
+    # Number of points in this cluster
+    clu_num_points = projs.shape[0]
+
+    # Get random displacement vectors for each point projection
+    displ = lat_disp * rng.normal(size=(clu_num_points, num_dims))
+
+    # Add displacement vectors to each point projection
+    points = projs + displ
+
+    return points
 
 
 def clusizes():
