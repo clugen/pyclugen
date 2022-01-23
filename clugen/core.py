@@ -42,7 +42,7 @@ def points_on_line(
     >>> from numpy import array, linspace
     >>> points_on_line(array([5., 5.]),
     ...                array([1., 0.]),
-    ...                array(linspace(-4, 4, 5))) # 2D, 5 points
+    ...                linspace(-4, 4, 5)) # 2D, 5 points
     array([[1., 5.],
            [3., 5.],
            [5., 5.],
