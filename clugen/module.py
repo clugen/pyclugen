@@ -238,7 +238,32 @@ def clusizes(
     allow_empty: bool,
     rng: Generator = _default_rng,
 ) -> NDArray:
-    """Placeholder."""
+    r"""Determine cluster sizes, i.e., the number of points in each cluster.
+
+    Cluster sizes are determined using the normal distribution (
+    \(\mu=\)`num_points` \(/\)`num_clusters`, \(\sigma=\mu/3\)), and then
+    assuring that the final cluster sizes add up to `num_points` via the
+    `helper.fix_num_points()` function.
+
+    ## Examples:
+
+    >>> from numpy.random import Generator, PCG64
+    >>> from clugen import clusizes
+    >>> prng = Generator(PCG64(123))
+    >>> sizes = clusizes(4, 1000, True, rng=prng)
+    >>> sizes
+    array([166, 217, 354, 263])
+    >>> sum(sizes)
+    1000
+
+    Args:
+      num_clusters: Number of clusters.
+      num_points: Total number of points.
+      allow_empty: Allow empty clusters?
+
+    Returns:
+      Number of points in each cluster (vector of size `num_clusters`).
+    """
     # Determine number of points in each cluster using the normal distribution
 
     # Consider the mean an equal division of points between clusters
