@@ -297,6 +297,11 @@ def clusizes(
     return clu_num_points
 
 
-def llengths():
+def llengths(
+    num_clusters: int,
+    llength: float,
+    llength_disp: float,
+    rng: Generator = _default_rng,
+) -> NDArray:
     """Placeholder."""
-    pass
+    return abs(llength + llength_disp * rng.normal(size=num_clusters))
