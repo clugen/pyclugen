@@ -192,7 +192,7 @@ def clugen(
     # ############################ #
 
     # Normalize main direction
-    direction /= norm(direction)
+    direction = direction / norm(direction)
 
     # Determine cluster sizes
     cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng)
@@ -234,7 +234,7 @@ def clugen(
     for i in range(num_clusters):
 
         # Start and end indexes for points in current cluster
-        idx_start = cumsum_points[i] + 1
+        idx_start = cumsum_points[i]
         idx_end = cumsum_points[i + 1]
 
         # Update cluster indices of each point
