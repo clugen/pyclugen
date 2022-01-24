@@ -11,7 +11,14 @@ from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import ArrayLike, NDArray
 
-from .module import angle_deltas, clucenters, clusizes, llengths
+from .module import (
+    angle_deltas,
+    clucenters,
+    clupoints_n,
+    clupoints_n_1,
+    clusizes,
+    llengths,
+)
 from .shared import _default_rng
 
 
@@ -121,6 +128,8 @@ def clugen(
     # Check that proj_dist_fn specifies a valid way for projecting points along
     # cluster-supporting lines i.e., either "norm" (default), "unif" or a
     # user-defined function
+    pointproj_fn: Callable[[float, int], NDArray]
+
     if callable(proj_dist_fn):
         # Use user-defined distribution; assume function accepts length of line
         # and number of points, and returns a number of points x 1 vector
@@ -142,6 +151,42 @@ def clugen(
         raise ValueError(
             "`proj_dist_fn` has to be either 'norm', 'unif' or user-defined function"
         )
+
+    # Check that point_dist_fn specifies a valid way for generating points given
+    # their projections along cluster-supporting lines, i.e., either "n-1"
+    # (default), "n" or a user-defined function
+    pt_from_proj_fn: Callable[
+        [NDArray, float, float, NDArray, NDArray, Generator], NDArray
+    ]
+
+    if num_dims == 1:
+        # If 1D was specified, point projections are the points themselves
+        def pt_from_proj_fn(projs, lat_disp, length, clu_dir, clu_ctr, rng=rng):
+            return projs
+
+    elif callable(point_dist_fn):
+        # Use user-defined distribution; assume function accepts point projections
+        # on the line, lateral disp., cluster direction and cluster center, and
+        # returns a num_points x num_dims matrix containing the final points
+        # for the current cluster
+        pt_from_proj_fn = point_dist_fn
+
+    elif point_dist_fn == "n-1":
+        # Points will be placed on a hyperplane orthogonal to the cluster-supporting
+        # line using a normal distribution centered at their intersection
+        pt_from_proj_fn = clupoints_n_1
+
+    elif point_dist_fn == "n":
+        # Points will be placed using a multivariate normal distribution
+        # centered at the point projection
+        pt_from_proj_fn = clupoints_n
+
+    else:
+        raise ValueError(
+            "point_dist_fn has to be either 'n-1', 'n' or a user-defined function"
+        )
+
+    print(pt_from_proj_fn)
 
     return Clusters(
         array([]),
