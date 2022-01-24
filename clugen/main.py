@@ -6,11 +6,12 @@
 
 from typing import Callable, NamedTuple, Optional, Union
 
-from numpy import array, asarray, isclose, zeros
+from numpy import array, asarray, isclose, sum, zeros
 from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import ArrayLike, NDArray
 
+from .core import rand_vector_at_angle
 from .module import (
     angle_deltas,
     clucenters,
@@ -186,15 +187,45 @@ def clugen(
             "point_dist_fn has to be either 'n-1', 'n' or a user-defined function"
         )
 
+    # ############################ #
+    # Determine cluster properties #
+    # ############################ #
+
+    # Normalize main direction
+    direction /= norm(direction)
+
+    # Determine cluster sizes
+    cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng)
+
+    # Custom clusizes_fn's are not required to obey num_points, so we update
+    # it here just in case it's different from what the user specified
+    num_points = sum(cluster_sizes)
+
+    # Determine cluster centers
+    cluster_centers = clucenters_fn(num_clusters, cluster_sep, cluster_offset, rng)
+
+    # Determine length of lines supporting clusters
+    cluster_lengths = llengths_fn(num_clusters, llength, llength_disp, rng)
+
+    # Obtain angles between main direction and cluster-supporting lines
+    cluster_angles = angle_deltas_fn(num_clusters, angle_disp, rng)
+
+    # Determine normalized cluster directions
+    cluster_directions = zeros((num_clusters, num_dims))
+    for i in range(num_clusters):
+        cluster_directions[i, :] = rand_vector_at_angle(
+            direction, cluster_angles[i], rng=rng
+        )
+
     print(pt_from_proj_fn)
 
     return Clusters(
         array([]),
         array([]),
         array([]),
+        cluster_sizes,
+        cluster_centers,
         array([]),
-        array([]),
-        array([]),
-        array([]),
-        array([]),
+        cluster_angles,
+        cluster_lengths,
     )
