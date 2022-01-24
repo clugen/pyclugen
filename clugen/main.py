@@ -6,12 +6,12 @@
 
 from typing import Callable, NamedTuple, Optional, Union
 
-from numpy import array, asarray, isclose, sum, zeros
+from numpy import asarray, concatenate, cumsum, isclose, sum, zeros
 from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import ArrayLike, NDArray
 
-from .core import rand_vector_at_angle
+from .core import points_on_line, rand_vector_at_angle
 from .module import (
     angle_deltas,
     clucenters,
@@ -217,15 +217,55 @@ def clugen(
             direction, cluster_angles[i], rng=rng
         )
 
-    print(pt_from_proj_fn)
+    # ################################# #
+    # Determine points for each cluster #
+    # ################################# #
+
+    # Aux. vector with cumulative sum of number of points in each cluster
+    cumsum_points = concatenate(([0], cumsum(cluster_sizes)))
+
+    # Pre-allocate data structures for holding cluster info and points
+    point_clusters = zeros(num_points, dtype=int)  # Cluster indices of each point
+    point_projections = zeros((num_points, num_dims))  # Point projections on
+    #                                                  # cluster-supporting lines
+    points = zeros((num_points, num_dims))  # Final points to be generated
+
+    # Loop through clusters and create points for each one
+    for i in range(num_clusters):
+
+        # Start and end indexes for points in current cluster
+        idx_start = cumsum_points[i] + 1
+        idx_end = cumsum_points[i + 1]
+
+        # Update cluster indices of each point
+        point_clusters[idx_start:idx_end] = i
+
+        # Determine distance of point projections from the center of the line
+        ptproj_dist_fn_center = pointproj_fn(cluster_lengths[i], cluster_sizes[i])
+
+        # Determine coordinates of point projections on the line using the
+        # parametric line equation (this works since cluster direction is normalized)
+        point_projections[idx_start:idx_end, :] = points_on_line(
+            cluster_centers[i, :], cluster_directions[i, :], ptproj_dist_fn_center
+        )
+
+        # Determine points from their projections on the line
+        points[idx_start:idx_end, :] = pt_from_proj_fn(
+            point_projections[idx_start:idx_end, :],
+            lateral_disp,
+            cluster_lengths[i],
+            cluster_directions[i, :],
+            cluster_centers[i, :],
+            rng,
+        )
 
     return Clusters(
-        array([]),
-        array([]),
-        array([]),
+        points,
+        point_clusters,
+        point_projections,
         cluster_sizes,
         cluster_centers,
-        array([]),
+        cluster_directions,
         cluster_angles,
         cluster_lengths,
     )
