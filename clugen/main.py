@@ -6,11 +6,41 @@
 
 from typing import Callable, NamedTuple, Optional, Union
 
+from numpy import array, isclose
+from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import NDArray
 
 from .module import angle_deltas, clucenters, clusizes, llengths
 from .shared import _default_rng
+
+
+class Clusters(NamedTuple):
+    """Placeholder."""
+
+    points: NDArray
+    """Points."""
+
+    point_clusters: NDArray
+    """Point clusters."""
+
+    point_projections: NDArray
+    """Point projections."""
+
+    cluster_sizes: NDArray
+    """Cluster sizes."""
+
+    cluster_centers: NDArray
+    """Cluster centers."""
+
+    cluster_directions: NDArray
+    """Cluster directions."""
+
+    cluster_angles: NDArray
+    """Cluster angles."""
+
+    cluster_lengths: NDArray
+    """Cluster lengths."""
 
 
 def clugen(
@@ -33,6 +63,31 @@ def clugen(
     llengths_fn: Callable[[int, float, float, Generator], NDArray] = llengths,
     angle_deltas_fn: Callable[[int, float, Generator], NDArray] = angle_deltas,
     rng: Generator = _default_rng,
-) -> NamedTuple:
+) -> Clusters:
     """Placeholder."""
-    pass
+    # ############### #
+    # Validate inputs #
+    # ############### #
+
+    # Check that number of dimensions is > 0
+    if num_dims < 1:
+        raise ValueError("Number of dimensions, `num_dims`, must be > 0")
+
+    # Check that number of clusters is > 0
+    if num_clusters < 1:
+        raise ValueError("Number of clusters, `num_clust`, must be > 0")
+
+    # Check that direction vector has magnitude > 0
+    if isclose(norm(direction), 0):
+        raise ValueError("`direction` must have magnitude > 0")
+
+    return Clusters(
+        array([]),
+        array([]),
+        array([]),
+        array([]),
+        array([]),
+        array([]),
+        array([]),
+        array([]),
+    )
