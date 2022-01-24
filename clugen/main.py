@@ -118,6 +118,31 @@ def clugen(
                 + f"({cluster_offset.size} != {num_dims}"
             )
 
+    # Check that proj_dist_fn specifies a valid way for projecting points along
+    # cluster-supporting lines i.e., either "norm" (default), "unif" or a
+    # user-defined function
+    if callable(proj_dist_fn):
+        # Use user-defined distribution; assume function accepts length of line
+        # and number of points, and returns a number of points x 1 vector
+        pointproj_fn = proj_dist_fn
+
+    elif proj_dist_fn == "unif":
+        # Point projections will be uniformly placed along cluster-supporting lines
+        def pointproj_fn(length, n):
+            return length * rng.random(n) - len / 2
+
+    elif proj_dist_fn == "norm":
+        # Use normal distribution for placing point projections along cluster-supporting
+        # lines, mean equal to line center, standard deviation equal to 1/6 of line
+        # length such that the line length contains ≈99.73% of the points
+        def pointproj_fn(length, n):
+            return (1.0 / 6.0) * length * rng.normal(size=n)
+
+    else:
+        raise ValueError(
+            "`proj_dist_fn` has to be either 'norm', 'unif' or user-defined function"
+        )
+
     return Clusters(
         array([]),
         array([]),
