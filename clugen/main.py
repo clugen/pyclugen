@@ -139,7 +139,7 @@ def clugen(
     elif proj_dist_fn == "unif":
         # Point projections will be uniformly placed along cluster-supporting lines
         def pointproj_fn(length, n):
-            return length * rng.random(n) - len / 2
+            return length * rng.random(n) - length / 2
 
     elif proj_dist_fn == "norm":
         # Use normal distribution for placing point projections along cluster-supporting
