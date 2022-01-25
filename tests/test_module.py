@@ -4,6 +4,7 @@
 
 """Tests for the algorithm module functions."""
 
+import pytest
 from numpy import abs, all, dot, min, pi, sum
 from numpy.testing import assert_allclose
 
@@ -13,8 +14,12 @@ from clugen.module import angle_deltas, clucenters, clupoints_n_1, clusizes, lle
 
 def test_angle_deltas(prng, num_clusters, angle_std):
     """Test the angle_deltas() function."""
-    # Get angle deltas
-    angles = angle_deltas(num_clusters, angle_std, rng=prng)
+    # The Get angle deltas
+    with pytest.warns(None) as wrec:
+        angles = angle_deltas(num_clusters, angle_std, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that return value has the correct dimensions
     assert angles.shape == (num_clusters,)
@@ -26,7 +31,11 @@ def test_angle_deltas(prng, num_clusters, angle_std):
 def test_clucenters(ndims, prng, num_clusters, clu_offset, clu_sep):
     """Test the clucenters() function."""
     # Get cluster centers with the clucenters() function
-    clu_ctrs = clucenters(num_clusters, clu_sep, clu_offset, rng=prng)
+    with pytest.warns(None) as wrec:
+        clu_ctrs = clucenters(num_clusters, clu_sep, clu_offset, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that return value has the correct dimensions
     assert clu_ctrs.shape == (num_clusters, ndims)
@@ -43,7 +52,11 @@ def test_clupoints_n_1(ndims, num_points, prng, lat_std, llength_mu, uvector, ve
     proj = points_on_line(ctr, direc, proj_dist_fn2ctr)
 
     # Invoke the function being tested and get the points
-    pts = clupoints_n_1(proj, lat_std, llength_mu, direc, ctr, rng=prng)
+    with pytest.warns(None) as wrec:
+        pts = clupoints_n_1(proj, lat_std, llength_mu, direc, ctr, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that number of points is the same as the number of projections
     assert pts.shape == proj.shape
@@ -69,7 +82,11 @@ def test_clupoints_n(ndims, num_points, prng, lat_std, llength_mu, uvector, vect
     proj = points_on_line(ctr, direc, proj_dist_fn2ctr)
 
     # Invoke the function being tested and get the points
-    pts = clupoints_n_1(proj, lat_std, llength_mu, direc, ctr, rng=prng)
+    with pytest.warns(None) as wrec:
+        pts = clupoints_n_1(proj, lat_std, llength_mu, direc, ctr, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that number of points is the same as the number of projections
     assert pts.shape == proj.shape
@@ -83,7 +100,11 @@ def test_clusizes(prng, num_clusters, num_points, allow_empty):
         return
 
     # Obtain the cluster sizes
-    clu_sizes = clusizes(num_clusters, num_points, allow_empty, rng=prng)
+    with pytest.warns(None) as wrec:
+        clu_sizes = clusizes(num_clusters, num_points, allow_empty, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that the output has the correct number of clusters
     assert clu_sizes.shape == (num_clusters,)
@@ -99,7 +120,11 @@ def test_clusizes(prng, num_clusters, num_points, allow_empty):
 def test_llengths(prng, num_clusters, llength_mu, llength_sigma):
     """Test the llengths() function."""
     # Obtain the line lengths
-    lens = llengths(num_clusters, llength_mu, llength_sigma, rng=prng)
+    with pytest.warns(None) as wrec:
+        lens = llengths(num_clusters, llength_mu, llength_sigma, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that return value has the correct dimensions
     assert lens.shape == (num_clusters,)

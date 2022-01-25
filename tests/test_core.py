@@ -60,7 +60,11 @@ def test_rand_ortho_vector(ndims, prng, uvector):
     u = uvector(ndims)
 
     # Invoke the rand_ortho_vector function on the base vector
-    r = rand_ortho_vector(u, rng=prng)
+    with pytest.warns(None) as wrec:
+        r = rand_ortho_vector(u, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that returned vector has the correct dimensions
     assert r.shape == (ndims,)
@@ -77,7 +81,11 @@ def test_rand_ortho_vector(ndims, prng, uvector):
 def test_rand_unit_vector(ndims, prng):
     """Test the rand_unit_vector() function."""
     # Get a random unit vector
-    r = rand_unit_vector(ndims, rng=prng)
+    with pytest.warns(None) as wrec:
+        r = rand_unit_vector(ndims, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that returned vector has the correct dimensions
     assert r.shape == (ndims,)
@@ -92,7 +100,11 @@ def test_rand_vector_at_angle(ndims, prng, uvector, angle_std):
     u = uvector(ndims)
 
     # Invoke the rand_vector_at_angle function on the base vector
-    r = rand_vector_at_angle(u, angle_std, rng=prng)
+    with pytest.warns(None) as wrec:
+        r = rand_vector_at_angle(u, angle_std, rng=prng)
+
+    # Check that the function runs without warnings
+    assert len(wrec) == 0
 
     # Check that returned vector has the correct dimensions
     assert r.shape == (ndims,)

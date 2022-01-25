@@ -69,18 +69,21 @@ def test_clugen_mandatory(
     # than clusters...
     if num_points >= num_clusters:
         # ...in which case it runs without problem
-        result = clugen(
-            ndims,
-            num_clusters,
-            num_points,
-            direc,
-            angle_std,
-            clu_sep,
-            llength_mu,
-            llength_sigma,
-            lat_std,
-            rng=prng,
-        )
+        with pytest.warns(None) as wrec:
+            result = clugen(
+                ndims,
+                num_clusters,
+                num_points,
+                direc,
+                angle_std,
+                clu_sep,
+                llength_mu,
+                llength_sigma,
+                lat_std,
+                rng=prng,
+            )
+        # Check that the function runs without warnings
+        assert len(wrec) == 0
     else:
         # ...otherwise an ArgumentError will be thrown
         with pytest.raises(
