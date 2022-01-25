@@ -4,8 +4,10 @@
 
 """Tests for the main clugen() function."""
 
+import re
+
 import pytest
-from numpy import abs, all, arange, diag, linspace, ones, pi, sum, unique, zeros
+from numpy import abs, all, arange, array, diag, linspace, ones, pi, sum, unique, zeros
 from numpy.random import PCG64, Generator
 from numpy.testing import assert_allclose
 
@@ -263,3 +265,349 @@ def test_clugen_optional(
                 abs(result.cluster_angles[i]),
                 atol=1e-11,
             )
+
+
+def test_clugen_exceptions(prng):
+    """Test that clugen() raises the expected exceptions."""
+    # Valid arguments
+    nd = 3
+    nclu = 5
+    tpts = 1000
+    direc = [1, 0, 0]
+    astd = pi / 64
+    clu_sep = [10, 10, 5]
+    len_mu = 5
+    len_std = 0.5
+    lat_std = 0.3
+    ae = True
+    clu_off = [-1.5, 0, 2]
+    pt_dist = "unif"
+    pt_off = "n-1"
+    csizes_fn = clusizes
+    ccenters_fn = clucenters
+    llengths_fn = llengths
+    langles_fn = angle_deltas
+
+    # Test passes with valid arguments
+    with pytest.warns(None) as wrec:
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+    assert len(wrec) == 0
+
+    # Test passes with zero points since allow_empty is set to true
+    with pytest.warns(None) as wrec:
+        clugen(
+            nd,
+            nclu,
+            0,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+    assert len(wrec) == 0
+
+    # Invalid number of dimensions
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Number of dimensions, `num_dims`, must be > 0"),
+    ):
+        clugen(
+            0,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Invalid number of clusters
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Number of clusters, `num_clust`, must be > 0"),
+    ):
+        clugen(
+            nd,
+            0,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Direction needs to have magnitude > 0
+    with pytest.raises(
+        ValueError,
+        match="`direction` must have magnitude > 0",
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            [0, 0, 0],
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Direction needs to have nd dims
+    bad_dir = array([1, 1])
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Length of `direction` must be equal to `num_dims` "
+            + f"({bad_dir.size} != {nd})"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            bad_dir,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # cluster_sep needs to have nd dims
+    bad_clusep = array([10, 0, 5, 1.4])
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Length of `cluster_sep` must be equal to `num_dims` "
+            + f"({bad_clusep.size} != {nd})"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            bad_clusep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # cluster_offset needs to have nd dims
+    bad_cluoff = array([0, 1])
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Length of `cluster_offset` must be equal to `num_dims` "
+            + f"({bad_cluoff.size} != {nd}"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=bad_cluoff,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Unknown proj_dist_fn given as string
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "`proj_dist_fn` has to be either 'norm', 'unif' or user-defined function"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn="bad_proj_dist_fn",
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Invalid proj_dist_fn given as function
+    with pytest.raises(
+        TypeError,
+        match="argument",
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=lambda x: 0,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Unknown point_dist_fn given as string
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "point_dist_fn has to be either 'n-1', 'n' or a user-defined function"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn="bad_pt_off",
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Invalid point_dist_fn given as function
+    with pytest.raises(
+        TypeError,
+        match="argument",
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=lambda x: 0,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
