@@ -121,8 +121,8 @@ def clupoints_n_1(
     the point's projection, using the normal distribution ( \(\mu=0\),
     \(σ=\)`lat_disp`).
 
-    This function's main intended use is by the `main.clugen()` function, generating
-    the final points when the `point_dist_fn` parameter is set to `"n-1"`.
+    This function's main intended use is by the `clugen.main.clugen()` function,
+    generating the final points when the `point_dist_fn` parameter is set to `"n-1"`.
 
     ## Examples:
 
@@ -180,8 +180,8 @@ def clupoints_n(
     Each point is placed around its projection using the normal distribution
     ( \(\mu=0\), \(σ=\)`lat_disp`).
 
-    This function's main intended use is by the `main.clugen()` function, generating
-    the final points when the `point_dist_fn` parameter is set to `"n"`.
+    This function's main intended use is by the `clugen.main.clugen()` function,
+    generating the final points when the `point_dist_fn` parameter is set to `"n"`.
 
     ## Examples:
 
@@ -243,7 +243,7 @@ def clusizes(
     Cluster sizes are determined using the normal distribution (
     \(\mu=\)`num_points` \(/\)`num_clusters`, \(\sigma=\mu/3\)), and then
     assuring that the final cluster sizes add up to `num_points` via the
-    `helper.fix_num_points()` function.
+    `clugen.helper.fix_num_points()` function.
 
     ## Examples:
 
