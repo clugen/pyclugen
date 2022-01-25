@@ -89,38 +89,42 @@ def clugen(
     This is the main function of the CluGen package, and possibly the only function
     most users will need.
 
-    Note that in the description below the terms "average" and "dispersion" refer
-    to measures of central tendency and statistical dispersion, respectively. Their
-    exact meaning depends on several optional arguments.
-
     ## Examples:
 
     _TODO_
 
     Args:
+      .. note::
+         The description below the terms "average" and "dispersion" refer to
+         measures of central tendency and statistical dispersion, respectively.
+         Their exact meaning depends on several optional arguments.
+      .. hint:: The following parameters are mandatory.
       num_dims: Number of dimensions.
       num_clusters: Number of clusters to generate.
       num_points: Total number of points to generate.
-      direction: Average direction of the cluster-supporting lines (`num_dims` x 1).
+      direction: Average direction of the cluster-supporting lines (vector of size
+        `num_dims`).
       angle_disp: Angle dispersion of cluster-supporting lines (radians).
-      cluster_sep: Average cluster separation in each dimension (`num_dims` x 1).
+      cluster_sep: Average cluster separation in each dimension (vector of size
+        `num_dims`).
       llength: Average length of cluster-supporting lines.
       llength_disp: Length dispersion of cluster-supporting lines.
       lateral_disp: Cluster lateral dispersion, i.e., dispersion of points from their
         projection on the cluster-supporting line.
-      allow_empty: Allow empty clusters? `false` by default.
-      cluster_offset: Offset to add to all cluster centers. By default the offset
-        will be equal to `numpy.zeros(num_dims)`.
+      .. hint:: The following parameters are optional.
+      allow_empty: Allow empty clusters? `False` by default.
+      cluster_offset: Offset to add to all cluster centers (vector of size `num_dims`).
+        By default the offset will be equal to `numpy.zeros(num_dims)`.
       proj_dist_fn: Distribution of point projections along cluster-supporting lines,
         with three possible values:
 
         - `"norm"` (default): Distribute point projections along lines using a normal
           distribution (μ=_line center_, σ=`llength/6`).
         - `"unif"`: Distribute points uniformly along the line.
-        - User-defined function, which accepts two parameters, line length (float) and
-          number of points (integer), and returns an array containing the distance of
-          each point projection to the center of the line. For example, the `"norm"`
-          option roughly corresponds to `@(len, n) len * randn(n, 1) / 6`.
+        - User-defined function, which accepts two parameters, line length (`float`)
+          and number of points (`int`), and returns an array containing the distance
+          of each point projection to the center of the line. For example, the `"norm"`
+          option roughly corresponds to `lambda l, n: l * rng.random((n, 1)) / 6`.
 
       point_dist_fn: Controls how the final points are created from their projections
         on the cluster-supporting lines, with three possible values:
@@ -161,6 +165,9 @@ def clugen(
         with support in the interval [-π/2, π/2]. This parameter allows the user to
         specify a custom function for this purpose, which must follow
         `clugen.angle_deltas()` signature.
+      rng: An optional instance of
+        [`Generator`](https://numpy.org/doc/stable/reference/random/generator.html?highlight=generator#numpy.random.Generator)
+        for reproducible executions.
 
     Returns:
         The generated clusters and associated information in the form of a
