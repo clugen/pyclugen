@@ -91,18 +91,18 @@ def clugen(
         raise ValueError("`direction` must have magnitude > 0")
 
     # Check that direction has num_dims dimensions
-    direction = asarray(direction)
-    if direction.size != num_dims:
+    arrdir = asarray(direction)
+    if arrdir.size != num_dims:
         raise ValueError(
-            "Length of `direction` must be equal to `num_dims` "
-            + f"({direction.size} != {num_dims})"
+            "Length of `arrdir` must be equal to `num_dims` "
+            + f"({arrdir.size} != {num_dims})"
         )
 
     # If allow_empty is false, make sure there are enough points to distribute
     # by the clusters
     if (not allow_empty) and num_points < num_clusters:
         raise ValueError(
-            "A total of $num_points points is not enough for "
+            f"A total of {num_points} points is not enough for "
             + f"{num_clusters} non-empty clusters"
         )
 
@@ -192,7 +192,7 @@ def clugen(
     # ############################ #
 
     # Normalize main direction
-    direction = direction / norm(direction)
+    arrdir = arrdir / norm(arrdir)
 
     # Determine cluster sizes
     cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng)
@@ -214,7 +214,7 @@ def clugen(
     cluster_directions = zeros((num_clusters, num_dims))
     for i in range(num_clusters):
         cluster_directions[i, :] = rand_vector_at_angle(
-            direction, cluster_angles[i], rng=rng
+            arrdir, cluster_angles[i], rng=rng
         )
 
     # ################################# #
