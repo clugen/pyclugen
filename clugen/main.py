@@ -24,31 +24,34 @@ from .shared import _default_rng
 
 
 class Clusters(NamedTuple):
-    """Placeholder."""
+    """Read-only container class for the results returned by `clugen()`."""
 
     points: NDArray
-    """Points."""
+    r"""\(p \times n\) matrix containing the generated points for all clusters."""
 
     point_clusters: NDArray
-    """Point clusters."""
+    r"""Vector of size \(p\) indicating the cluster each point in `points`
+    belongs to."""
 
     point_projections: NDArray
-    """Point projections."""
+    r"""\(p \times n\) matrix with the point projections on the cluster-supporting
+    lines."""
 
     cluster_sizes: NDArray
-    """Cluster sizes."""
+    r"""Vector of size \(c\) with the number of points in each cluster."""
 
     cluster_centers: NDArray
-    """Cluster centers."""
+    r"""\(c \times n\) matrix with the coordinates of the cluster centers."""
 
     cluster_directions: NDArray
-    """Cluster directions."""
+    r"""\(c \times n\) matrix with the direction of each cluster-supporting line."""
 
     cluster_angles: NDArray
-    """Cluster angles."""
+    r"""Vector of size \(c\) with the angles between the cluster-supporting lines and
+    the main direction."""
 
     cluster_lengths: NDArray
-    """Cluster lengths."""
+    r"""Vector of size \(c\) with the lengths of the cluster-supporting lines."""
 
 
 def clugen(
