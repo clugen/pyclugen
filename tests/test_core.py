@@ -19,49 +19,39 @@ from clugen.core import (
 from .helpers import angle_btw
 
 
+@pytest.fixture(params=[1, 10, 500])
+def num_points(request):
+    """Provides a number of points."""
+    return request.param
+
+
 def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
     """Test the points_on_line() function."""
-    # Number of directions to test
-    ndirs = 3
-
-    # Number of line centers to test
-    ncts = 3
-
-    # Avoid too many points, otherwise testing will be very slow
-    if num_points >= 1000:
-        return
-
     # Create some random distances from center
     dist2ctr = llength_mu * prng.random((num_points, 1)) - llength_mu / 2
 
-    # Test for different directions
-    for _i in range(ndirs):
+    # Get a direction
+    direc = uvector(ndims)
 
-        # Get a direction
-        direc = uvector(ndims)
+    # Get a line center
+    ctr = vector(ndims)
 
-        # Test for different number of line centers
-        for _j in range(ncts):
+    # Invoke the points_on_line function
+    with pytest.warns(None) as wrec:
+        pts = points_on_line(ctr, direc, dist2ctr)
 
-            # Get a line center
-            ctr = vector(ndims)
+    # Check that the points_on_line function runs without warnings
+    assert len(wrec) == 0
 
-            # Invoke the points_on_line function
-            with pytest.warns(None) as wrec:
-                pts = points_on_line(ctr, direc, dist2ctr)
+    # Check that the dimensions agree
+    assert pts.shape == (num_points, ndims)
 
-            # Check that the points_on_line function runs without warnings
-            assert len(wrec) == 0
-
-            # Check that the dimensions agree
-            assert pts.shape == (num_points, ndims)
-
-            # Check that distance of points to the line is approximately zero
-            for pt in pts:
-                # Get distance from current point to line
-                d = norm((pt - ctr) - dot((pt - ctr), direc) * direc)
-                # Check that it is approximately zero
-                assert_allclose(d, 0, atol=1e-14)
+    # Check that distance of points to the line is approximately zero
+    for pt in pts:
+        # Get distance from current point to line
+        d = norm((pt - ctr) - dot((pt - ctr), direc) * direc)
+        # Check that it is approximately zero
+        assert_allclose(d, 0, atol=1e-14)
 
 
 def test_rand_ortho_vector(ndims, prng, uvector):
