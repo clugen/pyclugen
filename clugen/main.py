@@ -2,7 +2,7 @@
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
-"""Main function."""
+"""This module contains the main `clugen()` function."""
 
 from typing import Callable, NamedTuple, Optional, Union
 

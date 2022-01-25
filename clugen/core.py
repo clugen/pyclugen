@@ -2,7 +2,7 @@
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
-"""Core functions."""
+"""This module contains the core functions."""
 
 from math import tan
 

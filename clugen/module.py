@@ -2,7 +2,7 @@
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
-"""Algorithm module functions."""
+"""This module contains the algorithm module functions."""
 
 from numpy import abs, arctan2, cos, diag, pi, rint, sign, sin, sum, where
 from numpy.random import Generator

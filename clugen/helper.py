@@ -2,7 +2,7 @@
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
-"""Helper functions."""
+"""This module contains the helper functions."""
 
 from typing import Callable
 
