@@ -9,6 +9,7 @@
 
 
 __all__ = [
+    "Clusters",
     "clugen",
     "points_on_line",
     "rand_ortho_vector",
@@ -32,7 +33,7 @@ from clugen.core import (
     rand_vector_at_angle,
 )
 from clugen.helper import clupoints_n_1_template, fix_empty, fix_num_points
-from clugen.main import clugen
+from clugen.main import Clusters, clugen
 from clugen.module import (
     angle_deltas,
     clucenters,
