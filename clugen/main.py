@@ -94,7 +94,7 @@ def clugen(
     arrdir = asarray(direction)
     if arrdir.size != num_dims:
         raise ValueError(
-            "Length of `arrdir` must be equal to `num_dims` "
+            "Length of `direction` must be equal to `num_dims` "
             + f"({arrdir.size} != {num_dims})"
         )
 
