@@ -240,7 +240,7 @@ def clugen(
         if cluster_offset.size != num_dims:
             raise ValueError(
                 "Length of `cluster_offset` must be equal to `num_dims` "
-                + f"({cluster_offset.size} != {num_dims}"
+                + f"({cluster_offset.size} != {num_dims})"
             )
 
     # Check that proj_dist_fn specifies a valid way for projecting points along
