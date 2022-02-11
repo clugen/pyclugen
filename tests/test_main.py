@@ -134,7 +134,7 @@ def test_clugen_mandatory(
             )
 
 
-@pytest.fixture(params=["norm", "unif", lambda l, n: linspace(-l / 2, l / 2, n)])
+@pytest.fixture(params=["norm", "unif", lambda l, n, r: linspace(-l / 2, l / 2, n)])
 def ptdist_fn(request):
     """Provides a point distribution function."""
     return request.param

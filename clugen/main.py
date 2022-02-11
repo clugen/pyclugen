@@ -74,7 +74,7 @@ def clugen(
     lateral_disp: float,
     allow_empty: bool = False,
     cluster_offset: Optional[ArrayLike] = None,
-    proj_dist_fn: Union[str, Callable[[float, int], NDArray]] = "norm",
+    proj_dist_fn: Union[str, Callable[[float, int, Generator], NDArray]] = "norm",
     point_dist_fn: Union[
         str, Callable[[NDArray, float, float, NDArray, NDArray, Generator], NDArray]
     ] = "n-1",
@@ -139,10 +139,12 @@ def clugen(
         - `"norm"` (default): Distribute point projections along lines using a normal
           distribution (μ=_line center_, σ=`llength/6`).
         - `"unif"`: Distribute points uniformly along the line.
-        - User-defined function, which accepts two parameters, line length (`float`)
-          and number of points (`int`), and returns an array containing the distance
-          of each point projection to the center of the line. For example, the `"norm"`
-          option roughly corresponds to `lambda l, n: l * rng.random((n, 1)) / 6`.
+        - User-defined function, which accepts two parameters, line length (`float`),
+          number of points (`int`) and an instance of
+          [`Generator`](https://numpy.org/doc/stable/reference/random/generator.html?highlight=generator#numpy.random.Generator),
+          and returns an array containing the distance of each point projection to
+          the center of the line. For example, the `"norm"` option roughly corresponds
+          to `lambda l, n, rg: l * rg.random((n, 1)) / 6`.
 
       point_dist_fn: Controls how the final points are created from their projections
         on the cluster-supporting lines, with three possible values:
@@ -155,7 +157,7 @@ def clugen(
           cluster-supporting line using the normal distribution (μ=0,
           σ=`lateral_disp`). This is done by the `clugen.clupoints_n()` function.
         - User-defined function: The user can specify a custom point placement strategy
-          by passing a function with the same signature as `clugen.clupoints_n_1()`and
+          by passing a function with the same signature as `clugen.clupoints_n_1()` and
           `clugen.clupoints_n()`.
 
       clusizes_fn: Distribution of cluster sizes. By default, cluster sizes are
@@ -246,7 +248,7 @@ def clugen(
     # Check that proj_dist_fn specifies a valid way for projecting points along
     # cluster-supporting lines i.e., either "norm" (default), "unif" or a
     # user-defined function
-    pointproj_fn: Callable[[float, int], NDArray]
+    pointproj_fn: Callable[[float, int, Generator], NDArray]
 
     if callable(proj_dist_fn):
         # Use user-defined distribution; assume function accepts length of line
@@ -255,15 +257,15 @@ def clugen(
 
     elif proj_dist_fn == "unif":
         # Point projections will be uniformly placed along cluster-supporting lines
-        def pointproj_fn(length, n):
-            return length * rng.random(n) - length / 2
+        def pointproj_fn(length, n, rg):
+            return length * rg.random(n) - length / 2
 
     elif proj_dist_fn == "norm":
         # Use normal distribution for placing point projections along cluster-supporting
         # lines, mean equal to line center, standard deviation equal to 1/6 of line
         # length such that the line length contains ≈99.73% of the points
-        def pointproj_fn(length, n):
-            return (1.0 / 6.0) * length * rng.normal(size=n)
+        def pointproj_fn(length, n, rg):
+            return (1.0 / 6.0) * length * rg.normal(size=n)
 
     else:
         raise ValueError(
@@ -358,7 +360,7 @@ def clugen(
         point_clusters[idx_start:idx_end] = i
 
         # Determine distance of point projections from the center of the line
-        ptproj_dist_fn_center = pointproj_fn(cluster_lengths[i], cluster_sizes[i])
+        ptproj_dist_fn_center = pointproj_fn(cluster_lengths[i], cluster_sizes[i], rng)
 
         # Determine coordinates of point projections on the line using the
         # parametric line equation (this works since cluster direction is normalized)
