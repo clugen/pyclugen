@@ -18,7 +18,7 @@ def clupoints_n_1_template(
     projs: NDArray,
     lat_disp: float,
     clu_dir: NDArray,
-    dist_fn: Callable[[int, float], NDArray],
+    dist_fn: Callable[[int, float, Generator], NDArray],
     rng: Generator = _default_rng,
 ) -> NDArray:
     r"""Create \(p\) points from their \(n\)-D projections on a cluster-supporting line.
@@ -41,7 +41,7 @@ def clupoints_n_1_template(
     >>> pdist = array([-0.5, -0.2, 0.1, 0.3])
     >>> rng = Generator(PCG64(123))
     >>> proj = points_on_line(ctr, dir, pdist)
-    >>> clupoints_n_1_template(proj, 0, dir, lambda p, l: rng.random(p), rng=rng)
+    >>> clupoints_n_1_template(proj, 0, dir, lambda p, l, r: r.random(p), rng=rng)
     array([[-0.5       ,  0.68235186],
            [-0.2       , -0.05382102],
            [ 0.1       ,  0.22035987],
@@ -52,6 +52,11 @@ def clupoints_n_1_template(
       lat_disp: Dispersion of points from their projection.
       clu_dir: Direction of the cluster-supporting line (unit vector).
       dist_fn: Function to place points on a second line, orthogonal to the first.
+        The functions accepts as parameters the number of points in the current
+        cluster, the `lateral_disp` parameter (the same passed to the
+        `clugen.main.clugen()` function), and a random number generator, returning a
+        vector containing the distance of each point to its projection on the
+        cluster-supporting line.
       rng: An optional pseudo-random number generator for reproducible executions.
 
     Returns:
@@ -64,7 +69,7 @@ def clupoints_n_1_template(
     clu_num_points = projs.shape[0]
 
     # Get distances from points to their projections on the line
-    points_dist = dist_fn(clu_num_points, lat_disp)
+    points_dist = dist_fn(clu_num_points, lat_disp, rng)
 
     # Get normalized vectors, orthogonal to the current line, for each point
     orth_vecs = zeros((clu_num_points, num_dims))

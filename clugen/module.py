@@ -160,8 +160,8 @@ def clupoints_n_1(
     """
     # Define function to get distances from points to their projections on the
     # line (i.e., using the normal distribution)
-    def dist_fn(clu_num_points, ldisp):
-        return ldisp * rng.normal(size=clu_num_points)
+    def dist_fn(clu_num_points, ldisp, rg):
+        return ldisp * rg.normal(size=clu_num_points)
 
     # Use clupoints_n_1_template() to do the heavy lifting
     return clupoints_n_1_template(projs, lat_disp, clu_dir, dist_fn, rng=rng)

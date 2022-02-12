@@ -24,8 +24,8 @@ def test_clupoints_n_1_template(
     direc = uvector(ndims)
 
     # Very simple dist_fn, always puts points at a distance of dist_pt
-    def dist_fn(clu_num_points, ldisp):
-        return prng.choice(array([-dist_pt, dist_pt]), (clu_num_points, 1))
+    def dist_fn(clu_num_points, ldisp, rg):
+        return rg.choice(array([-dist_pt, dist_pt]), (clu_num_points, 1))
 
     # Create some point projections
     proj_dist_fn2ctr = llength_mu * prng.random((num_points, 1)) - llength_mu / 2
