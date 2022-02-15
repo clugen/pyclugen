@@ -16,6 +16,7 @@ __all__ = [
     "rand_unit_vector",
     "rand_vector_at_angle",
     "angle_deltas",
+    "angle_btw",
     "clupoints_n_1_template",
     "fix_empty",
     "fix_num_points",
@@ -32,7 +33,7 @@ from clugen.core import (
     rand_unit_vector,
     rand_vector_at_angle,
 )
-from clugen.helper import clupoints_n_1_template, fix_empty, fix_num_points
+from clugen.helper import angle_btw, clupoints_n_1_template, fix_empty, fix_num_points
 from clugen.main import Clusters, clugen
 from clugen.module import (
     angle_deltas,

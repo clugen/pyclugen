@@ -15,8 +15,7 @@ from clugen.core import (
     rand_unit_vector,
     rand_vector_at_angle,
 )
-
-from .helpers import angle_btw
+from clugen.helper import angle_btw
 
 
 @pytest.fixture(params=[1, 10, 500])

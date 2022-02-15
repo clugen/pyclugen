@@ -6,12 +6,62 @@
 
 from typing import Callable
 
-from numpy import abs, argmax, argmin, sum, zeros
+from numpy import abs, arctan, argmax, argmin, pi, signbit, sum, zeros
+from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import NDArray
 
 from .core import rand_ortho_vector
 from .shared import _default_rng
+
+
+def angle_btw(v1: NDArray, v2: NDArray) -> float:
+    r"""Angle between two \(n\)-dimensional vectors.
+
+    Typically, the angle between two vectors `v1` and `v2` can be obtained with:
+
+    ```python
+    arccos(dot(u, v) / (norm(u) * norm(v)))
+    ```
+
+    However, this approach is numerically unstable. The version provided here is
+    numerically stable and based on the
+    [AngleBetweenVectors](https://github.com/JeffreySarnoff/AngleBetweenVectors.jl)
+    Julia package by Jeffrey Sarnoff (MIT license), implementing an algorithm
+    provided by Prof. W. Kahan in
+    [these notes](https://people.eecs.berkeley.edu/~wkahan/MathH110/Cross.pdf)
+    (see page 15).
+
+    ## Examples:
+
+    >>> from numpy import array, degrees
+    >>> from clugen import angle_btw
+    >>> v1 = array([1.0, 1.0, 1.0, 1.0])
+    >>> v2 = array([1.0, 0.0, 0.0, 0.0])
+    >>> degrees(angle_btw(v1, v2))
+    60.00000000000001
+
+    Args:
+      v1: First vector.
+      v2: Second vector.
+
+    Returns:
+      Angle between `v1` and `v2` in radians.
+    """
+    u1 = v1 / norm(v1)
+    u2 = v2 / norm(v2)
+
+    y = u1 - u2
+    x = u1 + u2
+
+    a0 = 2 * arctan(norm(y) / norm(x))
+
+    if (not signbit(a0)) or signbit(pi - a0):
+        return a0
+    elif signbit(a0):
+        return 0.0
+    else:
+        return pi
 
 
 def clupoints_n_1_template(

@@ -11,10 +11,9 @@ from numpy import abs, all, arange, array, diag, linspace, ones, pi, sum, unique
 from numpy.random import PCG64, Generator
 from numpy.testing import assert_allclose
 
+from clugen.helper import angle_btw
 from clugen.main import clugen
 from clugen.module import angle_deltas, clucenters, clusizes, llengths
-
-from .helpers import angle_btw
 
 
 @pytest.fixture(params=[0, 98765])
