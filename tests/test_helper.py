@@ -5,12 +5,34 @@
 """Tests for the helper functions."""
 
 import pytest
-from numpy import all, any, array, copy, dot, sum
+from numpy import all, any, arccos, array, copy, dot, sum
 from numpy.linalg import norm
 from numpy.testing import assert_allclose, assert_equal
 
 from clugen.core import points_on_line
-from clugen.helper import clupoints_n_1_template, fix_empty, fix_num_points
+from clugen.helper import angle_btw, clupoints_n_1_template, fix_empty, fix_num_points
+
+
+def test_angle_btw():
+    """Test the angle_btw() function."""
+    # Commonly used function for determining the angle between two vectors
+    def common_angle_btw(v1, v2):
+        return arccos(dot(v1, v2) / (norm(v1) * norm(v2)))
+
+    # 2D
+    u = array([1.5, 0])
+    v = array([0.1, -0.4])
+    assert_allclose(angle_btw(u, v), common_angle_btw(u, v))
+
+    # 3D
+    u = array([-1.5, 10, 0])
+    v = array([0.99, 4.4, -1.1])
+    assert_allclose(angle_btw(u, v), common_angle_btw(u, v))
+
+    # 8D
+    u = array([1.5, 0, 0, 0, 0, 0, 0, -0.5])
+    v = array([7.5, -0.4, 0, 0, 0, -16.4, 0.1, -0.01])
+    assert_allclose(angle_btw(u, v), common_angle_btw(u, v))
 
 
 def test_clupoints_n_1_template(
