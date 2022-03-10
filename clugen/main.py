@@ -341,7 +341,7 @@ def clugen(
     # ################################# #
 
     # Aux. vector with cumulative sum of number of points in each cluster
-    cumsum_points = concatenate(([0], cumsum(cluster_sizes)))
+    cumsum_points = concatenate((asarray([0]), cumsum(cluster_sizes)))
 
     # Pre-allocate data structures for holding cluster info and points
     point_clusters = zeros(num_points, dtype=int)  # Cluster indices of each point
