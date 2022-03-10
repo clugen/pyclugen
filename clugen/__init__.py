@@ -44,5 +44,4 @@ from clugen.module import (
     llengths,
 )
 
-__pdoc__ = {}
-__pdoc__["shared"] = False
+__pdoc__ = {"shared": False}
