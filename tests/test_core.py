@@ -4,6 +4,8 @@
 
 """Tests for the core functions."""
 
+import warnings
+
 import pytest
 from numpy import abs, dot, isclose, pi
 from numpy.linalg import norm
@@ -36,11 +38,9 @@ def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
     ctr = vector(ndims)
 
     # Invoke the points_on_line function
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
         pts = points_on_line(ctr, direc, dist2ctr)
-
-    # Check that the points_on_line function runs without warnings
-    assert len(wrec) == 0
 
     # Check that the dimensions agree
     assert pts.shape == (num_points, ndims)
@@ -59,11 +59,10 @@ def test_rand_ortho_vector(ndims, prng, uvector):
     u = uvector(ndims)
 
     # Invoke the rand_ortho_vector function on the base vector
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         r = rand_ortho_vector(u, rng=prng)
-
-    # Check that the function runs without warnings
-    assert len(wrec) == 0
 
     # Check that returned vector has the correct dimensions
     assert r.shape == (ndims,)
@@ -80,11 +79,10 @@ def test_rand_ortho_vector(ndims, prng, uvector):
 def test_rand_unit_vector(ndims, prng):
     """Test the rand_unit_vector() function."""
     # Get a random unit vector
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         r = rand_unit_vector(ndims, rng=prng)
-
-    # Check that the function runs without warnings
-    assert len(wrec) == 0
 
     # Check that returned vector has the correct dimensions
     assert r.shape == (ndims,)
@@ -99,11 +97,10 @@ def test_rand_vector_at_angle(ndims, prng, uvector, angle_std):
     u = uvector(ndims)
 
     # Invoke the rand_vector_at_angle function on the base vector
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         r = rand_vector_at_angle(u, angle_std, rng=prng)
-
-    # Check that the function runs without warnings
-    assert len(wrec) == 0
 
     # Check that returned vector has the correct dimensions
     assert r.shape == (ndims,)

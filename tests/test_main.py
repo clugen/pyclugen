@@ -5,6 +5,7 @@
 """Tests for the main clugen() function."""
 
 import re
+import warnings
 
 import pytest
 from numpy import abs, all, arange, array, diag, linspace, ones, pi, sum, unique, zeros
@@ -71,7 +72,9 @@ def test_clugen_mandatory(
     # than clusters...
     if num_points >= num_clusters:
         # ...in which case it runs without problem
-        with pytest.warns(None) as wrec:
+        with warnings.catch_warnings():
+            # Check that the function runs without warnings
+            warnings.simplefilter("error")
             result = clugen(
                 ndims,
                 num_clusters,
@@ -84,8 +87,6 @@ def test_clugen_mandatory(
                 lat_std,
                 rng=prng,
             )
-        # Check that the function runs without warnings
-        assert len(wrec) == 0
     else:
         # ...otherwise an ArgumentError will be thrown
         with pytest.raises(
@@ -210,7 +211,9 @@ def test_clugen_optional(
     # Get direction
     direc = vector(ndims)
 
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         result = clugen(
             ndims,
             nclu,
@@ -231,9 +234,6 @@ def test_clugen_optional(
             angle_deltas_fn=lang_fn,
             rng=prng,
         )
-
-    # Check that the function runs without warnings
-    assert len(wrec) == 0
 
     # Check dimensions of result variables
     assert result.points.shape == (tpts, ndims)
@@ -288,7 +288,9 @@ def test_clugen_exceptions(prng):
     langles_fn = angle_deltas
 
     # Test passes with valid arguments
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clugen(
             nd,
             nclu,
@@ -309,10 +311,11 @@ def test_clugen_exceptions(prng):
             angle_deltas_fn=langles_fn,
             rng=prng,
         )
-    assert len(wrec) == 0
 
     # Test passes with zero points since allow_empty is set to true
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clugen(
             nd,
             nclu,
@@ -333,7 +336,6 @@ def test_clugen_exceptions(prng):
             angle_deltas_fn=langles_fn,
             rng=prng,
         )
-    assert len(wrec) == 0
 
     # Invalid number of dimensions
     with pytest.raises(

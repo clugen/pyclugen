@@ -4,7 +4,8 @@
 
 """Tests for the helper functions."""
 
-import pytest
+import warnings
+
 from numpy import all, any, arccos, array, copy, dot, sum
 from numpy.linalg import norm
 from numpy.testing import assert_allclose, assert_equal
@@ -54,11 +55,10 @@ def test_clupoints_n_1_template(
     proj = points_on_line(vector(ndims), direc, proj_dist_fn2ctr)
 
     # The clupoints_n_1_template function should run without warnings
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         pts = clupoints_n_1_template(proj, lat_std, direc, dist_fn, rng=prng)
-
-    # Check that the function runs without warnings
-    assert len(wrec) == 0
 
     # Check that number of points is the same as the number of projections
     assert pts.shape == proj.shape
@@ -83,27 +83,30 @@ def test_fix_empty():
     # No empty clusters
     clusts = array([11, 21, 10])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_empty(clusts, False)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert_equal(clusts_copy, clusts_fixed)
 
     # Empty clusters, no fix
     clusts = array([0, 11, 21, 10, 0, 0])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_empty(clusts, True)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert_equal(clusts_copy, clusts_fixed)
 
     # Empty clusters, fix
     clusts = array([5, 0, 21, 10, 0, 0, 101])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_empty(clusts, False)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert sum(clusts_copy) == sum(clusts_fixed)
     assert any(clusts_copy != clusts_fixed)
@@ -112,9 +115,10 @@ def test_fix_empty():
     # # Empty clusters, fix, several equal maximums
     clusts = array([101, 5, 0, 21, 101, 10, 0, 0, 101, 100, 99, 0, 0, 0, 100])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_empty(clusts, False)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert sum(clusts_copy) == sum(clusts_fixed)
     assert any(clusts_copy != clusts_fixed)
@@ -123,27 +127,30 @@ def test_fix_empty():
     # Empty clusters, no fix (flag)
     clusts = array([0, 10])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_empty(clusts, True)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert_equal(clusts_copy, clusts_fixed)
 
     # Empty clusters, no fix (not enough points)
     clusts = array([0, 1, 1, 0, 0, 2, 0, 0])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_empty(clusts, False)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert_equal(clusts_copy, clusts_fixed)
 
     # Works with 1D
     clusts = array([100])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_empty(clusts, True)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert_equal(clusts_copy, clusts_fixed)
 
@@ -153,9 +160,10 @@ def test_fix_num_points():
     # No change
     clusts = array([10, 100, 42, 0, 12])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_num_points(clusts, sum(clusts))
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert_equal(clusts_copy, clusts_fixed)
 
@@ -163,9 +171,10 @@ def test_fix_num_points():
     clusts = array([55, 12])
     clusts_copy = copy(clusts)
     num_pts = sum(clusts) - 14
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_num_points(clusts, num_pts)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert any(clusts_copy != clusts_fixed)
     assert sum(clusts_fixed) == num_pts
@@ -174,9 +183,10 @@ def test_fix_num_points():
     clusts = array([0, 1, 0, 0])
     clusts_copy = copy(clusts)
     num_pts = 15
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_num_points(clusts, num_pts)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert any(clusts_copy != clusts_fixed)
     assert sum(clusts_fixed) == num_pts
@@ -184,9 +194,10 @@ def test_fix_num_points():
     # 1D - No change
     clusts = array([10])
     clusts_copy = copy(clusts)
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_num_points(clusts, sum(clusts))
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert_equal(clusts_copy, clusts_fixed)
 
@@ -194,9 +205,10 @@ def test_fix_num_points():
     clusts = array([241])
     clusts_copy = copy(clusts)
     num_pts = sum(clusts) - 20
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_num_points(clusts, num_pts)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert any(clusts_copy != clusts_fixed)
     assert sum(clusts_fixed) == num_pts
@@ -205,9 +217,10 @@ def test_fix_num_points():
     clusts = array([0])
     clusts_copy = copy(clusts)
     num_pts = 8
-    with pytest.warns(None) as wrec:
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
         clusts_fixed = fix_num_points(clusts, num_pts)
-    assert len(wrec) == 0
     assert clusts is clusts_fixed
     assert any(clusts_copy != clusts_fixed)
     assert sum(clusts_fixed) == num_pts
