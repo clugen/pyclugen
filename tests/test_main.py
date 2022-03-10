@@ -110,26 +110,26 @@ def test_clugen_mandatory(
 
     # Check dimensions of result variables
     assert result.points.shape == (num_points, ndims)
-    assert result.point_clusters.shape == (num_points,)
-    assert result.point_projections.shape == (num_points, ndims)
-    assert result.cluster_sizes.shape == (num_clusters,)
-    assert result.cluster_centers.shape == (num_clusters, ndims)
-    assert result.cluster_directions.shape == (num_clusters, ndims)
-    assert result.cluster_angles.shape == (num_clusters,)
-    assert result.cluster_lengths.shape == (num_clusters,)
+    assert result.clusters.shape == (num_points,)
+    assert result.projections.shape == (num_points, ndims)
+    assert result.sizes.shape == (num_clusters,)
+    assert result.centers.shape == (num_clusters, ndims)
+    assert result.directions.shape == (num_clusters, ndims)
+    assert result.angles.shape == (num_clusters,)
+    assert result.lengths.shape == (num_clusters,)
 
     # Check point cluster indexes
-    assert all(unique(result.point_clusters) == arange(num_clusters))
+    assert all(unique(result.clusters) == arange(num_clusters))
 
     # Check total points
-    assert sum(result.cluster_sizes) == num_points
+    assert sum(result.sizes) == num_points
 
     # Check that cluster directions have the correct angles with the main direction
     if ndims > 1:
         for i in range(num_clusters):
             assert_allclose(
-                angle_btw(direc, result.cluster_directions[i, :]),
-                abs(result.cluster_angles[i]),
+                angle_btw(direc, result.directions[i, :]),
+                abs(result.angles[i]),
                 atol=1e-11,
             )
 
@@ -237,22 +237,22 @@ def test_clugen_optional(
 
     # Check dimensions of result variables
     assert result.points.shape == (tpts, ndims)
-    assert result.point_clusters.shape == (tpts,)
-    assert result.point_projections.shape == (tpts, ndims)
-    assert result.cluster_sizes.shape == (nclu,)
-    assert result.cluster_centers.shape == (nclu, ndims)
-    assert result.cluster_directions.shape == (nclu, ndims)
-    assert result.cluster_angles.shape == (nclu,)
-    assert result.cluster_lengths.shape == (nclu,)
+    assert result.clusters.shape == (tpts,)
+    assert result.projections.shape == (tpts, ndims)
+    assert result.sizes.shape == (nclu,)
+    assert result.centers.shape == (nclu, ndims)
+    assert result.directions.shape == (nclu, ndims)
+    assert result.angles.shape == (nclu,)
+    assert result.lengths.shape == (nclu,)
 
     # Check point cluster indexes
     if not allow_empty:
-        assert all(unique(result.point_clusters) == arange(nclu))
+        assert all(unique(result.clusters) == arange(nclu))
     else:
-        assert all(result.point_clusters < nclu)
+        assert all(result.clusters < nclu)
 
     # Check total points
-    assert sum(result.cluster_sizes) == tpts
+    assert sum(result.sizes) == tpts
     # This might not be the case if the specified clusize_fn does not obey
     # the total number of points
 
@@ -260,8 +260,8 @@ def test_clugen_optional(
     if ndims > 1:
         for i in range(nclu):
             assert_allclose(
-                angle_btw(direc, result.cluster_directions[i, :]),
-                abs(result.cluster_angles[i]),
+                angle_btw(direc, result.directions[i, :]),
+                abs(result.angles[i]),
                 atol=1e-11,
             )
 

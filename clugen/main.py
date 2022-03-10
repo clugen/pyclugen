@@ -37,28 +37,28 @@ class Clusters(NamedTuple):
     points: NDArray
     r"""\(p \times n\) matrix containing the generated points for all clusters."""
 
-    point_clusters: NDArray
+    clusters: NDArray
     r"""Vector of size \(p\) indicating the cluster each point in `points`
     belongs to."""
 
-    point_projections: NDArray
+    projections: NDArray
     r"""\(p \times n\) matrix with the point projections on the cluster-supporting
     lines."""
 
-    cluster_sizes: NDArray
+    sizes: NDArray
     r"""Vector of size \(c\) with the number of points in each cluster."""
 
-    cluster_centers: NDArray
+    centers: NDArray
     r"""\(c \times n\) matrix with the coordinates of the cluster centers."""
 
-    cluster_directions: NDArray
+    directions: NDArray
     r"""\(c \times n\) matrix with the direction of each cluster-supporting line."""
 
-    cluster_angles: NDArray
+    angles: NDArray
     r"""Vector of size \(c\) with the angles between the cluster-supporting lines and
     the main direction."""
 
-    cluster_lengths: NDArray
+    lengths: NDArray
     r"""Vector of size \(c\) with the lengths of the cluster-supporting lines."""
 
 
@@ -98,7 +98,7 @@ def clugen(
     >>> from numpy.random import Generator, PCG64
     >>> rng = Generator(PCG64(321))
     >>> out = cg.clugen(2, 5, 10000, [1, 0.5], pi/16, [10, 40], 10, 1, 2, rng=rng);
-    >>> out.cluster_centers # What are the cluster centers?
+    >>> out.centers # What are the cluster centers?
     array([[ 20.02876212,  36.59611434],
            [-15.60290734, -26.52169579],
            [ 23.09775166,  91.66309916],
@@ -106,7 +106,7 @@ def clugen(
            [ -4.64224681,  78.40990876]])
     >>> plt.scatter(out.points[:,0],
     ...             out.points[:,1],
-    ...             c=out.point_clusters) # doctest: +SKIP
+    ...             c=out.clusters) # doctest: +SKIP
     >>> plt.show() # doctest: +SKIP
 
     ![clugen](https://user-images.githubusercontent.com/3018963/151056890-c83c9509-b40d-4ab2-a842-f2a4706344c6.png)
