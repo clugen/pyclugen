@@ -2,12 +2,7 @@
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
-"""Multidimensional cluster generation in Python.
-
-.. include:: ../docs/src/theory.md
-.. include:: ../docs/src/examples.md
-.. include:: ../docs/src/dev.md
-"""
+"""Multidimensional cluster generation in Python."""
 
 
 __all__ = [
@@ -45,5 +40,3 @@ from clugen.module import (
     clusizes,
     llengths,
 )
-
-__pdoc__ = {"shared": False}
