@@ -4,7 +4,9 @@
 
 """Multidimensional cluster generation in Python.
 
-.. include:: ../README.md
+.. include:: ../docs/src/theory.md
+.. include:: ../docs/src/examples.md
+.. include:: ../docs/src/dev.md
 """
 
 
