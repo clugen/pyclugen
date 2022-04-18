@@ -12,6 +12,7 @@ plugins:
           docstring_style: google
         rendering:
           show_submodules: no
+          heading_level: 2
     watch:
       - ../clugen
 
