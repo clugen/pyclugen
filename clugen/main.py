@@ -87,9 +87,9 @@ def clugen(
 ) -> Clusters:
     """Generate multidimensional clusters.
 
-    .. tip::
-       This is the main function of the CluGen package, and possibly the only
-       function most users will need.
+    !!! tip
+        This is the main function of the CluGen package, and possibly the only
+        function most users will need.
 
     ## Examples:
 
@@ -112,10 +112,10 @@ def clugen(
 
     ![clugen](https://user-images.githubusercontent.com/3018963/151056890-c83c9509-b40d-4ab2-a842-f2a4706344c6.png)
 
-    .. note::
-       The description below the terms "average" and "dispersion" refer to
-       measures of central tendency and statistical dispersion, respectively.
-       Their exact meaning depends on several optional arguments.
+    !!! Note
+        In the descriptions below, the terms "average" and "dispersion" refer to
+        measures of central tendency and statistical dispersion, respectively.
+        Their exact meaning depends on several optional arguments.
 
     Args:
       num_dims: Number of dimensions.
@@ -189,13 +189,12 @@ def clugen(
         [-π/2, π/2]. This parameter allows the user to specify a custom function for
         this purpose, which must follow [`angle_deltas()`][clugen.module.angle_deltas]
         signature.
-      rng: An optional instance of
-        [`Generator`](https://numpy.org/doc/stable/reference/random/generator.html?highlight=generator#numpy.random.Generator)
-        for reproducible executions.
+      rng: An optional instance of [`Generator`][numpy.random.Generator] for
+        reproducible executions.
 
     Returns:
         The generated clusters and associated information in the form of a
-        `Clusters` object.
+        [`Clusters`][clugen.main.Clusters] object.
     """
     # ############### #
     # Validate inputs #
