@@ -16,7 +16,7 @@ from .shared import _default_rng
 
 
 def angle_btw(v1: NDArray, v2: NDArray) -> float:
-    r"""Angle between two \(n\)-dimensional vectors.
+    r"""Angle between two $n$-dimensional vectors.
 
     Typically, the angle between two vectors `v1` and `v2` can be obtained with:
 
@@ -34,12 +34,12 @@ def angle_btw(v1: NDArray, v2: NDArray) -> float:
 
     ## Examples:
 
-    >>> from numpy import array, degrees
-    >>> from clugen import angle_btw
-    >>> v1 = array([1.0, 1.0, 1.0, 1.0])
-    >>> v2 = array([1.0, 0.0, 0.0, 0.0])
-    >>> degrees(angle_btw(v1, v2))
-    60.00000000000001
+        >>> from numpy import array, degrees
+        >>> from clugen import angle_btw
+        >>> v1 = array([1.0, 1.0, 1.0, 1.0])
+        >>> v2 = array([1.0, 0.0, 0.0, 0.0])
+        >>> degrees(angle_btw(v1, v2))
+        60.00000000000001
 
     Args:
       v1: First vector.
@@ -71,7 +71,7 @@ def clupoints_n_1_template(
     dist_fn: Callable[[int, float, Generator], NDArray],
     rng: Generator = _default_rng,
 ) -> NDArray:
-    r"""Create \(p\) points from their \(n\)-D projections on a cluster-supporting line.
+    r"""Create $p$ points from their $n$-D projections on a cluster-supporting line.
 
     Each point is placed on a hyperplane orthogonal to that line and centered at
     the point's projection. The function specified in `dist_fn` is used to perform
@@ -83,22 +83,22 @@ def clupoints_n_1_template(
 
     ## Examples:
 
-    >>> from numpy import array, zeros
-    >>> from numpy.random import Generator, PCG64
-    >>> from clugen import clupoints_n_1_template, points_on_line
-    >>> ctr = zeros(2)
-    >>> dir = array([1, 0])
-    >>> pdist = array([-0.5, -0.2, 0.1, 0.3])
-    >>> rng = Generator(PCG64(123))
-    >>> proj = points_on_line(ctr, dir, pdist)
-    >>> clupoints_n_1_template(proj, 0, dir, lambda p, l, r: r.random(p), rng=rng)
-    array([[-0.5       ,  0.68235186],
-           [-0.2       , -0.05382102],
-           [ 0.1       ,  0.22035987],
-           [ 0.3       , -0.18437181]])
+        >>> from numpy import array, zeros
+        >>> from numpy.random import Generator, PCG64
+        >>> from clugen import clupoints_n_1_template, points_on_line
+        >>> ctr = zeros(2)
+        >>> dir = array([1, 0])
+        >>> pdist = array([-0.5, -0.2, 0.1, 0.3])
+        >>> rng = Generator(PCG64(123))
+        >>> proj = points_on_line(ctr, dir, pdist)
+        >>> clupoints_n_1_template(proj, 0, dir, lambda p, l, r: r.random(p), rng=rng)
+        array([[-0.5       ,  0.68235186],
+               [-0.2       , -0.05382102],
+               [ 0.1       ,  0.22035987],
+               [ 0.3       , -0.18437181]])
 
     Args:
-      projs: Point projections on the cluster-supporting line ( \(p \times n\) matrix).
+      projs: Point projections on the cluster-supporting line ( $p \times n$ matrix).
       lat_disp: Dispersion of points from their projection.
       clu_dir: Direction of the cluster-supporting line (unit vector).
       dist_fn: Function to place points on a second line, orthogonal to the first.
@@ -110,7 +110,7 @@ def clupoints_n_1_template(
       rng: An optional pseudo-random number generator for reproducible executions.
 
     Returns:
-      Generated points ( \(p \times n\) matrix).
+      Generated points ( $p \times n$ matrix).
     """
     # Number of dimensions
     num_dims = clu_dir.size
@@ -153,22 +153,22 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
 
     ## Examples:
 
-    >>> from numpy import array
-    >>> from clugen import fix_empty
-    >>> clusters = array([3, 4, 5, 0, 0])
-    >>> fix_empty(clusters)
-    array([3, 3, 4, 1, 1])
-    >>> clusters # Verify that the array was changed in-place
-    array([3, 3, 4, 1, 1])
+        >>> from numpy import array
+        >>> from clugen import fix_empty
+        >>> clusters = array([3, 4, 5, 0, 0])
+        >>> fix_empty(clusters)
+        array([3, 3, 4, 1, 1])
+        >>> clusters # Verify that the array was changed in-place
+        array([3, 3, 4, 1, 1])
 
     Args:
-      clu_num_points: Number of points in each cluster (vector of size \(c\)),
-        where \(c\) is the number of clusters.
+      clu_num_points: Number of points in each cluster (vector of size $c$),
+        where $c$ is the number of clusters.
       allow_empty: Allow empty clusters?
 
     Returns:
       Number of points in each cluster, after being fixed by this function (vector
-      of size \(c\), which is the same reference than `clu_num_points`).
+      of size $c$, which is the same reference than `clu_num_points`).
     """
     # If the allow_empty parameter is set to true, don't do anything and return
     # immediately; this is useful for quick `clusizes_fn` one-liners
@@ -206,22 +206,22 @@ def fix_num_points(clu_num_points: NDArray, num_points: int) -> NDArray:
 
     ## Examples:
 
-    >>> from numpy import array
-    >>> from clugen import fix_num_points
-    >>> clusters = array([1, 6, 3])  # 10 total points
-    >>> fix_num_points(clusters, 12) # But we want 12 total points
-    array([3, 6, 3])
-    >>> clusters # Verify that the array was changed in-place
-    array([3, 6, 3])
+        >>> from numpy import array
+        >>> from clugen import fix_num_points
+        >>> clusters = array([1, 6, 3])  # 10 total points
+        >>> fix_num_points(clusters, 12) # But we want 12 total points
+        array([3, 6, 3])
+        >>> clusters # Verify that the array was changed in-place
+        array([3, 6, 3])
 
     Args:
-      clu_num_points: Number of points in each cluster (vector of size \(c\)),
-        where \(c\) is the number of clusters.
+      clu_num_points: Number of points in each cluster (vector of size $c$),
+        where $c$ is the number of clusters.
       num_points: The expected total number of points.
 
     Returns:
       Number of points in each cluster, after being fixed by this function (vector
-      of size \(c\), which is the same reference than `clu_num_points`).
+      of size $c$, which is the same reference than `clu_num_points`).
     """
     while sum(clu_num_points) < num_points:
         imin = argmin(clu_num_points)

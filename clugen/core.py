@@ -23,45 +23,45 @@ def points_on_line(
     based on the distances from the center given in `dist_center`.
 
     This works by using the vector formulation of the line equation assuming
-    `direction` is a \(n\)-dimensional unit vector. In other words, considering
-    \(\mathbf{d}=\)`direction.reshape(-1,1)` ( \(n \times 1\) vector),
-    \(\mathbf{c}=\)`center.reshape(-1,1)` ( \(n \times 1\) vector), and
-    \(\mathbf{w}=\) `dist_center.reshape(-1,1)` ( \(p \times 1\) vector),
+    `direction` is a $n$-dimensional unit vector. In other words, considering
+    $\mathbf{d}=$`direction.reshape(-1,1)` ( $n \times 1$ vector),
+    $\mathbf{c}=$`center.reshape(-1,1)` ( $n \times 1$ vector), and
+    $\mathbf{w}=$ `dist_center.reshape(-1,1)` ( $p \times 1$ vector),
     the coordinates of points on the line are given by:
 
     $$
     \mathbf{P}=\mathbf{1}\,\mathbf{c}^T + \mathbf{w}\mathbf{d}^T
     $$
 
-    where \(\mathbf{P}\) is the \(p \times n\) matrix of point coordinates on the
-    line, and \(\mathbf{1}\) is a \(p \times 1\) vector with all entries equal to 1.
+    where $\mathbf{P}$ is the $p \times n$ matrix of point coordinates on the
+    line, and $\mathbf{1}$ is a $p \times 1$ vector with all entries equal to 1.
 
     ## Examples:
 
-    >>> from clugen import points_on_line
-    >>> from numpy import array, linspace
-    >>> points_on_line(array([5., 5.]),
-    ...                array([1., 0.]),
-    ...                linspace(-4, 4, 5)) # 2D, 5 points
-    array([[1., 5.],
-           [3., 5.],
-           [5., 5.],
-           [7., 5.],
-           [9., 5.]])
-    >>> points_on_line(array([-2, 0, 0., 2]),
-    ...                array([0., 0, -1, 0]),
-    ...                array([10, -10])) # 4D, 2 points
-    array([[ -2.,   0., -10.,   2.],
-           [ -2.,   0.,  10.,   2.]])
+        >>> from clugen import points_on_line
+        >>> from numpy import array, linspace
+        >>> points_on_line(array([5., 5.]),
+        ...                array([1., 0.]),
+        ...                linspace(-4, 4, 5)) # 2D, 5 points
+        array([[1., 5.],
+               [3., 5.],
+               [5., 5.],
+               [7., 5.],
+               [9., 5.]])
+        >>> points_on_line(array([-2, 0, 0., 2]),
+        ...                array([0., 0, -1, 0]),
+        ...                array([10, -10])) # 4D, 2 points
+        array([[ -2.,   0., -10.,   2.],
+               [ -2.,   0.,  10.,   2.]])
 
     Args:
-      center: Center of the line ( \(n\)-component vector).
-      direction: Line direction ( \(n\)-component unit vector).
+      center: Center of the line ( $n$-component vector).
+      direction: Line direction ( $n$-component unit vector).
       dist_center: Distance of each point to the center of the line
-        ( \(p\)-component vector, where \(p\) is the number of points).
+        ( $p$-component vector, where $p$ is the number of points).
 
     Returns:
-      Coordinates of points on the specified line ( \(p \times n\) matrix).
+      Coordinates of points on the specified line ( $p \times n$ matrix).
     """
     return center.reshape(1, -1) + dist_center.reshape(-1, 1) @ direction.reshape(
         (1, -1)
@@ -75,25 +75,25 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
 
     ## Examples
 
-    >>> from clugen import rand_ortho_vector
-    >>> from numpy import isclose, dot
-    >>> from numpy.linalg import norm
-    >>> from numpy.random import Generator, PCG64
-    >>> rng = Generator(PCG64(123))
-    >>> r = rng.random(3) # Get a random vector with 3 components (3D)
-    >>> r = r / norm(r) # Normalize it
-    >>> r_ort = rand_ortho_vector(r, rng=rng) # Get random unit vector orthogonal to r
-    >>> r_ort
-    array([-0.1982903 , -0.61401512,  0.76398062])
-    >>> isclose(dot(r, r_ort), 0) # Check that vectors are indeed orthogonal
-    True
+        >>> from clugen import rand_ortho_vector
+        >>> from numpy import isclose, dot
+        >>> from numpy.linalg import norm
+        >>> from numpy.random import Generator, PCG64
+        >>> rng = Generator(PCG64(123))
+        >>> r = rng.random(3) # Get a random vector with 3 components (3D)
+        >>> r = r / norm(r) # Normalize it
+        >>> r_ort = rand_ortho_vector(r, rng=rng) # Get random unit vector orthogonal to r
+        >>> r_ort
+        array([-0.1982903 , -0.61401512,  0.76398062])
+        >>> isclose(dot(r, r_ort), 0) # Check that vectors are indeed orthogonal
+        True
 
     Args:
-      u: Unit vector with \(n\) components.
+      u: Unit vector with $n$ components.
       rng: Optional pseudo-random number generator.
 
     Returns:
-      A random unit vector with \(n\) components orthogonal to `u`.
+      A random unit vector with $n$ components orthogonal to `u`.
     """
     # If 1D, just return a random unit vector
     if u.size == 1:
@@ -124,15 +124,15 @@ def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
 
     ## Examples:
 
-    >>> from clugen import rand_unit_vector
-    >>> rand_unit_vector(4) # doctest: +SKIP
-    array([ 0.48653889,  0.50753862,  0.05711487, -0.70881757])
+        >>> from clugen import rand_unit_vector
+        >>> rand_unit_vector(4) # doctest: +SKIP
+        array([ 0.48653889,  0.50753862,  0.05711487, -0.70881757])
 
-    >>> from clugen import rand_unit_vector
-    >>> from numpy.random import Generator, PCG64
-    >>> rng = Generator(PCG64(123))
-    >>> rand_unit_vector(2, rng=rng) # Reproducible
-    array([ 0.3783202 , -0.92567479])
+        >>> from clugen import rand_unit_vector
+        >>> from numpy.random import Generator, PCG64
+        >>> rng = Generator(PCG64(123))
+        >>> rand_unit_vector(2, rng=rng) # Reproducible
+        array([ 0.3783202 , -0.92567479])
 
     Args:
       num_dims: Number of components in vector (i.e. vector size).
@@ -155,26 +155,26 @@ def rand_vector_at_angle(
 
     ## Examples:
 
-    >>> from clugen import rand_vector_at_angle
-    >>> from numpy import arccos, array, degrees, pi, dot
-    >>> from numpy.linalg import norm
-    >>> from numpy.random import Generator, PCG64
-    >>> rng = Generator(PCG64(123))
-    >>> u = array([ 1.0, 0, 0.5, -0.5 ]) # Define a 4D vector
-    >>> u = u / norm(u) # Normalize the vector
-    >>> v = rand_vector_at_angle(u, pi/4, rng=rng) # Get a vector at 45 degrees
-    >>> v
-    array([ 0.633066  , -0.50953554, -0.10693823, -0.57285705])
-    >>> degrees(arccos(dot(u, v) / norm(u) * norm(v))) # Angle between u and v
-    45.0
+        >>> from clugen import rand_vector_at_angle
+        >>> from numpy import arccos, array, degrees, pi, dot
+        >>> from numpy.linalg import norm
+        >>> from numpy.random import Generator, PCG64
+        >>> rng = Generator(PCG64(123))
+        >>> u = array([ 1.0, 0, 0.5, -0.5 ]) # Define a 4D vector
+        >>> u = u / norm(u) # Normalize the vector
+        >>> v = rand_vector_at_angle(u, pi/4, rng=rng) # Get a vector at 45 degrees
+        >>> v
+        array([ 0.633066  , -0.50953554, -0.10693823, -0.57285705])
+        >>> degrees(arccos(dot(u, v) / norm(u) * norm(v))) # Angle between u and v
+        45.0
 
     Args:
-      u: Unit vector with \(n\) components.
+      u: Unit vector with $n$ components.
       angle: Angle in radians.
       rng: Optional pseudo-random number generator.
 
     Returns:
-      Random unit vector with \(n\) components which is at `angle` radians
+      Random unit vector with $n$ components which is at `angle` radians
       with vector `u`.
     """
     if isclose(abs(angle), pi / 2) and u.size > 1:
