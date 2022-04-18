@@ -24,7 +24,8 @@ from .shared import _default_rng
 
 
 class Clusters(NamedTuple):
-    r"""Read-only container class for the results returned by `clugen()`.
+    r"""Read-only container class for the results returned by
+    [`clugen()`][clugen.main.clugen].
 
     The symbols presented in the instances variable below have the following
     meanings:
@@ -111,12 +112,12 @@ def clugen(
 
     ![clugen](https://user-images.githubusercontent.com/3018963/151056890-c83c9509-b40d-4ab2-a842-f2a4706344c6.png)
 
+    .. note::
+       The description below the terms "average" and "dispersion" refer to
+       measures of central tendency and statistical dispersion, respectively.
+       Their exact meaning depends on several optional arguments.
+
     Args:
-      .. note::
-         The description below the terms "average" and "dispersion" refer to
-         measures of central tendency and statistical dispersion, respectively.
-         Their exact meaning depends on several optional arguments.
-      .. hint:: The following parameters are mandatory.
       num_dims: Number of dimensions.
       num_clusters: Number of clusters to generate.
       num_points: Total number of points to generate.
@@ -129,7 +130,6 @@ def clugen(
       llength_disp: Length dispersion of cluster-supporting lines.
       lateral_disp: Cluster lateral dispersion, i.e., dispersion of points from their
         projection on the cluster-supporting line.
-      .. hint:: The following parameters are optional.
       allow_empty: Allow empty clusters? `False` by default.
       cluster_offset: Offset to add to all cluster centers (vector of size `num_dims`).
         By default the offset will be equal to `numpy.zeros(num_dims)`.
@@ -152,39 +152,43 @@ def clugen(
         - `"n-1"` (default): Final points are placed on a hyperplane orthogonal to
           the cluster-supporting line, centered at each point's projection, using the
           normal distribution (μ=0, σ=`lateral_disp`). This is done by the
-          `clugen.clupoints_n_1()` function.
+          [`clupoints_n_1()`][clugen.module.clupoints_n_1] function.
         - `"n"`: Final points are placed around their projection on the
           cluster-supporting line using the normal distribution (μ=0,
-          σ=`lateral_disp`). This is done by the `clugen.clupoints_n()` function.
-        - User-defined function: The user can specify a custom point placement strategy
-          by passing a function with the same signature as `clugen.clupoints_n_1()` and
-          `clugen.clupoints_n()`.
+          σ=`lateral_disp`). This is done by the
+          [`clupoints_n()`][clugen.module.clupoints_n] function.
+        - User-defined function: The user can specify a custom point placement
+          strategy by passing a function with the same signature as
+          [`clupoints_n_1()`][clugen.module.clupoints_n_1] and
+          [`clupoints_n()`][clugen.module.clupoints_n].
 
       clusizes_fn: Distribution of cluster sizes. By default, cluster sizes are
-        determined by the `clugen.clusizes()` function, which uses the normal
-        distribution (μ=`num_points`/`num_clusters`, σ=μ/3), and assures that the
-        final cluster sizes add up to `num_points`. This parameter allows the user
-        to specify a custom function for this purpose, which must follow
-        `clugen.clusizes()` signature. Note that custom functions are not required
-        to strictly obey the `num_points` parameter.
-      clucenters_fn: Distribution of cluster centers. By default, cluster centers
-        are determined by the `clugen.clucenters()` function, which uses the uniform
-        distribution, and takes into account the `num_clusters` and `cluster_sep`
-        parameters for generating well-distributed cluster centers. This parameter
+        determined by the [`clusizes()`][clugen.module.clusizes] function, which
+        uses the normal distribution (μ=`num_points`/`num_clusters`, σ=μ/3), and
+        assures that the final cluster sizes add up to `num_points`. This parameter
         allows the user to specify a custom function for this purpose, which must
-        follow `clugen.clucenters()` signature.
-      llengths_fn: Distribution of line lengths. By default, the lengths of
-        cluster-supporting lines are determined by the `clugen.llengths()` function,
-        which uses the folded normal distribution (μ=`llength`, σ=`llength_disp`).
+        follow [`clusizes()`][clugen.module.clusizes] signature. Note that custom
+        functions are not required to strictly obey the `num_points` parameter.
+      clucenters_fn: Distribution of cluster centers. By default, cluster centers
+        are determined by the [`clucenters()`][clugen.module.clucenters] function,
+        which uses the uniform distribution, and takes into account the `num_clusters`
+        and `cluster_sep` parameters for generating well-distributed cluster centers.
         This parameter allows the user to specify a custom function for this purpose,
-        which must follow `clugen.llengths()` signature.
+        which must follow [`clucenters()`][clugen.module.clucenters] signature.
+      llengths_fn: Distribution of line lengths. By default, the lengths of
+        cluster-supporting lines are determined by the
+        [`llengths()`][clugen.module.llengths] function, which uses the folded
+        normal distribution (μ=`llength`, σ=`llength_disp`). This parameter allows
+        the user to specify a custom function for this purpose, which must follow
+        [`llengths()`][clugen.module.llengths] signature.
       angle_deltas_fn: Distribution of line angle differences with respect to
         `direction`. By default, the angles between `direction` and the direction of
-        cluster-supporting lines are determined by the `clugen.angle_deltas()`
-        function, which uses the wrapped normal distribution (μ=0, σ=`angle_disp`)
-        with support in the interval [-π/2, π/2]. This parameter allows the user to
-        specify a custom function for this purpose, which must follow
-        `clugen.angle_deltas()` signature.
+        cluster-supporting lines are determined by the
+        [`angle_deltas()`][clugen.module.angle_deltas] function, which uses the
+        wrapped normal distribution (μ=0, σ=`angle_disp`) with support in the interval
+        [-π/2, π/2]. This parameter allows the user to specify a custom function for
+        this purpose, which must follow [`angle_deltas()`][clugen.module.angle_deltas]
+        signature.
       rng: An optional instance of
         [`Generator`](https://numpy.org/doc/stable/reference/random/generator.html?highlight=generator#numpy.random.Generator)
         for reproducible executions.
