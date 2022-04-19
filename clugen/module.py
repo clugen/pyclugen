@@ -131,9 +131,9 @@ def clupoints_n_1(
         >>> from numpy import array, linspace
         >>> from numpy.random import Generator, PCG64
         >>> prng = Generator(PCG64(123))
-        >>> projs = points_on_line(array([5,5]),
-        ...                        array([1,0]),
-        ...                        linspace(-4,4,5)) # Get 5 point projections on a 2D line
+        >>> projs = points_on_line(array([5,5]),     # Get 5 point projections
+        ...                        array([1,0]),     # on a 2D line
+        ...                        linspace(-4,4,5))
         >>> projs
         array([[1., 5.],
                [3., 5.],
@@ -191,9 +191,9 @@ def clupoints_n(
         >>> from numpy import array, linspace
         >>> from numpy.random import Generator, PCG64
         >>> prng = Generator(PCG64(123))
-        >>> projs = points_on_line(array([5,5]),
-        ...                        array([1,0]),
-        ...                        linspace(-4,4,5)) # Get 5 point projections on a 2D line
+        >>> projs = points_on_line(array([5,5]),     # Get 5 point projections
+        ...                        array([1,0]),     # on a 2D line
+        ...                        linspace(-4,4,5))
         >>> projs
         array([[1., 5.],
                [3., 5.],

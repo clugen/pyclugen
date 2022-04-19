@@ -24,8 +24,7 @@ from .shared import _default_rng
 
 
 class Clusters(NamedTuple):
-    r"""Read-only container class for the results returned by
-    [`clugen()`][clugen.main.clugen].
+    r"""Read-only container for results returned by [`clugen()`][clugen.main.clugen].
 
     The symbols presented in the instances variable below have the following
     meanings:

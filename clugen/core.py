@@ -82,7 +82,7 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
         >>> rng = Generator(PCG64(123))
         >>> r = rng.random(3) # Get a random vector with 3 components (3D)
         >>> r = r / norm(r) # Normalize it
-        >>> r_ort = rand_ortho_vector(r, rng=rng) # Get random unit vector orthogonal to r
+        >>> r_ort = rand_ortho_vector(r, rng=rng) # Get random unit vector orth. to r
         >>> r_ort
         array([-0.1982903 , -0.61401512,  0.76398062])
         >>> isclose(dot(r, r_ort), 0) # Check that vectors are indeed orthogonal
