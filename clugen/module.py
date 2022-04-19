@@ -24,8 +24,7 @@ def angle_deltas(
     wrapped normal distribution, the support of which is given by the interval
     $\left[-\pi,\pi\right]$.
 
-    ## Examples:
-
+    Examples:
         >>> from clugen import angle_deltas
         >>> from numpy import degrees, pi
         >>> from numpy.random import Generator, PCG64
@@ -80,8 +79,7 @@ def clucenters(
     uniform distribution between -0.5 and 0.5, and $\mathbf{1}$ is an $c \times
     1$ vector with all entries equal to 1.
 
-    ## Examples
-
+    Examples:
         >>> from clugen import clucenters
         >>> from numpy import array
         >>> from numpy.random import Generator, PCG64
@@ -125,8 +123,7 @@ def clupoints_n_1(
     function, generating the final points when the `point_dist_fn` parameter is
     set to `"n-1"`.
 
-    ## Examples:
-
+    Examples:
         >>> from clugen import clupoints_n_1, points_on_line
         >>> from numpy import array, linspace
         >>> from numpy.random import Generator, PCG64
@@ -185,8 +182,7 @@ def clupoints_n(
     function, generating the final points when the `point_dist_fn` parameter is
     set to `"n"`.
 
-    ## Examples:
-
+    Examples:
         >>> from clugen import clupoints_n, points_on_line
         >>> from numpy import array, linspace
         >>> from numpy.random import Generator, PCG64
@@ -247,8 +243,7 @@ def clusizes(
     assuring that the final cluster sizes add up to `num_points` via the
     [`fix_num_points()`][clugen.helper.fix_num_points] function.
 
-    ## Examples:
-
+    Examples:
         >>> from numpy.random import Generator, PCG64
         >>> from clugen import clusizes
         >>> prng = Generator(PCG64(123))
@@ -310,8 +305,7 @@ def llengths(
     Line lengths are determined using the folded normal distribution (
     $\mu=$`llength`, $\sigma=$`llength_disp`).
 
-    ## Examples
-
+    Examples:
         >>> from numpy.random import Generator, MT19937
         >>> from clugen import llengths
         >>> prng = Generator(MT19937(123))

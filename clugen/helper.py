@@ -32,8 +32,7 @@ def angle_btw(v1: NDArray, v2: NDArray) -> float:
     [these notes](https://people.eecs.berkeley.edu/~wkahan/MathH110/Cross.pdf)
     (see page 15).
 
-    ## Examples:
-
+    Examples:
         >>> from numpy import array, degrees
         >>> from clugen import angle_btw
         >>> v1 = array([1.0, 1.0, 1.0, 1.0])
@@ -81,8 +80,7 @@ def clupoints_n_1_template(
     and may be useful for constructing user-defined final point placement strategies for
     the `point_dist_fn` parameter of the main [`clugen()`][clugen.main.clugen] function.
 
-    ## Examples:
-
+    Examples:
         >>> from numpy import array, zeros
         >>> from numpy.random import Generator, PCG64
         >>> from clugen import clupoints_n_1_template, points_on_line
@@ -151,8 +149,7 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
 
     Note that the array is changed in-place.
 
-    ## Examples:
-
+    Examples:
         >>> from numpy import array
         >>> from clugen import fix_empty
         >>> clusters = array([3, 4, 5, 0, 0])
@@ -204,8 +201,7 @@ def fix_num_points(clu_num_points: NDArray, num_points: int) -> NDArray:
     and might be useful for custom cluster sizing implementations given as the
     `clusizes_fn` parameter of the main [`clugen()`][clugen.main.clugen] function.
 
-    ## Examples:
-
+    Examples:
         >>> from numpy import array
         >>> from clugen import fix_num_points
         >>> clusters = array([1, 6, 3])  # 10 total points

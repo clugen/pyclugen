@@ -36,8 +36,7 @@ def points_on_line(
     where $\mathbf{P}$ is the $p \times n$ matrix of point coordinates on the
     line, and $\mathbf{1}$ is a $p \times 1$ vector with all entries equal to 1.
 
-    ## Examples:
-
+    Examples:
         >>> from clugen import points_on_line
         >>> from numpy import array, linspace
         >>> points_on_line(array([5., 5.]),
@@ -73,8 +72,7 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
 
     Note that `u` is expected to be a unit vector itself.
 
-    ## Examples
-
+    Examples:
         >>> from clugen import rand_ortho_vector
         >>> from numpy import isclose, dot
         >>> from numpy.linalg import norm
@@ -122,8 +120,7 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
 def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
     r"""Get a random unit vector with `num_dims` components.
 
-    ## Examples:
-
+    Examples:
         >>> from clugen import rand_unit_vector
         >>> rand_unit_vector(4) # doctest: +SKIP
         array([ 0.48653889,  0.50753862,  0.05711487, -0.70881757])
@@ -153,8 +150,7 @@ def rand_vector_at_angle(
 
     Note that `u` is expected to be a unit vector itself.
 
-    ## Examples:
-
+    Examples:
         >>> from clugen import rand_vector_at_angle
         >>> from numpy import arccos, array, degrees, pi, dot
         >>> from numpy.linalg import norm
