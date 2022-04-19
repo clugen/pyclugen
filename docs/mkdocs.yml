@@ -12,6 +12,8 @@ theme:
   favicon: https://raw.githubusercontent.com/clugen/.github/main/logos/favicon.ico
   icon:
     repo: fontawesome/brands/github
+  palette:
+    accent: deep orange
   features:
   - navigation.instant
   - navigation.expand
