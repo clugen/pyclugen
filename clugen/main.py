@@ -87,8 +87,8 @@ def clugen(
     """Generate multidimensional clusters.
 
     !!! tip
-        This is the main function of the CluGen package, and possibly the only
-        function most users will need.
+        This is the main function of the **pyclugen** package, and possibly the
+        only function most users will need.
 
     ## Examples:
 
