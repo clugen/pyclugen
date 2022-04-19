@@ -257,6 +257,7 @@ def clusizes(
       num_clusters: Number of clusters.
       num_points: Total number of points.
       allow_empty: Allow empty clusters?
+      rng: Optional pseudo-random number generator.
 
     Returns:
       Number of points in each cluster (vector of size `num_clusters`).
@@ -316,6 +317,7 @@ def llengths(
       num_clusters: Number of clusters.
       llength: Average line length.
       llength_disp: Line length dispersion.
+      rng: Optional pseudo-random number generator.
 
     Returns:
       Lengths of cluster-supporting lines (vector of size `num_clusters`).
