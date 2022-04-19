@@ -61,16 +61,16 @@ parameter influences the end result.
 
 ### Algorithm parameters
 
-The _clugen_ algorithm (and consequently, the `clugen()` function) has mandatory
-and optional parameters, listed and described in the tables below. The optional
-parameters are set to sensible defaults, and in many situations may be left
-unchanged. Nonetheless, these allow all of the algorithm's steps to be fully
-customized by the user.
+The _clugen_ algorithm (and consequently, the [`clugen()`][clugen.main.clugen]
+function) has mandatory and optional parameters, listed and described in the tables
+below. The optional parameters are set to sensible defaults, and in many situations
+may be left unchanged. Nonetheless, these allow all of the algorithm's steps to be
+fully customized by the user.
 
 #### Mandatory parameters
 
-| Symbol           | Parameter         | Description                                                      |
-|:---------------- |:----------------- |:---------------------------------------------------------------- |
+| Symbol         | Parameter         | Description                                                      |
+|:-------------- |:----------------- |:---------------------------------------------------------------- |
 | $n$            | `num_dims`        | Number of dimensions.                                            |
 | $c$            | `num_clusters`    | Number of clusters.                                              |
 | $p$            | `num_points`      | Total number of points to generate.                              |
@@ -83,16 +83,16 @@ customized by the user.
 
 #### Optional parameters
 
-| Symbol              | Parameter         | Default value   | Description                                                       |
-|:------------------- |:----------------- | :-------------- | :---------------------------------------------------------------- |
-| $\phi$            | `allow_empty`     | `FALSE`           | Allow empty clusters?                                             |
-| $\mathbf{o}$      | `cluster_offset`  | `vector(mode = "integer", length = num_dims)` | Offset to add to all cluster centers ($n \times 1$). |
-| $p_\text{proj}()$ | `proj_dist_fn`    | `"norm"`          | Distribution of point projections along cluster-supporting lines. |
-| $p_\text{final}()$| `point_dist_fn`   | `"n-1"`           | Distribution of final points from their projections.              |
-| $c_s()$           | `clusizes_fn`     | `clusizes()`      | Distribution of cluster sizes.                                    |
-| $c_c()$           | `clucenters_fn`   | `clucenters()`    | Distribution of cluster centers.                                  |
-| $l()$             | `llengths_fn`     | `llengths()`      | Distribution of line lengths.                                     |
-| $\theta_\Delta()$ | `angle_deltas_fn` | `angle_deltas()`  | Distribution of line angle deltas (w.r.t. $\mathbf{d}$).          |
+| Symbol              | Parameter       | Default value   | Description                                                       |
+|:------------------- |:--------------- | :-------------- | :---------------------------------------------------------------- |
+| $\phi$            | `allow_empty`     | `False`         | Allow empty clusters?                                             |
+| $\mathbf{o}$      | `cluster_offset`  | [`zeros(num_dims)`][numpy.zeros]               | Offset to add to all cluster centers ($n \times 1$).     |
+| $p_\text{proj}()$ | `proj_dist_fn`    | `"norm"`        | Distribution of point projections along cluster-supporting lines. |
+| $p_\text{final}()$| `point_dist_fn`   | `"n-1"`         | Distribution of final points from their projections.              |
+| $c_s()$           | `clusizes_fn`     | [`clusizes()`][clugen.module.clusizes]         | Distribution of cluster sizes.                           |
+| $c_c()$           | `clucenters_fn`   | [`clucenters()`][clugen.module.clucenters]     | Distribution of cluster centers.                         |
+| $l()$             | `llengths_fn`     | [`llengths()`][clugen.module.llengths]         | Distribution of line lengths.                            |
+| $\theta_\Delta()$ | `angle_deltas_fn` | [`angle_deltas()`][clugen.module.angle_deltas] | Distribution of line angle deltas (w.r.t. $\mathbf{d}$). |
 
 ### The algorithm in detail
 
@@ -122,8 +122,9 @@ points, and $\phi$ is a boolean which determines whether empty clusters are
 acceptable.
 
 The $c_s()$ function is an optional parameter, allowing users to customize its
-behavior. By default, $c_s()$ is implemented by the `clusizes()` function,
-which behaves according to the following algorithm:
+behavior. By default, $c_s()$ is implemented by the
+[`clusizes()`][clugen.module.clusizes] function, which behaves according to the
+following algorithm:
 
 1. Determine the size $p_i$ of each cluster $i$ according to
    $p_i\sim\left\lfloor\max\left(\mathcal{N}(\frac{p}{c}, (\frac{p}{3c})^2),0\right)\right\rceil$,
@@ -133,23 +134,26 @@ which behaves according to the following algorithm:
 2. Assure that the final cluster sizes add up to $p$ by incrementing the smallest
    cluster size while $\sum_{i=1}^c p_i<p$ or decrementing the largest cluster
    size while $\sum_{i=1}^c p_i>p$. This step is delegated to the
-   `fix_num_points()` helper function.
+   [`fix_num_points()`][clugen.helper.fix_num_points] helper function.
 3. If $\neg\phi\wedge p\ge c$ then, for each empty cluster $i$ (i.e.,
    $p_i=0$), increment $p_i$ and decrement $p_j$, where $j$ denotes the
-   largest cluster. This step is delegated to the `fix_empty()` helper function.
+   largest cluster. This step is delegated to the
+   [`fix_empty()`][clugen.helper.fix_empty] helper function.
 
 Figure 2 demonstrates possible cluster sizes with various definitions of $c_s()$
-for $c=4$ and $p=5000$. The default behavior, implemented in the `clusizes()`
-function, is shown in Figure 2a, while Figures 2b-d present results obtained
-with custom user functions. Figure 2b displays cluster sizes obtained with the
-discrete uniform distribution over $\left\{1, 2, \ldots, \frac{2p}{c}\right\}$,
-corrected with `fix_num_points()`. In turn, Figure 2c highlights cluster sizes
-obtained with the Poisson distribution with $\lambda=\frac{p}{c}$, also corrected
-with `fix_num_points()`. The cluster sizes shown in Figure 2d were determined
-with the same distribution (Poisson, $\lambda=\frac{p}{c}$), but were not
-corrected. Thus, cluster sizes do not add up to $p$, highlighting the fact that
-this is not a requirement of the *clugen* algorithm, i.e., user-defined  $c_s()$
-implementations can consider $p$ a hint rather than an obligation.
+for $c=4$ and $p=5000$. The default behavior, implemented in the
+[`clusizes()`][clugen.module.clusizes] function, is shown in Figure 2a, while
+Figures 2b-d present results obtained with custom user functions. Figure 2b
+displays cluster sizes obtained with the discrete uniform distribution over
+$\left\{1, 2, \ldots, \frac{2p}{c}\right\}$, corrected with
+[`fix_num_points()`][clugen.helper.fix_num_points]. In turn, Figure 2c highlights
+cluster sizes obtained with the Poisson distribution with $\lambda=\frac{p}{c}$,
+also corrected with [`fix_num_points()`][clugen.helper.fix_num_points]. The cluster
+sizes shown in Figure 2d were determined with the same distribution (Poisson,
+$\lambda=\frac{p}{c}$), but were not corrected. Thus, cluster sizes do not add up
+to $p$, highlighting the fact that this is not a requirement of the *clugen*
+algorithm, i.e., user-defined  $c_s()$ implementations can consider $p$ a hint
+rather than an obligation.
 
 ![**Figure 2** - Possible cluster sizes with various definitions of $c_s()$ for
 $c=4$ and $p=5000$.](https://raw.githubusercontent.com/clugen/.github/main/images/clusizes.png)
@@ -168,8 +172,9 @@ separation ($n \times 1$ vector), and $\mathbf{o}$ is an $n \times 1$ vector
 of cluster offsets.
 
 The $c_c()$ function is an optional parameter, allowing users to customize its
-behavior. By default, $c_c()$ is implemented by the `clucenters()` function,
-which determines the cluster centers according to:
+behavior. By default, $c_c()$ is implemented by the
+[`clucenters()`][clugen.module.clucenters] function, which determines the cluster
+centers according to:
 
 $$
 \mathbf{C}=c\mathbf{U} \cdot \operatorname{diag}(\mathbf{s}) + \mathbf{1}\,\mathbf{o}^T
@@ -181,13 +186,15 @@ vector with all entries equal to 1.
 
 Figure 3 shows scatters plots of the results generated by *clugen* for two
 different implementations of the $c_c()$ function, namely using the uniform the
-distribution (the default, implemented by the `clucenters()` function, Figure
-3a), and direct specification of cluster centers (Figure 3b).
+distribution (the default, implemented by the
+[`clucenters()`][clugen.module.clucenters] function, Figure 3a), and direct
+specification of cluster centers (Figure 3b).
 
 ![**Figure 3** - The output of *clugen* for two different implementations of the
 $c_c()$ function for finding cluster centers: a) the default, using the uniform
 distribution; b) hand-picked centers. All parameters are the same as in Figure 1,
-except for $p$, which is set to 5000.](https://raw.githubusercontent.com/clugen/.github/main/images/clucenters.png)
+except for $p$, which is set to
+5000.](https://raw.githubusercontent.com/clugen/.github/main/images/clucenters.png)
 
 #### 4. Determine lengths of cluster-supporting lines
 
@@ -203,8 +210,9 @@ the cluster-supporting lines, $c$ is the number of clusters, $l$ is the average
 length, and $l_\sigma$ is the length dispersion.
 
 The $l()$ function is an optional parameter, allowing users to customize its
-behavior. By default, $l()$ is implemented by the `llengths()` function, which
-determines the $\ell_i$ length of each cluster-supporting line $i$ according to:
+behavior. By default, $l()$ is implemented by the
+[`llengths()`][clugen.module.llengths] function, which determines the $\ell_i$
+length of each cluster-supporting line $i$ according to:
 
 $$
 \ell_i\sim\left|\mathcal{N}(l,l_\sigma^2)\right|
@@ -239,9 +247,9 @@ is the number of clusters, and $\theta_\sigma$ is the angle dispersion.
 
 The $\theta_\Delta()$ function is an optional parameter, allowing users to
 customize its behavior. By default, $\theta_\Delta()$ is implemented by the
-`angle_deltas()` function, which determines the $\theta_{\Delta i}$ angle
-difference between $\mathbf{d}$ and the $i$-th  cluster-supporting line
-according to:
+[`angle_deltas()`][clugen.module.angle_deltas] function, which determines the
+$\theta_{\Delta i}$ angle difference between $\mathbf{d}$ and the $i$-th
+cluster-supporting line according to:
 
 $$
 \theta_{\Delta i}\sim\mathcal{WN}_{-\pi/2}^{\pi/2}(0,\theta_\sigma^2)
@@ -273,30 +281,39 @@ supporting line, the following algorithm is used:
 * **1.** Find random vector $\mathbf{r}$ with each component taken from the
   uniform distribution between -0.5 and 0.5.
 * **2.** Normalize $\mathbf{r}$:
-  $$
-  \hat{\mathbf{r}}=\cfrac{\mathbf{r}}{\left\lVert\mathbf{r}\right\rVert}
-  $$
+
+$$
+\hat{\mathbf{r}}=\cfrac{\mathbf{r}}{\left\lVert\mathbf{r}\right\rVert}
+$$
+
 * **3.** If $|\theta_{\Delta i}| > \pi/2$ or $n=1$, set
   $\hat{\mathbf{d}}_i=\hat{\mathbf{r}}$ and terminate the algorithm.
 * **4.** If $\hat{\mathbf{r}}$ is parallel to $\hat{\mathbf{d}}$ go to **1**.
 * **5.** Determine vector $\mathbf{d}_\perp$ orthogonal to $\hat{\mathbf{d}}$
   using the first iteration of the Gram-Schmidt process:
-  $$
-  \mathbf{d}_\perp=\hat{\mathbf{r}}-\cfrac{\hat{\mathbf{d}}\cdot\hat{\mathbf{r}}}{\hat{\mathbf{d}}\cdot\hat{\mathbf{d}}}\:\hat{\mathbf{d}}
-  $$
+
+$$
+\mathbf{d}_\perp=\hat{\mathbf{r}}-\cfrac{\hat{\mathbf{d}}\cdot\hat{\mathbf{r}}}{\hat{\mathbf{d}}\cdot\hat{\mathbf{d}}}\:\hat{\mathbf{d}}
+$$
+
 * **6.** Normalize $\mathbf{d}_\perp$:
-  $$
-  \hat{\mathbf{d}}_\perp=\cfrac{\mathbf{d}_\perp}{\left\lVert\mathbf{d}_\perp\right\rVert}
-  $$
+
+$$
+\hat{\mathbf{d}}_\perp=\cfrac{\mathbf{d}_\perp}{\left\lVert\mathbf{d}_\perp\right\rVert}
+$$
+
 * **7.** Determine vector $\mathbf{d}_i$ at angle $\theta_{\Delta i}$ with
   $\hat{\mathbf{d}}$:
-  $$
-  \mathbf{d}_i=\hat{\mathbf{d}}+\tan(\theta_{\Delta i})\hat{\mathbf{d}}_\perp
-  $$
+
+$$
+\mathbf{d}_i=\hat{\mathbf{d}}+\tan(\theta_{\Delta i})\hat{\mathbf{d}}_\perp
+$$
+
 * **8.** Normalize $\mathbf{d}_i$:
-  $$
-  \hat{\mathbf{d}}_i=\cfrac{\mathbf{d}_i}{\left\lVert\mathbf{d}_i\right\rVert}
-  $$
+
+$$
+\hat{\mathbf{d}}_i=\cfrac{\mathbf{d}_i}{\left\lVert\mathbf{d}_i\right\rVert}
+$$
 
 ##### 6.2. Determine distance of point projections from the center of the cluster-supporting line
 
@@ -312,9 +329,10 @@ each point projection to the center of the line, while $\ell_i$ and $p_i$ are
 the line length and number of points in cluster $i$, respectively.
 
 The $p_\text{proj}()$ function is an optional parameter, allowing users to
-customize its behavior. `clugenr` provides two concrete implementations out of
-the box, specified by passing `"norm"` or `"unif"` to  `clugen()`'s
-`proj_dist_fn` parameter. These work as follows:
+customize its behavior. `pyclugen` provides two concrete implementations out of
+the box, specified by passing `"norm"` or `"unif"` to
+[`clugen()`][clugen.main.clugen]'s `proj_dist_fn` parameter. These work as
+follows:
 
 * `"norm"` (default) - Each element of $\mathbf{w}_i$ is derived from
   $\mathcal{N}(0, (\frac{\ell_i}{6})^2)$, i.e., from the normal distribution,
@@ -346,8 +364,9 @@ is set to 5000.](https://raw.githubusercontent.com/clugen/.github/main/images/pr
 
 ##### 6.3. Determine coordinates of point projections on the cluster-supporting line
 
-This is a deterministic step performed by the `points_on_line()` function using
-the vector formulation of the line equation, as follows:
+This is a deterministic step performed by the
+[`points_on_line()`][clugen.core.points_on_line] function using the vector
+formulation of the line equation, as follows:
 
 $$
 \mathbf{P}_i^\text{proj}=\mathbf{1}\,\mathbf{c}_i^T + \mathbf{w}_i\hat{\mathbf{d}}_i^T
@@ -378,9 +397,9 @@ $\hat{\mathbf{d}}_i$ and $\mathbf{c}_i$ are the length, direction and center
 of the cluster-supporting line.
 
 The $p_\text{final}()$ function is an optional parameter, allowing users to
-customize its behavior. `clugenr` provides two concrete implementations out of
-the box, specified by passing `"n-1"` or `"n"` to `clugen()`'s `point_dist_fn`
-parameter. These work as follows:
+customize its behavior. `pyclugen` provides two concrete implementations out of
+the box, specified by passing `"n-1"` or `"n"` to [`clugen()`][clugen.main.clugen]'s
+`point_dist_fn` parameter. These work as follows:
 
 * `"n-1"` (default) - Points are placed on a hyperplane orthogonal to the
   cluster-supporting line and intersecting the point's projection. This is done
@@ -388,13 +407,14 @@ parameter. These work as follows:
   and determining their magnitude using the normal distribution
   ($\mu=0$, $\sigma=f_\sigma$). These vectors are then added to the respective
   projections on the cluster-supporting line, yielding the final cluster points.
-  This behavior is implemented in the `clupoints_n_1()` function.
+  This behavior is implemented in the [`clupoints_n_1()`][clugen.module.clupoints_n_1]
+  function.
 * `"n"` - Points are placed around their respective projections. This is done by
   obtaining $p_i$ random unit vectors, and determining their magnitude using
   the normal distribution ($\mu=0$, $\sigma=f_\sigma$). These vectors are
   then added to the respective projections on the cluster-supporting line,
   yielding the final cluster points. This behavior is implemented in the
-  `clupoints_n()` function.
+  [`clupoints_n()`][clugen.module.clupoints_n] function.
 
 Figure 7 highlights the differences between these two approaches in 2D, where a
 hyperplane is simply a line.
