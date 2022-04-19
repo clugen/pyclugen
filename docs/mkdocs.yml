@@ -4,6 +4,7 @@ repo_url: https://github.com/clugen/pyclugen
 edit_uri: https://github.com/clugen/pyclugen/edit/master/docs/docs/
 site_description: Documentation for the pyclugen cluster generation toolbox
 site_author: Nuno Fachada
+copyright: <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="CC-BY License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
 
 theme:
   name: "material"
@@ -60,6 +61,7 @@ markdown_extensions:
     generic: true
 - toc:
     toc_depth: 2
+    permalink: true
 
 extra_javascript:
 - javascripts/mathjax.js
