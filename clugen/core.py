@@ -175,7 +175,7 @@ def rand_vector_at_angle(
 
     Returns:
       Random unit vector with $n$ components which is at `angle` radians
-      with vector `u`.
+        with vector `u`.
     """
     if isclose(abs(angle), pi / 2) and u.size > 1:
         return rand_ortho_vector(u, rng=rng)

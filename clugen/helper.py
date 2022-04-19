@@ -168,7 +168,7 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
 
     Returns:
       Number of points in each cluster, after being fixed by this function (vector
-      of size $c$, which is the same reference than `clu_num_points`).
+        of size $c$, which is the same reference than `clu_num_points`).
     """
     # If the allow_empty parameter is set to true, don't do anything and return
     # immediately; this is useful for quick `clusizes_fn` one-liners
@@ -221,7 +221,7 @@ def fix_num_points(clu_num_points: NDArray, num_points: int) -> NDArray:
 
     Returns:
       Number of points in each cluster, after being fixed by this function (vector
-      of size $c$, which is the same reference than `clu_num_points`).
+        of size $c$, which is the same reference than `clu_num_points`).
     """
     while sum(clu_num_points) < num_points:
         imin = argmin(clu_num_points)

@@ -42,8 +42,8 @@ def angle_deltas(
       rng: Optional pseudo-random number generator.
 
     Returns:
-       Angles between the average cluster direction and the cluster-supporting
-       lines, given in radians in the interval $\left[-\pi/2,\pi/2\right]$.
+      Angles between the average cluster direction and the cluster-supporting
+        lines, given in radians in the interval $\left[-\pi/2,\pi/2\right]$.
     """
     # Get random angle differences using the normal distribution
     angles = angle_disp * rng.normal(size=num_clusters)

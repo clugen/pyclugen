@@ -193,7 +193,7 @@ def clugen(
         reproducible executions.
 
     Returns:
-        The generated clusters and associated information in the form of a
+      The generated clusters and associated information in the form of a
         [`Clusters`][clugen.main.Clusters] object.
     """
     # ############### #
