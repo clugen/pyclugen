@@ -13,12 +13,12 @@ theme:
   icon:
     repo: fontawesome/brands/github
   features:
-    - navigation.instant
-    - navigation.expand
-    - navigation.indexes
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - toc.integrate
+  - navigation.instant
+  - navigation.expand
+  - navigation.indexes
+  - navigation.tabs
+  - navigation.tabs.sticky
+  - toc.integrate
 
 plugins:
 - search
