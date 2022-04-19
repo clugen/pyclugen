@@ -1,6 +1,23 @@
 site_name: pyclugen documentation
+site_url: https://clugen.github.io/pyclugen
+repo_url: https://github.com/clugen/pyclugen
+edit_uri: https://github.com/clugen/pyclugen/edit/master/docs/docs/
+site_description: Documentation for the pyclugen cluster generation toolbox
+site_author: Nuno Fachada
+
 theme:
   name: "material"
+  logo: https://github.com/clugen/.github/blob/main/logos/apple-touch-icon-120x120.png?raw=true
+  favicon: https://raw.githubusercontent.com/clugen/.github/main/logos/favicon.ico
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.expand
+    - navigation.indexes
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - toc.integrate
 
 plugins:
 - search
@@ -25,7 +42,10 @@ plugins:
 
 nav:
 - Home: index.md
+- Theory: theory.md
+- Examples: examples.md
 - API: api.md
+- Development: dev.md
 
 markdown_extensions:
 - admonition
