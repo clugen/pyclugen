@@ -123,6 +123,7 @@ env_*
 
 # mkdocs documentation
 /site
+docs/docs/generated
 
 # mypy
 .mypy_cache/

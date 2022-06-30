@@ -24,6 +24,9 @@ theme:
 
 plugins:
 - search
+- gallery:
+    examples_dirs: docs/examples
+    gallery_dirs: docs/generated/gallery
 - mkdocstrings:
     default_handler: python
     handlers:
@@ -46,7 +49,7 @@ plugins:
 nav:
 - Home: index.md
 - Theory: theory.md
-- Examples: examples.md
+- Examples: generated/gallery
 - API: api.md
 - Development: dev.md
 
