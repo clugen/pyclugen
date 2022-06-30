@@ -18,3 +18,4 @@ repos:
         -   flake8-isort
         -   flake8-pytest-style
         -   flake8-simplify
+        exclude: docs
