@@ -29,6 +29,8 @@ plugins:
     examples_dirs: docs/examples
     gallery_dirs: docs/generated/gallery
     within_subsection_order: FileNameSortKey
+    run_stale_examples: true
+    reset_modules: []
 - mkdocstrings:
     default_handler: python
     handlers:

@@ -145,3 +145,6 @@ docs/build
 
 # VS Code
 .vscode/
+
+# Other stuff
+notebooks_test
