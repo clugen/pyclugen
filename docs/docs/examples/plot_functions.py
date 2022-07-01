@@ -88,7 +88,7 @@ def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
         col_wrap=ncols,
     )
 
-    g.map(sns.scatterplot, "x", "y")
+    g.map(sns.scatterplot, "x", "y", s=10)
 
     # Set the plot titles
     for ax, t in zip(g.axes, et):
