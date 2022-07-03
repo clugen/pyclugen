@@ -70,3 +70,52 @@ plt = plot_examples_3d(
     e43, "e43: angle_disp = 0",
     e44, "e44: angle_disp = π / 8",
     e45, "e45: custom angle_deltas function")
+
+
+#%%
+# ## Manipulating the length of cluster-supporting lines
+#
+# ### Using the `llength` parameter
+
+seed = 789
+
+#%%
+
+e46 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 0, 0, 0.5, rng=rng(seed),
+    point_dist_fn = "n")
+e47 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 10, 0, 0.5, rng=rng(seed),
+    point_dist_fn = "n")
+e48 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 30, 0, 0.5, rng=rng(seed),
+    point_dist_fn = "n")
+
+#%%
+
+plt = plot_examples_3d(
+    e46, "e46: llength = 0",
+    e47, "e47: llength = 10",
+    e48, "e48: llength = 30")
+
+#%%
+# ### Changing the `llength_disp` parameter and using a custom `llengths_fn` function
+
+seed = 789
+
+#%%
+
+# Custom llengths function: line lengths tend to grow for each new cluster
+def llen_grow_fn(nclu, llen, llenstd, rng):
+    return llen * np.arange(nclu) + rng.normal(scale=llenstd, size=nclu)
+
+e49 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 15,  0.0, 0.5, rng=rng(seed),
+    point_dist_fn = "n")
+e50 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 15, 10.0, 0.5, rng=rng(seed),
+    point_dist_fn = "n")
+e51 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 10,  0.1, 0.5, rng=rng(seed),
+    llengths_fn = llen_grow_fn, point_dist_fn = "n")
+
+#%%
+
+plt = plot_examples_3d(
+    e49, "e49: llength_disp = 0.0",
+    e50, "e50: llength_disp = 10.0",
+    e51, "e51: custom llengths function")
