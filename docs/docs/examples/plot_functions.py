@@ -6,10 +6,10 @@ Several auxiliary functions for plotting the examples in this documentation.
 #%%
 # ## Import the required libraries
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # type: ignore
 import numpy as np
 import pandas as pd
-import seaborn as sns
+import seaborn as sns # type: ignore
 
 from clugen import Clusters
 
@@ -159,3 +159,42 @@ def plot_examples_3d(*ets, pmargin: float = 0.1, ncols: int = 3, side=350):
         ax.set_axis_off()
         ax.set_facecolor(color="white")
         ax.patch.set_alpha(0)
+
+
+#%%
+# ## plot_examples_nd
+
+
+def plot_examples_nd(ex: Clusters, t: str, pmargin: float = 0.1):
+    """Plot the nD example given in the ex parameter."""
+
+    # How many dimensions?
+    nd = ex.points.shape[1]
+
+    df = clusters2df(ex)
+
+    # Get limits in each dimension
+    xmaxs, xmins = get_plot_lims(df, pmargin=pmargin)
+
+    # Set seaborn's dark grid style
+    sns.set_theme(style="darkgrid")
+
+    # Create pairwise plots with nothing on the diagonal
+    g = sns.PairGrid(df.iloc[:, :-1], hue="cluster", palette="deep")
+    g.map_offdiag(sns.scatterplot, s=10)
+    g.figure.suptitle(t, y=1)
+
+    # Decorate plot
+    for i in range(nd):
+        for j in range(nd):
+            if i == j:
+                # Set the x labels in the diagonal plots
+                xycoord = (xmaxs[i] + xmins[i]) / 2
+                g.axes[i, i].text(
+                    xycoord, xycoord, f"$x{i}$", fontsize=20, ha="center", va="center"
+                )
+            else:
+                # Set appropriate plot intervals and aspect ratio
+                g.axes[i, j].set_xlim([xmins[j], xmaxs[j]])
+                g.axes[i, j].set_ylim([xmins[i], xmaxs[i]])
+                g.axes[i, j].set_aspect(1)
