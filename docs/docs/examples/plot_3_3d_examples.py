@@ -33,7 +33,7 @@ from plot_functions import plot_examples_3d
 
 #%%
 
-seed = 123
+seed = 321
 
 #%%
 
@@ -47,3 +47,26 @@ plt = plot_examples_3d(
     e40, "e40: direction = [1, 0, 0]",
     e41, "e41: direction = [1, 1, 1]",
     e42, "e42: direction = [0, 0, 1]")
+
+#%%
+# ### Changing the `angle_disp` parameter and using a custom `angle_deltas_fn` function
+
+seed = 321
+
+# Custom angle_deltas function: arbitrarily rotate some clusters by 90 degrees
+def angdel_90_fn(nclu, astd, rng):
+    return rng.choice([0, np.pi / 2], size=nclu)
+
+#%%
+
+e43 = clugen(3, 6, 1000, [1, 0, 0], 0, [10, 10, 10], 15, 1.5, 0.5, rng=rng(seed))
+e44 = clugen(3, 6, 1000, [1, 0, 0], np.pi / 8, [10, 10, 10], 15, 1.5, 0.5, rng=rng(seed))
+e45 = clugen(3, 6, 1000, [1, 0, 0], 0, [10, 10, 10], 15, 1.5, 0.5, rng=rng(seed),
+    angle_deltas_fn = angdel_90_fn)
+
+#%%
+
+plt = plot_examples_3d(
+    e43, "e43: angle_disp = 0",
+    e44, "e44: angle_disp = π / 8",
+    e45, "e45: custom angle_deltas function")
