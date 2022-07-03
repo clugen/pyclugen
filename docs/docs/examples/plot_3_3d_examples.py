@@ -62,7 +62,7 @@ def angdel_90_fn(nclu, astd, rng):
 e43 = clugen(3, 6, 1000, [1, 0, 0], 0, [10, 10, 10], 15, 1.5, 0.5, rng=rng(seed))
 e44 = clugen(3, 6, 1000, [1, 0, 0], np.pi / 8, [10, 10, 10], 15, 1.5, 0.5, rng=rng(seed))
 e45 = clugen(3, 6, 1000, [1, 0, 0], 0, [10, 10, 10], 15, 1.5, 0.5, rng=rng(seed),
-    angle_deltas_fn = angdel_90_fn)
+    angle_deltas_fn=angdel_90_fn)
 
 #%%
 
@@ -82,11 +82,11 @@ seed = 789
 #%%
 
 e46 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 0, 0, 0.5, rng=rng(seed),
-    point_dist_fn = "n")
+    point_dist_fn="n")
 e47 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 10, 0, 0.5, rng=rng(seed),
-    point_dist_fn = "n")
+    point_dist_fn="n")
 e48 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 30, 0, 0.5, rng=rng(seed),
-    point_dist_fn = "n")
+    point_dist_fn="n")
 
 #%%
 
@@ -107,11 +107,11 @@ def llen_grow_fn(nclu, llen, llenstd, rng):
     return llen * np.arange(nclu) + rng.normal(scale=llenstd, size=nclu)
 
 e49 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 15,  0.0, 0.5, rng=rng(seed),
-    point_dist_fn = "n")
+    point_dist_fn="n")
 e50 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 15, 10.0, 0.5, rng=rng(seed),
-    point_dist_fn = "n")
+    point_dist_fn="n")
 e51 = clugen(3, 5, 800, [1, 0, 0], np.pi / 10, [10, 10, 10], 10,  0.1, 0.5, rng=rng(seed),
-    llengths_fn = llen_grow_fn, point_dist_fn = "n")
+    point_dist_fn="n", llengths_fn=llen_grow_fn)
 
 #%%
 
@@ -149,21 +149,21 @@ def centers_diag_fn(nclu, csep, coff, rng):
 
 e55 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [10, 10, 10], 12, 3, 2.5, rng=rng(seed))
 e56 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [10, 10, 10], 12, 3, 2.5, rng=rng(seed),
-    cluster_offset = [30, -30, 30])
+    cluster_offset=[30, -30, 30])
 e57 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [10, 10, 10], 12, 3, 2.5, rng=rng(seed),
-    cluster_offset = [-40, -40, -40], clucenters_fn = centers_diag_fn)
+    cluster_offset=[-40, -40, -40], clucenters_fn=centers_diag_fn)
 
 #%%
 
 plt = plot_examples_3d(
     e55, "e55: default",
-    e56, "e56: cluster_offset = [30, -30, 30]",
+    e56, "e56: cluster_offset=[30, -30, 30]",
     e57, "e57: custom clucenters function")
 
 #%%
 # ## Lateral dispersion and placement of point projections on the line
 #
-# ### Normal projection placement (default): `proj_dist_fn = "norm"`
+# ### Normal projection placement (default): `proj_dist_fn="norm"`
 
 seed = 246
 
@@ -181,18 +181,18 @@ plt = plot_examples_3d(
     e60, "e60: lateral_disp = 3")
 
 #%%
-# ### Uniform projection placement: `proj_dist_fn = "unif"`
+# ### Uniform projection placement: `proj_dist_fn="unif"`
 
 seed = 246
 
 #%%
 
 e61 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 0.0, rng=rng(seed),
-    proj_dist_fn = "unif")
+    proj_dist_fn="unif")
 e62 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 1.0, rng=rng(seed),
-    proj_dist_fn = "unif")
+    proj_dist_fn="unif")
 e63 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 3.0, rng=rng(seed),
-    proj_dist_fn = "unif")
+    proj_dist_fn="unif")
 
 #%%
 
@@ -215,11 +215,11 @@ def proj_laplace(len, n, rng):
 #%%
 
 e64 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 0.0, rng=rng(seed),
-    proj_dist_fn = proj_laplace)
+    proj_dist_fn=proj_laplace)
 e65 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 1.0, rng=rng(seed),
-    proj_dist_fn = proj_laplace)
+    proj_dist_fn=proj_laplace)
 e66 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 3.0, rng=rng(seed),
-    proj_dist_fn = proj_laplace)
+    proj_dist_fn=proj_laplace)
 
 #%%
 
@@ -227,3 +227,143 @@ plt = plot_examples_3d(
     e64, "e64: lateral_disp = 0",
     e65, "e65: lateral_disp = 1",
     e66, "e66: lateral_disp = 3")
+
+#%%
+# ## Controlling final point positions from their projections on the cluster-supporting line
+#
+# ### Points on hyperplane orthogonal to cluster-supporting line (default): `point_dist_fn="n-1"`
+
+seed = 840
+
+#%%
+
+# Custom proj_dist_fn: point projections placed using the Laplace distribution
+def proj_laplace(len, n, rng):
+    return rng.laplace(scale=len / 6, size=n)
+
+#%%
+
+e67 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed))
+e68 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed),
+    proj_dist_fn="unif")
+e69 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed),
+    proj_dist_fn=proj_laplace)
+
+#%%
+
+plt = plot_examples_3d(
+    e67, "e67: proj_dist_fn=\"norm\" (default)",
+    e68, "e68: proj_dist_fn=\"unif\"",
+    e69, "e69: custom proj_dist_fn (Laplace)")
+
+#%%
+# ### Points around projection on cluster-supporting line: `point_dist_fn="n"`
+
+seed = 840
+
+#%%
+
+# Custom proj_dist_fn: point projections placed using the Laplace distribution
+def proj_laplace(len, n, rng):
+    return rng.laplace(scale=len / 6, size=n)
+
+e70 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed),
+    point_dist_fn="n")
+e71 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed),
+    point_dist_fn="n", proj_dist_fn="unif")
+e72 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed),
+    point_dist_fn="n", proj_dist_fn=proj_laplace)
+
+#%%
+
+plt = plot_examples_3d(
+    e70, "e70: proj_dist_fn=\"norm\" (default)",
+    e71, "e71: proj_dist_fn=\"unif\"",
+    e72, "e72: custom proj_dist_fn (Laplace)")
+
+#%%
+# ### Custom point placement using the exponential distribution
+#
+# For this example we require the
+# [`clupoints_n_1_template()`][clugen.helper.clupoints_n_1_template]
+# helper function:
+
+from clugen import clupoints_n_1_template
+
+#%%
+
+seed = 840
+
+#%%
+
+# Custom point_dist_fn: final points placed using the Exponential distribution
+def clupoints_n_1_exp(projs, lat_std, len, clu_dir, clu_ctr, rng):
+    def dist_exp(npts, lstd, rg):
+        return lstd * rg.exponential(scale=2 / lstd, size=npts)
+    return clupoints_n_1_template(projs, lat_std, clu_dir, dist_exp, rng=rng)
+
+#%%
+
+# Custom proj_dist_fn: point projections placed using the Laplace distribution
+def proj_laplace(len, n, rng):
+    return rng.laplace(scale=len / 6, size=n)
+
+#%%
+
+e73 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed),
+    point_dist_fn=clupoints_n_1_exp)
+e74 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed),
+    point_dist_fn=clupoints_n_1_exp, proj_dist_fn="unif")
+e75 = clugen(3, 5, 1500, [1, 0, 0], np.pi / 3, [20, 20, 20], 22, 3, 2, rng=rng(seed),
+    point_dist_fn=clupoints_n_1_exp, proj_dist_fn=proj_laplace)
+
+#%%
+
+plt = plot_examples_3d(
+    e73, "e73: proj_dist_fn=\"norm\" (default)",
+    e74, "e74: proj_dist_fn=\"unif\"",
+    e75, "e75: custom proj_dist_fn (Laplace)")
+
+#%%
+# ## Manipulating cluster sizes
+
+seed = 555
+
+#%%
+
+# Custom clusizes_fn (e77): cluster sizes determined via the uniform distribution,
+# no correction for total points
+def clusizes_unif(nclu, npts, ae, rng):
+    return rng.integers(low=1, high=2 * npts / nclu + 1, size=nclu)
+
+#%%
+
+# Custom clusizes_fn (e78): clusters all have the same size, no correction for total points
+def clusizes_equal(nclu, npts, ae, rng):
+    return (npts // nclu) * np.ones(nclu, dtype=int)
+
+#%%
+
+# Custom clucenters_fn (all): yields fixed positions for the clusters
+def centers_fixed(nclu, csep, coff, rng):
+    return np.array([
+        [-csep[0], -csep[1], -csep[2]],
+        [csep[0], -csep[1], -csep[2]],
+        [-csep[0], csep[1], csep[2]],
+        [csep[0], csep[1], csep[2]]])
+
+#%%
+
+e76 = clugen(3, 4, 1500, [1, 1, 1], np.pi, [20, 20, 20], 0, 0, 5, rng=rng(seed),
+    clucenters_fn=centers_fixed, point_dist_fn="n")
+e77 = clugen(3, 4, 1500, [1, 1, 1], np.pi, [20, 20, 20], 0, 0, 5, rng=rng(seed),
+    clucenters_fn=centers_fixed, clusizes_fn=clusizes_unif, point_dist_fn="n")
+e78 = clugen(3, 4, 1500, [1, 1, 1], np.pi, [20, 20, 20], 0, 0, 5, rng=rng(seed),
+    clucenters_fn=centers_fixed, clusizes_fn=clusizes_equal, point_dist_fn="n")
+
+#%%
+
+plt = plot_examples_3d(
+    e76, "e76: normal dist. (default)",
+    e77, "e77: unif. dist. (custom)",
+    e78, "e78: equal size (custom)")
