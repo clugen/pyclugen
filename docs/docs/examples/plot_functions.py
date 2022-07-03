@@ -12,7 +12,6 @@ import seaborn as sns
 
 from clugen import Clusters
 
-
 #%%
 # ## Set seaborn's theme
 
@@ -22,6 +21,7 @@ sns.set_theme(style="darkgrid")
 #%%
 # ## clusters2df
 
+
 def clusters2df(*exs: Clusters) -> pd.DataFrame:
     """Convert a sequence of clusters to a Pandas dataframe."""
 
@@ -29,7 +29,9 @@ def clusters2df(*exs: Clusters) -> pd.DataFrame:
     iex = 1
 
     for ex in exs:
-        df = pd.DataFrame(data=ex.points, columns=["x", "y"])
+        df = pd.DataFrame(
+            data=ex.points, columns=[f"x{i}" for i in range(np.size(ex.points, 1))]
+        )
         df["cluster"] = ex.clusters.tolist()
         df["example"] = [iex] * ex.clusters.size
         dfs.append(df)
@@ -41,12 +43,13 @@ def clusters2df(*exs: Clusters) -> pd.DataFrame:
 #%%
 # ## get_plot_lims
 
+
 def get_plot_lims(df: pd.DataFrame, pmargin: float = 0.1):
     """Determine the plot limits for the cluster data given in `df`."""
 
     # Get maximum and minimum points in each dimension
-    xmaxs = df[["x", "y"]].max()
-    xmins = df[["x", "y"]].min()
+    xmaxs = df.iloc[:, :-2].max()
+    xmins = df.iloc[:, :-2].min()
 
     # Determine plot centers in each dimension
     xcenters = (xmaxs + xmins) / 2
@@ -63,6 +66,7 @@ def get_plot_lims(df: pd.DataFrame, pmargin: float = 0.1):
 
 #%%
 # ## plot_examples_2d
+
 
 def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
     """Plot the 2D examples given in the ets parameter."""
@@ -88,8 +92,10 @@ def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
         col_wrap=ncols,
     )
 
-    g.map(sns.scatterplot, "x", "y", s=10)
+    g.map(sns.scatterplot, "x0", "x1", s=10)
 
-    # Set the plot titles
+    # Set the plot titles and x, y labels
     for ax, t in zip(g.axes, et):
         ax.set_title(t)
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")

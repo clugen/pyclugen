@@ -13,7 +13,7 @@ from clugen import clugen
 # for providing us a brand new seeded generator:
 
 import numpy as np
-from numpy.random import PCG64, Generator, default_rng
+from numpy.random import PCG64, Generator
 
 def rng(seed):
     return Generator(PCG64(seed))
