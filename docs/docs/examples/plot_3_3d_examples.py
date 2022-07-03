@@ -98,7 +98,7 @@ plt = plot_examples_3d(
 #%%
 # ### Changing the `llength_disp` parameter and using a custom `llengths_fn` function
 
-seed = 789
+seed = 765
 
 #%%
 
@@ -119,3 +119,43 @@ plt = plot_examples_3d(
     e49, "e49: llength_disp = 0.0",
     e50, "e50: llength_disp = 10.0",
     e51, "e51: custom llengths function")
+
+#%%
+# ## Manipulating relative cluster positions
+#
+# ### Using the `cluster_sep` parameter
+
+seed = 765
+
+#%%
+
+e52 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [30, 10, 10], 25, 4, 3, rng=rng(seed))
+e53 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [10, 30, 10], 25, 4, 3, rng=rng(seed))
+e54 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [10, 10, 30], 25, 4, 3, rng=rng(seed))
+
+#%%
+
+plt = plot_examples_3d(
+    e52, "e52: cluster_sep = [30, 10, 10]",
+    e53, "e53: cluster_sep = [10, 30, 10]",
+    e54, "e54: cluster_sep = [10, 10, 30]")
+
+#%%
+# ### Changing the `cluster_offset` parameter and using a custom `clucenters_fn` function
+
+# Custom clucenters function: places clusters in a diagonal
+def centers_diag_fn(nclu, csep, coff, rng):
+    return np.ones((nclu, len(csep))) * np.arange(1, nclu + 1)[:, None] * np.max(csep) + coff
+
+e55 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [10, 10, 10], 12, 3, 2.5, rng=rng(seed))
+e56 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [10, 10, 10], 12, 3, 2.5, rng=rng(seed),
+    cluster_offset = [30, -30, 30])
+e57 = clugen(3, 8, 1000, [1, 1, 1], np.pi / 4, [10, 10, 10], 12, 3, 2.5, rng=rng(seed),
+    cluster_offset = [-40, -40, -40], clucenters_fn = centers_diag_fn)
+
+#%%
+
+plt = plot_examples_3d(
+    e55, "e55: default",
+    e56, "e56: cluster_offset = [30, -30, 30]",
+    e57, "e57: custom clucenters function")
