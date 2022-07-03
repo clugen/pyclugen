@@ -6,17 +6,12 @@ Several auxiliary functions for plotting the examples in this documentation.
 #%%
 # ## Import the required libraries
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 
 from clugen import Clusters
-
-#%%
-# ## Set seaborn's theme
-
-sns.set_theme(style="darkgrid")
-
 
 #%%
 # ## clusters2df
@@ -81,6 +76,9 @@ def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
     # Get limits in each dimension
     xmaxs, xmins = get_plot_lims(df, pmargin=pmargin)
 
+    # Set seaborn's dark grid style
+    sns.set_theme(style="darkgrid")
+
     # Use seaborn to create the plots
     g = sns.FacetGrid(
         df,
@@ -99,3 +97,56 @@ def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
         ax.set_title(t)
         ax.set_xlabel("x")
         ax.set_ylabel("y")
+
+
+#%%
+# ## plot_examples_3d
+
+
+def plot_examples_3d(*ets, pmargin: float = 0.1, ncols: int = 3, side=300):
+    """Plot the 3D examples given in the ets parameter."""
+
+    # Get examples
+    ex = ets[0::2]
+    # Get titles
+    et = ets[1::2]
+
+    # Number of plots and number of rows in combined plot
+    num_plots = len(ex)
+    nrows = max(1, int(np.ceil(num_plots / ncols)))
+    blank_plots = nrows * ncols - num_plots
+
+    df = clusters2df(*ex)
+
+    # Get limits in each dimension
+    xmaxs, xmins = get_plot_lims(df, pmargin=pmargin)
+
+    # Reset to default Matplotlib style, to avoid seaborn interference
+    sns.reset_orig()
+
+    # To convert inches to pixels afterwards
+    px = 1 / plt.rcParams["figure.dpi"]  # pixel in inches
+
+    # Use Matplotlib to create the plots
+    _, axs = plt.subplots(
+        nrows,
+        ncols,
+        figsize=(side * px * ncols, side * px * nrows),
+        subplot_kw=dict(projection="3d"),
+    )
+    axs = axs.reshape(-1)
+    for ax, e, t in zip(axs, ex, et):
+        ax.set_title(t)
+        ax.set_xlim(xmins[0], xmaxs[0])
+        ax.set_ylim(xmins[1], xmaxs[1])
+        ax.set_zlim(xmins[2], xmaxs[2])
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_zlabel("z")
+        ax.scatter(e.points[:, 0], e.points[:, 1], e.points[:, 2], c=e.clusters)
+
+    # Remaining plots are left blank
+    for ax in axs[len(ex) : len(ex) + blank_plots]:
+        ax.set_axis_off()
+        ax.set_facecolor(color="white")
+        ax.patch.set_alpha(0)
