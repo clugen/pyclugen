@@ -159,3 +159,71 @@ plt = plot_examples_3d(
     e55, "e55: default",
     e56, "e56: cluster_offset = [30, -30, 30]",
     e57, "e57: custom clucenters function")
+
+#%%
+# ## Lateral dispersion and placement of point projections on the line
+#
+# ### Normal projection placement (default): `proj_dist_fn = "norm"`
+
+seed = 246
+
+#%%
+
+e58 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 0.0, rng=rng(seed))
+e59 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 1.0, rng=rng(seed))
+e60 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 3.0, rng=rng(seed))
+
+#%%
+
+plt = plot_examples_3d(
+    e58, "e58: lateral_disp = 0",
+    e59, "e59: lateral_disp = 1",
+    e60, "e60: lateral_disp = 3")
+
+#%%
+# ### Uniform projection placement: `proj_dist_fn = "unif"`
+
+seed = 246
+
+#%%
+
+e61 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 0.0, rng=rng(seed),
+    proj_dist_fn = "unif")
+e62 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 1.0, rng=rng(seed),
+    proj_dist_fn = "unif")
+e63 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 3.0, rng=rng(seed),
+    proj_dist_fn = "unif")
+
+#%%
+
+plt = plot_examples_3d(
+    e61, "e61: lateral_disp = 0",
+    e62, "e62: lateral_disp = 1",
+    e63, "e63: lateral_disp = 3")
+
+#%%
+# ### Custom projection placement using the Laplace distribution
+
+seed = 246
+
+#%%
+
+# Custom proj_dist_fn: point projections placed using the Laplace distribution
+def proj_laplace(len, n, rng):
+    return rng.laplace(scale=len / 6, size=n)
+
+#%%
+
+e64 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 0.0, rng=rng(seed),
+    proj_dist_fn = proj_laplace)
+e65 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 1.0, rng=rng(seed),
+    proj_dist_fn = proj_laplace)
+e66 = clugen(3, 4, 1000, [1, 0, 0], np.pi / 2, [20, 20, 20], 13, 2, 3.0, rng=rng(seed),
+    proj_dist_fn = proj_laplace)
+
+#%%
+
+plt = plot_examples_3d(
+    e64, "e64: lateral_disp = 0",
+    e65, "e65: lateral_disp = 1",
+    e66, "e66: lateral_disp = 3")
