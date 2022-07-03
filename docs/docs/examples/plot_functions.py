@@ -103,7 +103,7 @@ def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
 # ## plot_examples_3d
 
 
-def plot_examples_3d(*ets, pmargin: float = 0.1, ncols: int = 3, side=300):
+def plot_examples_3d(*ets, pmargin: float = 0.1, ncols: int = 3, side=350):
     """Plot the 3D examples given in the ets parameter."""
 
     # Get examples
@@ -136,14 +136,23 @@ def plot_examples_3d(*ets, pmargin: float = 0.1, ncols: int = 3, side=300):
     )
     axs = axs.reshape(-1)
     for ax, e, t in zip(axs, ex, et):
-        ax.set_title(t)
+        ax.set_title(t, fontsize=10)
         ax.set_xlim(xmins[0], xmaxs[0])
         ax.set_ylim(xmins[1], xmaxs[1])
         ax.set_zlim(xmins[2], xmaxs[2])
-        ax.set_xlabel("x")
-        ax.set_ylabel("y")
-        ax.set_zlabel("z")
-        ax.scatter(e.points[:, 0], e.points[:, 1], e.points[:, 2], c=e.clusters)
+        ax.set_xlabel("$x$", labelpad=-2)
+        ax.set_ylabel("$y$", labelpad=-2)
+        ax.set_zlabel("$z$", labelpad=-2)
+        ax.tick_params(labelsize=8, pad=-2)
+        ax.scatter(
+            e.points[:, 0],
+            e.points[:, 1],
+            e.points[:, 2],
+            c=e.clusters,
+            depthshade=False,
+            edgecolor="black",
+            linewidths=0.2,
+        )
 
     # Remaining plots are left blank
     for ax in axs[len(ex) : len(ex) + blank_plots]:
