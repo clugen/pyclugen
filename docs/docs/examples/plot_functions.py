@@ -6,10 +6,10 @@ Several auxiliary functions for plotting the examples in this documentation.
 #%%
 # ## Import the required libraries
 
-import matplotlib.pyplot as plt # type: ignore
+import matplotlib.pyplot as plt  # type: ignore
 import numpy as np
 import pandas as pd
-import seaborn as sns # type: ignore
+import seaborn as sns  # type: ignore
 
 from clugen import Clusters
 
@@ -57,6 +57,43 @@ def get_plot_lims(df: pd.DataFrame, pmargin: float = 0.1):
     xmins = xcenters - sidespan
 
     return xmaxs, xmins
+
+
+#%%
+# ## plot_examples_1d
+
+
+def plot_examples_1d(*ets, ncols: int = 3):
+    """Plot the 1D examples given in the ets parameter."""
+
+    # Get examples
+    ex = ets[0::2]
+    # Get titles
+    et = ets[1::2]
+
+    df = clusters2df(*ex)
+
+    # Set seaborn's dark grid style
+    sns.set_theme(style="darkgrid")
+
+    # Use seaborn to create the plots
+    g = sns.FacetGrid(df, col="example", hue="cluster", col_wrap=ncols)
+
+    # Plot the kernel density estimation plots
+    g.map(sns.kdeplot, "x0", multiple="layer", fill=True)
+
+    # Get a flattened view of the axes array
+    g_axes = g.axes.reshape(-1)
+
+    # Determine the height of the rugs in the rug plot to 5% of total height
+    rug_height = g_axes[0].get_ylim()[1] * 0.05
+
+    # Plot the rug markers below the kde plots
+    g.map(sns.rugplot, "x0", height=rug_height)
+
+    # Set titles
+    for ax, t in zip(g_axes, et):
+        ax.set_title(t)
 
 
 #%%
