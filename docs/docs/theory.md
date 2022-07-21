@@ -202,10 +202,10 @@ The lengths of the cluster-supporting lines are given by the $l()$ function
 according to:
 
 $$
-\mathbf{\ell} = l(c, l, l_\sigma)
+\pmb{\ell} = l(c, l, l_\sigma)
 $$
 
-where $\mathbf{\ell}$ is an $c \times 1$ vector containing the final lengths of
+where $\pmb{\ell}$ is an $c \times 1$ vector containing the final lengths of
 the cluster-supporting lines, $c$ is the number of clusters, $l$ is the average
 length, and $l_\sigma$ is the length dispersion.
 
@@ -228,7 +228,7 @@ of $l()$.
 default, using the folded normal distribution; b) using the Poisson distribution,
 with $\lambda=l$; c) using the uniform distribution in the interval
 $\left\lbrack 0, 2l\right\rbrack$; and, d) hand-picked lengths, more specifically
-$\mathbf{\ell}=\begin{bmatrix}2 & 8 & 16 & 32\end{bmatrix}^T$. Cluster centers,
+$\pmb{\ell}=\begin{bmatrix}2 & 8 & 16 & 32\end{bmatrix}^T$. Cluster centers,
 as well as parameters $l$ and $l_\sigma$, are the same as for the example
 shown in Figure 1.](https://raw.githubusercontent.com/clugen/.github/main/images/llengths.png)
 
