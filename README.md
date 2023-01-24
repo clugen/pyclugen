@@ -1,6 +1,9 @@
 # PyCluGen
 
-A Python implementation of the CluGen algorithm.
+**pyclugen** is a Python implementation of the *clugen* algorithm for
+generating multidimensional clusters. Each cluster is supported by a line
+segment, the position, orientation and length of which guide where the
+respective points are placed.
 
 ## How to use
 
@@ -44,24 +47,21 @@ cd pyclugen
 pip install .
 ```
 
-### Installing for development and/or improving the package
+## See also
 
-```text
-git clone https://github.com/clugen/pyclugen.git
-cd pyclugen
-python -m venv env
-source env/bin/activate
-pip install -e .[dev]
-pre-commit install
-```
+* [CluGen.jl](https://github.com/clugen/CluGen.jl/), a Julia implementation of
+  the *clugen* algorithm.
+* [clugenr](https://github.com/clugen/clugenr/), an R implementation
+  of the *clugen* algorithm.
+* [MOCluGen](https://github.com/clugen/MOCluGen/), a MATLAB/Octave
+  implementation of the *clugen* algorithm.
 
-On Windows replace `source env/bin/activate` with `. env\Scripts\activate`.
+## Reference
 
-To build the documentation run:
+If you use this software, please cite the following reference:
 
-```text
-pdoc3 --force --html --output-dir docs/build/ --template-dir docs/templates clugen/
-```
+* Fachada, N. & de Andrade, D. (2023). Generating Multidimensional Clusters With
+  Support Lines. *Under review*.
 
 ## License
 
