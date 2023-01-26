@@ -53,5 +53,5 @@ plt.show()
 
 * [Theory: the _clugen_ algorithm in detail](theory)
 * [Detailed usage examples](examples)
-* [API](api)
+* [Reference](reference)
 * [Developing this package](dev)
