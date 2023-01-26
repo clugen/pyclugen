@@ -38,23 +38,23 @@ plugins:
         import:
         - https://docs.python.org/3/objects.inv
         - https://numpy.org/doc/stable/objects.inv
-        selection:
+        options:
           docstring_style: google
-        rendering:
           show_root_toc_entry: false
           show_submodules: no
           heading_level: 2
           line_length: 80
           show_signature_annotations: true
           separate_signature: true
-    watch:
-    - ../clugen
+
+watch:
+  - ../clugen
 
 nav:
 - Home: index.md
 - Theory: theory.md
 - Examples: generated/gallery
-- API: api.md
+- Reference: reference.md
 - Development: dev.md
 
 markdown_extensions:
