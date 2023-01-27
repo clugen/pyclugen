@@ -25,7 +25,7 @@ def angle_deltas(
     $\left[-\pi,\pi\right]$.
 
     Examples:
-        >>> from clugen import angle_deltas
+        >>> from pyclugen import angle_deltas
         >>> from numpy import degrees, pi
         >>> from numpy.random import Generator, PCG64
         >>> prng = Generator(PCG64(123))
@@ -80,7 +80,7 @@ def clucenters(
     1$ vector with all entries equal to 1.
 
     Examples:
-        >>> from clugen import clucenters
+        >>> from pyclugen import clucenters
         >>> from numpy import array
         >>> from numpy.random import Generator, PCG64
         >>> prng = Generator(PCG64(123))
@@ -124,7 +124,7 @@ def clupoints_n_1(
     set to `"n-1"`.
 
     Examples:
-        >>> from clugen import clupoints_n_1, points_on_line
+        >>> from pyclugen import clupoints_n_1, points_on_line
         >>> from numpy import array, linspace
         >>> from numpy.random import Generator, PCG64
         >>> prng = Generator(PCG64(123))
@@ -183,7 +183,7 @@ def clupoints_n(
     set to `"n"`.
 
     Examples:
-        >>> from clugen import clupoints_n, points_on_line
+        >>> from pyclugen import clupoints_n, points_on_line
         >>> from numpy import array, linspace
         >>> from numpy.random import Generator, PCG64
         >>> prng = Generator(PCG64(123))
@@ -245,7 +245,7 @@ def clusizes(
 
     Examples:
         >>> from numpy.random import Generator, PCG64
-        >>> from clugen import clusizes
+        >>> from pyclugen import clusizes
         >>> prng = Generator(PCG64(123))
         >>> sizes = clusizes(4, 1000, True, rng=prng)
         >>> sizes
@@ -308,7 +308,7 @@ def llengths(
 
     Examples:
         >>> from numpy.random import Generator, MT19937
-        >>> from clugen import llengths
+        >>> from pyclugen import llengths
         >>> prng = Generator(MT19937(123))
         >>> llengths(4, 20, 3.5, rng=prng)
         array([19.50968733, 19.92482858, 25.99013804, 18.58029672])

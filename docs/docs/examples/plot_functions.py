@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns  # type: ignore
 
-from clugen import Clusters
+from pyclugen import Clusters
 
 #%%
 # ## clusters2df

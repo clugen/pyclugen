@@ -34,7 +34,7 @@ def angle_btw(v1: NDArray, v2: NDArray) -> float:
 
     Examples:
         >>> from numpy import array, degrees
-        >>> from clugen import angle_btw
+        >>> from pyclugen import angle_btw
         >>> v1 = array([1.0, 1.0, 1.0, 1.0])
         >>> v2 = array([1.0, 0.0, 0.0, 0.0])
         >>> degrees(angle_btw(v1, v2))
@@ -83,7 +83,7 @@ def clupoints_n_1_template(
     Examples:
         >>> from numpy import array, zeros
         >>> from numpy.random import Generator, PCG64
-        >>> from clugen import clupoints_n_1_template, points_on_line
+        >>> from pyclugen import clupoints_n_1_template, points_on_line
         >>> ctr = zeros(2)
         >>> dir = array([1, 0])
         >>> pdist = array([-0.5, -0.2, 0.1, 0.3])
@@ -151,7 +151,7 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
 
     Examples:
         >>> from numpy import array
-        >>> from clugen import fix_empty
+        >>> from pyclugen import fix_empty
         >>> clusters = array([3, 4, 5, 0, 0])
         >>> fix_empty(clusters)
         array([3, 3, 4, 1, 1])
@@ -203,7 +203,7 @@ def fix_num_points(clu_num_points: NDArray, num_points: int) -> NDArray:
 
     Examples:
         >>> from numpy import array
-        >>> from clugen import fix_num_points
+        >>> from pyclugen import fix_num_points
         >>> clusters = array([1, 6, 3])  # 10 total points
         >>> fix_num_points(clusters, 12) # But we want 12 total points
         array([3, 6, 3])

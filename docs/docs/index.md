@@ -26,7 +26,7 @@ pip install git+https://github.com/clugen/pyclugen.git#egg=pyclugen
 ## Quick start
 
 ```python
-import clugen as cg
+import pyclugen as cg
 import numpy as np
 import matplotlib.pyplot as plt
 ```

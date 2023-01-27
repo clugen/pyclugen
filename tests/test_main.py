@@ -12,9 +12,9 @@ from numpy import abs, all, arange, array, diag, linspace, ones, pi, sum, unique
 from numpy.random import PCG64, Generator
 from numpy.testing import assert_allclose
 
-from clugen.helper import angle_btw
-from clugen.main import clugen
-from clugen.module import angle_deltas, clucenters, clusizes, llengths
+from pyclugen.helper import angle_btw
+from pyclugen.main import clugen
+from pyclugen.module import angle_deltas, clucenters, clusizes, llengths
 
 
 @pytest.fixture(params=[0, 98765])
@@ -134,14 +134,14 @@ def test_clugen_mandatory(
             )
 
 
-@pytest.fixture(params=["norm", "unif", lambda l, n, r: linspace(-l / 2, l / 2, n)])
+@pytest.fixture(params=["norm", "unif", lambda ln, n, r: linspace(-ln / 2, ln / 2, n)])
 def ptdist_fn(request):
     """Provides a point distribution function."""
     return request.param
 
 
 @pytest.fixture(
-    params=["n-1", "n", lambda prj, ls, l, cd, cc, r: prj + ones(prj.shape)]
+    params=["n-1", "n", lambda prj, ls, ln, cd, cc, r: prj + ones(prj.shape)]
 )
 def ptoff_fn(request):
     """Provides a point offset function."""
@@ -173,7 +173,7 @@ def cctr_fn(request):
     return request.param
 
 
-@pytest.fixture(params=[llengths, lambda nc, l, ls, r: 10 + 10 * r.random(nc)])
+@pytest.fixture(params=[llengths, lambda nc, ln, ls, r: 10 + 10 * r.random(nc)])
 def llen_fn(request):
     """Provides a a line lengths function."""
     return request.param

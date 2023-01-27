@@ -4,7 +4,7 @@ This section contains several examples on how to generate 3D data with
 **pyclugen**. To run the examples we first need to import the
 [`clugen()`][clugen.main.clugen] function:"""
 
-from clugen import clugen
+from pyclugen import clugen
 
 #%%
 # To make the examples exactly reproducible we'll import a random number
@@ -288,7 +288,7 @@ plt = plot_examples_3d(
 # [`clupoints_n_1_template()`][clugen.helper.clupoints_n_1_template]
 # helper function:
 
-from clugen import clupoints_n_1_template
+from pyclugen import clupoints_n_1_template
 
 #%%
 

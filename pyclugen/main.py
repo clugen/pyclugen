@@ -92,7 +92,7 @@ def clugen(
 
     ## Examples:
 
-        >>> import clugen as cg
+        >>> import pyclugen as cg
         >>> import matplotlib.pyplot as plt
         >>> from numpy import pi
         >>> from numpy.random import Generator, PCG64

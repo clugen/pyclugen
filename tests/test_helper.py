@@ -10,8 +10,8 @@ from numpy import all, any, arccos, array, copy, dot, sum
 from numpy.linalg import norm
 from numpy.testing import assert_allclose, assert_equal
 
-from clugen.core import points_on_line
-from clugen.helper import angle_btw, clupoints_n_1_template, fix_empty, fix_num_points
+from pyclugen.core import points_on_line
+from pyclugen.helper import angle_btw, clupoints_n_1_template, fix_empty, fix_num_points
 
 
 def test_angle_btw():

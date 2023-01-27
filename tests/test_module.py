@@ -9,8 +9,8 @@ import warnings
 from numpy import abs, all, dot, min, pi, sum
 from numpy.testing import assert_allclose
 
-from clugen.core import points_on_line
-from clugen.module import angle_deltas, clucenters, clupoints_n_1, clusizes, llengths
+from pyclugen.core import points_on_line
+from pyclugen.module import angle_deltas, clucenters, clupoints_n_1, clusizes, llengths
 
 
 def test_angle_deltas(prng, num_clusters, angle_std):

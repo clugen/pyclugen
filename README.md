@@ -8,7 +8,7 @@ respective points are placed.
 ## How to use
 
 ```python
-import clugen as cg
+import pyclugen as cg
 import numpy as np
 import matplotlib.pyplot as plt
 

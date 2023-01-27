@@ -11,13 +11,13 @@ from numpy import abs, dot, isclose, pi
 from numpy.linalg import norm
 from numpy.testing import assert_allclose
 
-from clugen.core import (
+from pyclugen.core import (
     points_on_line,
     rand_ortho_vector,
     rand_unit_vector,
     rand_vector_at_angle,
 )
-from clugen.helper import angle_btw
+from pyclugen.helper import angle_btw
 
 
 @pytest.fixture(params=[1, 10, 500])

@@ -37,7 +37,7 @@ def points_on_line(
     line, and $\mathbf{1}$ is a $p \times 1$ vector with all entries equal to 1.
 
     Examples:
-        >>> from clugen import points_on_line
+        >>> from pyclugen import points_on_line
         >>> from numpy import array, linspace
         >>> points_on_line(array([5., 5.]),
         ...                array([1., 0.]),
@@ -73,7 +73,7 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
     Note that `u` is expected to be a unit vector itself.
 
     Examples:
-        >>> from clugen import rand_ortho_vector
+        >>> from pyclugen import rand_ortho_vector
         >>> from numpy import isclose, dot
         >>> from numpy.linalg import norm
         >>> from numpy.random import Generator, PCG64
@@ -121,11 +121,11 @@ def rand_unit_vector(num_dims: int, rng: Generator = _default_rng) -> NDArray:
     r"""Get a random unit vector with `num_dims` components.
 
     Examples:
-        >>> from clugen import rand_unit_vector
+        >>> from pyclugen import rand_unit_vector
         >>> rand_unit_vector(4) # doctest: +SKIP
         array([ 0.48653889,  0.50753862,  0.05711487, -0.70881757])
 
-        >>> from clugen import rand_unit_vector
+        >>> from pyclugen import rand_unit_vector
         >>> from numpy.random import Generator, PCG64
         >>> rng = Generator(PCG64(123))
         >>> rand_unit_vector(2, rng=rng) # Reproducible
@@ -151,7 +151,7 @@ def rand_vector_at_angle(
     Note that `u` is expected to be a unit vector itself.
 
     Examples:
-        >>> from clugen import rand_vector_at_angle
+        >>> from pyclugen import rand_vector_at_angle
         >>> from numpy import arccos, array, degrees, pi, dot
         >>> from numpy.linalg import norm
         >>> from numpy.random import Generator, PCG64

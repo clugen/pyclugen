@@ -4,7 +4,7 @@ This section contains several examples on how to generate 1D data with
 **pyclugen**. To run the examples we first need to import the
 [`clugen()`][clugen.main.clugen] function:"""
 
-from clugen import clugen
+from pyclugen import clugen
 
 #%%
 # To make the examples exactly reproducible we'll import a random number

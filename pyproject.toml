@@ -75,12 +75,12 @@ norecursedirs = [
     ".tox",
     ".git",
     "__pycache__" ]
-testpaths = ["clugen", "tests"]
+testpaths = ["pyclugen", "tests"]
 
 [tool.isort]
 # https://pycqa.github.io/isort/docs/configuration/options.html
 profile = "black"
-src_paths = ["clugen", "tests"]
+src_paths = ["pyclugen", "tests"]
 line_length = 88
 skip_gitignore = "True"
 
