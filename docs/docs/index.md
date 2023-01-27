@@ -3,9 +3,9 @@
 **pyclugen** is Python package for generating multidimensional clusters. Each
 cluster is supported by a line segment, the position, orientation and length of
 which guide where the respective points are placed. The
-[`clugen()`][clugen.main.clugen] function is provided for this purpose, as well
+[`clugen()`][pyclugen.main.clugen] function is provided for this purpose, as well
 as a number of auxiliary functions, used internally and modularly by
-[`clugen()`][clugen.main.clugen]. Users can swap these auxiliary functions by
+[`clugen()`][pyclugen.main.clugen]. Users can swap these auxiliary functions by
 their own customized versions, fine-tuning their cluster generation strategies,
 or even use them as the basis for their own generation algorithms.
 

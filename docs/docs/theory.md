@@ -61,7 +61,7 @@ parameter influences the end result.
 
 ### Algorithm parameters
 
-The _clugen_ algorithm (and consequently, the [`clugen()`][clugen.main.clugen]
+The _clugen_ algorithm (and consequently, the [`clugen()`][pyclugen.main.clugen]
 function) has mandatory and optional parameters, listed and described in the tables
 below. The optional parameters are set to sensible defaults, and in many situations
 may be left unchanged. Nonetheless, these allow all of the algorithm's steps to be
@@ -89,10 +89,10 @@ fully customized by the user.
 | $\mathbf{o}$      | `cluster_offset`  | [`zeros(num_dims)`][numpy.zeros]               | Offset to add to all cluster centers ($n \times 1$).     |
 | $p_\text{proj}()$ | `proj_dist_fn`    | `"norm"`        | Distribution of point projections along cluster-supporting lines. |
 | $p_\text{final}()$| `point_dist_fn`   | `"n-1"`         | Distribution of final points from their projections.              |
-| $c_s()$           | `clusizes_fn`     | [`clusizes()`][clugen.module.clusizes]         | Distribution of cluster sizes.                           |
-| $c_c()$           | `clucenters_fn`   | [`clucenters()`][clugen.module.clucenters]     | Distribution of cluster centers.                         |
-| $l()$             | `llengths_fn`     | [`llengths()`][clugen.module.llengths]         | Distribution of line lengths.                            |
-| $\theta_\Delta()$ | `angle_deltas_fn` | [`angle_deltas()`][clugen.module.angle_deltas] | Distribution of line angle deltas (w.r.t. $\mathbf{d}$). |
+| $c_s()$           | `clusizes_fn`     | [`clusizes()`][pyclugen.module.clusizes]         | Distribution of cluster sizes.                           |
+| $c_c()$           | `clucenters_fn`   | [`clucenters()`][pyclugen.module.clucenters]     | Distribution of cluster centers.                         |
+| $l()$             | `llengths_fn`     | [`llengths()`][pyclugen.module.llengths]         | Distribution of line lengths.                            |
+| $\theta_\Delta()$ | `angle_deltas_fn` | [`angle_deltas()`][pyclugen.module.angle_deltas] | Distribution of line angle deltas (w.r.t. $\mathbf{d}$). |
 
 ### The algorithm in detail
 
@@ -123,7 +123,7 @@ acceptable.
 
 The $c_s()$ function is an optional parameter, allowing users to customize its
 behavior. By default, $c_s()$ is implemented by the
-[`clusizes()`][clugen.module.clusizes] function, which behaves according to the
+[`clusizes()`][pyclugen.module.clusizes] function, which behaves according to the
 following algorithm:
 
 1. Determine the size $p_i$ of each cluster $i$ according to
@@ -134,21 +134,21 @@ following algorithm:
 2. Assure that the final cluster sizes add up to $p$ by incrementing the smallest
    cluster size while $\sum_{i=1}^c p_i<p$ or decrementing the largest cluster
    size while $\sum_{i=1}^c p_i>p$. This step is delegated to the
-   [`fix_num_points()`][clugen.helper.fix_num_points] helper function.
+   [`fix_num_points()`][pyclugen.helper.fix_num_points] helper function.
 3. If $\neg\phi\wedge p\ge c$ then, for each empty cluster $i$ (i.e.,
    $p_i=0$), increment $p_i$ and decrement $p_j$, where $j$ denotes the
    largest cluster. This step is delegated to the
-   [`fix_empty()`][clugen.helper.fix_empty] helper function.
+   [`fix_empty()`][pyclugen.helper.fix_empty] helper function.
 
 Figure 2 demonstrates possible cluster sizes with various definitions of $c_s()$
 for $c=4$ and $p=5000$. The default behavior, implemented in the
-[`clusizes()`][clugen.module.clusizes] function, is shown in Figure 2a, while
+[`clusizes()`][pyclugen.module.clusizes] function, is shown in Figure 2a, while
 Figures 2b-d present results obtained with custom user functions. Figure 2b
 displays cluster sizes obtained with the discrete uniform distribution over
 $\left\{1, 2, \ldots, \frac{2p}{c}\right\}$, corrected with
-[`fix_num_points()`][clugen.helper.fix_num_points]. In turn, Figure 2c highlights
+[`fix_num_points()`][pyclugen.helper.fix_num_points]. In turn, Figure 2c highlights
 cluster sizes obtained with the Poisson distribution with $\lambda=\frac{p}{c}$,
-also corrected with [`fix_num_points()`][clugen.helper.fix_num_points]. The cluster
+also corrected with [`fix_num_points()`][pyclugen.helper.fix_num_points]. The cluster
 sizes shown in Figure 2d were determined with the same distribution (Poisson,
 $\lambda=\frac{p}{c}$), but were not corrected. Thus, cluster sizes do not add up
 to $p$, highlighting the fact that this is not a requirement of the *clugen*
@@ -173,7 +173,7 @@ of cluster offsets.
 
 The $c_c()$ function is an optional parameter, allowing users to customize its
 behavior. By default, $c_c()$ is implemented by the
-[`clucenters()`][clugen.module.clucenters] function, which determines the cluster
+[`clucenters()`][pyclugen.module.clucenters] function, which determines the cluster
 centers according to:
 
 $$
@@ -187,7 +187,7 @@ vector with all entries equal to 1.
 Figure 3 shows scatters plots of the results generated by *clugen* for two
 different implementations of the $c_c()$ function, namely using the uniform the
 distribution (the default, implemented by the
-[`clucenters()`][clugen.module.clucenters] function, Figure 3a), and direct
+[`clucenters()`][pyclugen.module.clucenters] function, Figure 3a), and direct
 specification of cluster centers (Figure 3b).
 
 ![**Figure 3** - The output of *clugen* for two different implementations of the
@@ -211,7 +211,7 @@ length, and $l_\sigma$ is the length dispersion.
 
 The $l()$ function is an optional parameter, allowing users to customize its
 behavior. By default, $l()$ is implemented by the
-[`llengths()`][clugen.module.llengths] function, which determines the $\ell_i$
+[`llengths()`][pyclugen.module.llengths] function, which determines the $\ell_i$
 length of each cluster-supporting line $i$ according to:
 
 $$
@@ -247,7 +247,7 @@ is the number of clusters, and $\theta_\sigma$ is the angle dispersion.
 
 The $\theta_\Delta()$ function is an optional parameter, allowing users to
 customize its behavior. By default, $\theta_\Delta()$ is implemented by the
-[`angle_deltas()`][clugen.module.angle_deltas] function, which determines the
+[`angle_deltas()`][pyclugen.module.angle_deltas] function, which determines the
 $\theta_{\Delta i}$ angle difference between $\mathbf{d}$ and the $i$-th
 cluster-supporting line according to:
 
@@ -331,7 +331,7 @@ the line length and number of points in cluster $i$, respectively.
 The $p_\text{proj}()$ function is an optional parameter, allowing users to
 customize its behavior. `pyclugen` provides two concrete implementations out of
 the box, specified by passing `"norm"` or `"unif"` to
-[`clugen()`][clugen.main.clugen]'s `proj_dist_fn` parameter. These work as
+[`clugen()`][pyclugen.main.clugen]'s `proj_dist_fn` parameter. These work as
 follows:
 
 * `"norm"` (default) - Each element of $\mathbf{w}_i$ is derived from
@@ -365,7 +365,7 @@ is set to 5000.](https://raw.githubusercontent.com/clugen/.github/main/images/pr
 ##### 6.3. Determine coordinates of point projections on the cluster-supporting line
 
 This is a deterministic step performed by the
-[`points_on_line()`][clugen.core.points_on_line] function using the vector
+[`points_on_line()`][pyclugen.core.points_on_line] function using the vector
 formulation of the line equation, as follows:
 
 $$
@@ -398,7 +398,7 @@ of the cluster-supporting line.
 
 The $p_\text{final}()$ function is an optional parameter, allowing users to
 customize its behavior. `pyclugen` provides two concrete implementations out of
-the box, specified by passing `"n-1"` or `"n"` to [`clugen()`][clugen.main.clugen]'s
+the box, specified by passing `"n-1"` or `"n"` to [`clugen()`][pyclugen.main.clugen]'s
 `point_dist_fn` parameter. These work as follows:
 
 * `"n-1"` (default) - Points are placed on a hyperplane orthogonal to the
@@ -407,14 +407,14 @@ the box, specified by passing `"n-1"` or `"n"` to [`clugen()`][clugen.main.cluge
   and determining their magnitude using the normal distribution
   ($\mu=0$, $\sigma=f_\sigma$). These vectors are then added to the respective
   projections on the cluster-supporting line, yielding the final cluster points.
-  This behavior is implemented in the [`clupoints_n_1()`][clugen.module.clupoints_n_1]
+  This behavior is implemented in the [`clupoints_n_1()`][pyclugen.module.clupoints_n_1]
   function.
 * `"n"` - Points are placed around their respective projections. This is done by
   obtaining $p_i$ random unit vectors, and determining their magnitude using
   the normal distribution ($\mu=0$, $\sigma=f_\sigma$). These vectors are
   then added to the respective projections on the cluster-supporting line,
   yielding the final cluster points. This behavior is implemented in the
-  [`clupoints_n()`][clugen.module.clupoints_n] function.
+  [`clupoints_n()`][pyclugen.module.clupoints_n] function.
 
 Figure 7 highlights the differences between these two approaches in 2D, where a
 hyperplane is simply a line.

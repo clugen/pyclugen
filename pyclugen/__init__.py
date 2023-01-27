@@ -6,7 +6,7 @@
 
 Note that:
 
-1. [`clugen()`][clugen.main.clugen] is the main function of the **pyclugen**
+1. [`clugen()`][pyclugen.main.clugen] is the main function of the **pyclugen**
    package, and possibly the only function most users will need.
 2. Functions which accept `rng` as the last parameter are stochastic. Thus, in
    order to obtain the same result on separate invocations of these functions,

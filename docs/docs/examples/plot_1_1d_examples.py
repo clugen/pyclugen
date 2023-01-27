@@ -2,14 +2,14 @@
 
 This section contains several examples on how to generate 1D data with
 **pyclugen**. To run the examples we first need to import the
-[`clugen()`][clugen.main.clugen] function:"""
+[`clugen()`][pyclugen.main.clugen] function:"""
 
 from pyclugen import clugen
 
 #%%
 # To make the examples exactly reproducible we'll import a random number
 # generator from NumPy and pass it as a parameter to
-# [`clugen()`][clugen.main.clugen]. We'll also create a small helper function
+# [`clugen()`][pyclugen.main.clugen]. We'll also create a small helper function
 # for providing us a brand new seeded generator:
 
 import numpy as np

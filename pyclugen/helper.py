@@ -76,9 +76,10 @@ def clupoints_n_1_template(
     the point's projection. The function specified in `dist_fn` is used to perform
     the actual placement.
 
-    This function is used internally by [`clupoints_n_1()`][clugen.module.clupoints_n_1]
-    and may be useful for constructing user-defined final point placement strategies for
-    the `point_dist_fn` parameter of the main [`clugen()`][clugen.main.clugen] function.
+    This function is used internally by
+    [`clupoints_n_1()`][pyclugen.module.clupoints_n_1] and may be useful for
+    constructing user-defined final point placement strategies for the `point_dist_fn`
+    parameter of the main [`clugen()`][pyclugen.main.clugen] function.
 
     Examples:
         >>> from numpy import array, zeros
@@ -102,7 +103,7 @@ def clupoints_n_1_template(
       dist_fn: Function to place points on a second line, orthogonal to the first.
         The functions accepts as parameters the number of points in the current
         cluster, the `lateral_disp` parameter (the same passed to the
-        [`clugen()`][clugen.main.clugen] function), and a random number generator,
+        [`clugen()`][pyclugen.main.clugen] function), and a random number generator,
         returning a vector containing the distance of each point to its projection
         on the cluster-supporting line.
       rng: An optional pseudo-random number generator for reproducible executions.
@@ -143,9 +144,9 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
     smaller than the number of clusters (or if the `allow_empty` parameter is set
     to `true`), this function does nothing.
 
-    This function is used internally by [`clusizes()`][clugen.module.clusizes]
+    This function is used internally by [`clusizes()`][pyclugen.module.clusizes]
     and might be useful for custom cluster sizing implementations given as the
-    `clusizes_fn` parameter of the main [`clugen()`][clugen.main.clugen] function.
+    `clusizes_fn` parameter of the main [`clugen()`][pyclugen.main.clugen] function.
 
     Note that the array is changed in-place.
 
@@ -197,9 +198,9 @@ def fix_num_points(clu_num_points: NDArray, num_points: int) -> NDArray:
     `sum(clu_num_points) < num_points`, or decrementing the value corresponding to
     the largest cluster while `sum(clu_num_points) > num_points`.
 
-    This function is used internally by [`clusizes()`][clugen.module.clusizes]
+    This function is used internally by [`clusizes()`][pyclugen.module.clusizes]
     and might be useful for custom cluster sizing implementations given as the
-    `clusizes_fn` parameter of the main [`clugen()`][clugen.main.clugen] function.
+    `clusizes_fn` parameter of the main [`clugen()`][pyclugen.main.clugen] function.
 
     Examples:
         >>> from numpy import array
