@@ -3,10 +3,10 @@ name: Coverage
 on:
   pull_request:
     branches: [main]
-    paths: [ 'src/**', 'test/**' ]
+    paths: [ 'pyclugen/**', 'tests/**' ]
   push:
     branches: [main]
-    paths: [ 'src/**', 'test/**' ]
+    paths: [ 'pyclugen/**', 'tests/**' ]
     tags: '*'
 
 jobs:

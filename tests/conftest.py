@@ -17,7 +17,7 @@ if os.environ.get("CI") is not None:
     t_num_points = [1, 10, 500]
     t_num_clusters = [1, 10, 50]
     t_lat_std = [0.0, 10.0]
-    t_angle_std = [0, pi / 256, pi, 2 * pi]
+    t_angle_std = [0, pi / 256, pi / 2, pi, 2 * pi]
 else:
     seeds = [0, 123, 9999, 9876543]
     t_ndims = [1, 2, 3, 5, 30]
