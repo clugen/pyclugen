@@ -9,17 +9,19 @@ as a number of auxiliary functions, used internally and modularly by
 their own customized versions, fine-tuning their cluster generation strategies,
 or even use them as the basis for their own generation algorithms.
 
-## How to install
+## Installation
 
-From PyPI:
+Install from PyPI:
 
-```text
+```sh
+pip install --upgrade pip
 pip install pyclugen
 ```
 
-From source/GitHub:
+Or directly from GitHub:
 
 ```text
+pip install --upgrade pip
 pip install git+https://github.com/clugen/pyclugen.git#egg=pyclugen
 ```
 
