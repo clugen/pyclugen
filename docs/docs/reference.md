@@ -1,1 +1,1 @@
-::: clugen
+::: pyclugen
