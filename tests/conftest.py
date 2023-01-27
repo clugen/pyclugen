@@ -1,15 +1,30 @@
-# Copyright (c) 2020-2022 Nuno Fachada and contributors
+# Copyright (c) 2020-2023 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
 """Fixtures to be used by test functions."""
+
+import os
 
 import pytest
 from numpy import ones, pi, zeros
 from numpy.linalg import norm
 from numpy.random import PCG64, Generator, Philox
 
-seeds = [0, 123, 9999, 9876543]
+if os.environ.get("CI") is not None:
+    seeds = [123]
+    t_ndims = [1, 3, 5]
+    t_num_points = [1, 10, 500]
+    t_num_clusters = [1, 10, 50]
+    t_lat_std = [0.0, 10.0]
+    t_angle_std = [0, pi / 256, pi, 2 * pi]
+else:
+    seeds = [0, 123, 9999, 9876543]
+    t_ndims = [1, 2, 3, 5, 30]
+    t_num_points = [1, 10, 500, 10000]
+    t_num_clusters = [1, 2, 5, 10, 100]
+    t_lat_std = [0.0, 5.0, 500.0]
+    t_angle_std = [0, pi / 256, pi / 32, pi / 4, pi / 2, pi, 2 * pi]
 
 
 @pytest.fixture(params=seeds)
@@ -24,25 +39,25 @@ def prng(seed):
     return Generator(PCG64(seed))
 
 
-@pytest.fixture(params=[1, 2, 3, 4, 30])
+@pytest.fixture(params=t_ndims)
 def ndims(request):
     """Provides a number of dimensions."""
     return request.param
 
 
-@pytest.fixture(params=[1, 10, 500, 10000])
+@pytest.fixture(params=t_num_points)
 def num_points(request):
     """Provides a number of points."""
     return request.param
 
 
-@pytest.fixture(params=[1, 2, 5, 10, 100])
+@pytest.fixture(params=t_num_clusters)
 def num_clusters(request):
     """Provides a number of clusters."""
     return request.param
 
 
-@pytest.fixture(params=[0.0, 5.0, 500.0])
+@pytest.fixture(params=t_lat_std)
 def lat_std(request):
     """Provides values for lat_std."""
     return request.param
@@ -66,7 +81,7 @@ def allow_empty(request):
     return request.param
 
 
-@pytest.fixture(params=[0, pi / 256, pi / 32, pi / 4, pi / 2, pi, 2 * pi])
+@pytest.fixture(params=t_angle_std)
 def angle_std(request):
     """Provides an angle standard deviation."""
     return request.param
