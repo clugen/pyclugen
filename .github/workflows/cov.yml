@@ -10,7 +10,7 @@ on:
     tags: '*'
 
 jobs:
-  build-and-test:
+  determine-coverage:
     runs-on: ubuntu-latest
     steps:
     - name: Clone repository
@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install pip --upgrade
-        pip install -e .[dev]
+        pip install .[dev]
     - name: Test with pytest and create coverage report
       run: pytest --cov=pyclugen --cov-report=xml
     - name: Upload coverage to Codecov
