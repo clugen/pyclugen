@@ -1,6 +1,63 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyclugen"
+description = "Multidimensional cluster generation in Python"
+version = "0.1.0"
+authors = [ { name = "Nuno Fachada", email = "faken@fakenmc.com" } ]
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = [
+    "multidimensional data",
+    "synthetic clusters",
+    "synthetic data generation",
+    "synthetic data generator",
+    "multidimensional clusters",
+    "clustering" ]
+license = {text = "MIT"}
+# https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering"
+]
+dependencies = [ "numpy >= 1.20" ]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8 >= 6.0.0",
+    "flake8-black",
+    "flake8-builtins",
+    "flake8-bugbear",
+    "flake8-comprehensions",
+    "flake8-docstrings",
+    "flake8-isort",
+    "Flake8-pyproject",
+    "flake8-pytest-style",
+    "flake8-simplify",
+    "isort",
+    "matplotlib",
+    "mypy",
+    "mkdocs-gallery",
+    "mkdocs-material",
+    "mkdocstrings-python",
+    "pandas",
+    "pep8-naming",
+    "pre-commit",
+    "pytest >= 6.0",
+    "coverage",
+    "pytest-cov >= 3.0.0",
+    "pytest-mypy",
+    "seaborn" ]
+
+[tool.setuptools]
+packages = ["pyclugen"]
 
 [tool.mypy]
 python_version = 3.8
@@ -8,7 +65,16 @@ python_version = 3.8
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "--mypy --doctest-modules"
-norecursedirs = ["hooks", "*.egg", ".eggs", "dist", "build", "docs", ".tox", ".git", "__pycache__"]
+norecursedirs = [
+    "hooks",
+    "*.egg",
+    ".eggs",
+    "dist",
+    "build",
+    "docs",
+    ".tox",
+    ".git",
+    "__pycache__" ]
 testpaths = ["clugen", "tests"]
 
 [tool.isort]
@@ -17,3 +83,23 @@ profile = "black"
 src_paths = ["clugen", "tests"]
 line_length = 88
 skip_gitignore = "True"
+
+[tool.flake8]
+extend-select = ["B9", "C4"]
+max-line-length = 88
+max-doc-length = 88
+ignore = [ "B018", "SIM106", "W503" ]
+doctests = true
+exclude = [
+    ".git",
+    "__pycache__",
+    ".*cache",
+    "build",
+    "dist",
+    "env",
+    "venv",
+    ".eggs",
+    "*.egg",
+    "docs" ]
+# flake8-docstrings
+docstring-convention = "google"
