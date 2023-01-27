@@ -1,0 +1,33 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths: [ 'pyclugen/**', 'tests/**' ]
+  push:
+    branches: [main]
+    paths: [ 'pyclugen/**', 'tests/**' ]
+    tags: '*'
+
+jobs:
+  run-tests:
+    name: Python ${{ matrix.version }} - ${{ matrix.os }} - ${{ github.event_name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['3.8', '3.11']
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v3
+    - name: Setup latest Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.version }}
+    - name: Install dependencies
+      run: |
+        pip install pip --upgrade
+        pip install .[dev]
+    - name: Test with pytest
+      run: pytest
