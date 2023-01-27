@@ -2,14 +2,14 @@
 
 This section contains several examples on how to generate 2D data with
 **pyclugen**. To run the examples we first need to import the
-[`clugen()`][clugen.main.clugen] function:"""
+[`clugen()`][pyclugen.main.clugen] function:"""
 
-from clugen import clugen
+from pyclugen import clugen
 
 #%%
 # To make the examples exactly reproducible we'll import a random number
 # generator from NumPy and pass it as a parameter to
-# [`clugen()`][clugen.main.clugen]. We'll also create a small helper function
+# [`clugen()`][pyclugen.main.clugen]. We'll also create a small helper function
 # for providing us a brand new seeded generator:
 
 import numpy as np
@@ -292,10 +292,10 @@ plt = plot_examples_2d(
 # ### Custom point placement using the exponential distribution
 #
 # For this example we require the
-# [`clupoints_n_1_template()`][clugen.helper.clupoints_n_1_template]
+# [`clupoints_n_1_template()`][pyclugen.helper.clupoints_n_1_template]
 # helper function:
 
-from clugen import clupoints_n_1_template
+from pyclugen import clupoints_n_1_template
 
 #%%
 

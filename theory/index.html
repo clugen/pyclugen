@@ -641,7 +641,7 @@ parameters. We start by listing and describing all parameters (mandatory and
 optional), and then analyze the algorithm in detail, highlighting how each
 parameter influences the end result.</p>
 <h3 id="algorithm-parameters">Algorithm parameters<a class="headerlink" href="#algorithm-parameters" title="Permanent link">&para;</a></h3>
-<p>The <em>clugen</em> algorithm (and consequently, the <a class="autorefs autorefs-internal" href="../reference/#clugen.clugen"><code class="highlight">clugen()</code></a>
+<p>The <em>clugen</em> algorithm (and consequently, the <a class="autorefs autorefs-internal" href="../reference/#pyclugen.clugen"><code class="highlight">clugen()</code></a>
 function) has mandatory and optional parameters, listed and described in the tables
 below. The optional parameters are set to sensible defaults, and in many situations
 may be left unchanged. Nonetheless, these allow all of the algorithm's steps to be
@@ -741,25 +741,25 @@ fully customized by the user.</p>
 <tr>
 <td align="left"><span class="arithmatex">\(c_s()\)</span></td>
 <td align="left"><code class="highlight">clusizes_fn</code></td>
-<td align="left"><a class="autorefs autorefs-internal" href="../reference/#clugen.clusizes"><code class="highlight">clusizes()</code></a></td>
+<td align="left"><a class="autorefs autorefs-internal" href="../reference/#pyclugen.clusizes"><code class="highlight">clusizes()</code></a></td>
 <td align="left">Distribution of cluster sizes.</td>
 </tr>
 <tr>
 <td align="left"><span class="arithmatex">\(c_c()\)</span></td>
 <td align="left"><code class="highlight">clucenters_fn</code></td>
-<td align="left"><a class="autorefs autorefs-internal" href="../reference/#clugen.clucenters"><code class="highlight">clucenters()</code></a></td>
+<td align="left"><a class="autorefs autorefs-internal" href="../reference/#pyclugen.clucenters"><code class="highlight">clucenters()</code></a></td>
 <td align="left">Distribution of cluster centers.</td>
 </tr>
 <tr>
 <td align="left"><span class="arithmatex">\(l()\)</span></td>
 <td align="left"><code class="highlight">llengths_fn</code></td>
-<td align="left"><a class="autorefs autorefs-internal" href="../reference/#clugen.llengths"><code class="highlight">llengths()</code></a></td>
+<td align="left"><a class="autorefs autorefs-internal" href="../reference/#pyclugen.llengths"><code class="highlight">llengths()</code></a></td>
 <td align="left">Distribution of line lengths.</td>
 </tr>
 <tr>
 <td align="left"><span class="arithmatex">\(\theta_\Delta()\)</span></td>
 <td align="left"><code class="highlight">angle_deltas_fn</code></td>
-<td align="left"><a class="autorefs autorefs-internal" href="../reference/#clugen.angle_deltas"><code class="highlight">angle_deltas()</code></a></td>
+<td align="left"><a class="autorefs autorefs-internal" href="../reference/#pyclugen.angle_deltas"><code class="highlight">angle_deltas()</code></a></td>
 <td align="left">Distribution of line angle deltas (w.r.t. <span class="arithmatex">\(\mathbf{d}\)</span>).</td>
 </tr>
 </tbody>
@@ -784,7 +784,7 @@ points, and <span class="arithmatex">\(\phi\)</span> is a boolean which determin
 acceptable.</p>
 <p>The <span class="arithmatex">\(c_s()\)</span> function is an optional parameter, allowing users to customize its
 behavior. By default, <span class="arithmatex">\(c_s()\)</span> is implemented by the
-<a class="autorefs autorefs-internal" href="../reference/#clugen.clusizes"><code class="highlight">clusizes()</code></a> function, which behaves according to the
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.clusizes"><code class="highlight">clusizes()</code></a> function, which behaves according to the
 following algorithm:</p>
 <ol>
 <li>Determine the size <span class="arithmatex">\(p_i\)</span> of each cluster <span class="arithmatex">\(i\)</span> according to
@@ -795,21 +795,21 @@ following algorithm:</p>
 <li>Assure that the final cluster sizes add up to <span class="arithmatex">\(p\)</span> by incrementing the smallest
    cluster size while <span class="arithmatex">\(\sum_{i=1}^c p_i&lt;p\)</span> or decrementing the largest cluster
    size while <span class="arithmatex">\(\sum_{i=1}^c p_i&gt;p\)</span>. This step is delegated to the
-   <a class="autorefs autorefs-internal" href="../reference/#clugen.fix_num_points"><code class="highlight">fix_num_points()</code></a> helper function.</li>
+   <a class="autorefs autorefs-internal" href="../reference/#pyclugen.fix_num_points"><code class="highlight">fix_num_points()</code></a> helper function.</li>
 <li>If <span class="arithmatex">\(\neg\phi\wedge p\ge c\)</span> then, for each empty cluster <span class="arithmatex">\(i\)</span> (i.e.,
    <span class="arithmatex">\(p_i=0\)</span>), increment <span class="arithmatex">\(p_i\)</span> and decrement <span class="arithmatex">\(p_j\)</span>, where <span class="arithmatex">\(j\)</span> denotes the
    largest cluster. This step is delegated to the
-   <a class="autorefs autorefs-internal" href="../reference/#clugen.fix_empty"><code class="highlight">fix_empty()</code></a> helper function.</li>
+   <a class="autorefs autorefs-internal" href="../reference/#pyclugen.fix_empty"><code class="highlight">fix_empty()</code></a> helper function.</li>
 </ol>
 <p>Figure 2 demonstrates possible cluster sizes with various definitions of <span class="arithmatex">\(c_s()\)</span>
 for <span class="arithmatex">\(c=4\)</span> and <span class="arithmatex">\(p=5000\)</span>. The default behavior, implemented in the
-<a class="autorefs autorefs-internal" href="../reference/#clugen.clusizes"><code class="highlight">clusizes()</code></a> function, is shown in Figure 2a, while
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.clusizes"><code class="highlight">clusizes()</code></a> function, is shown in Figure 2a, while
 Figures 2b-d present results obtained with custom user functions. Figure 2b
 displays cluster sizes obtained with the discrete uniform distribution over
 <span class="arithmatex">\(\left\{1, 2, \ldots, \frac{2p}{c}\right\}\)</span>, corrected with
-<a class="autorefs autorefs-internal" href="../reference/#clugen.fix_num_points"><code class="highlight">fix_num_points()</code></a>. In turn, Figure 2c highlights
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.fix_num_points"><code class="highlight">fix_num_points()</code></a>. In turn, Figure 2c highlights
 cluster sizes obtained with the Poisson distribution with <span class="arithmatex">\(\lambda=\frac{p}{c}\)</span>,
-also corrected with <a class="autorefs autorefs-internal" href="../reference/#clugen.fix_num_points"><code class="highlight">fix_num_points()</code></a>. The cluster
+also corrected with <a class="autorefs autorefs-internal" href="../reference/#pyclugen.fix_num_points"><code class="highlight">fix_num_points()</code></a>. The cluster
 sizes shown in Figure 2d were determined with the same distribution (Poisson,
 <span class="arithmatex">\(\lambda=\frac{p}{c}\)</span>), but were not corrected. Thus, cluster sizes do not add up
 to <span class="arithmatex">\(p\)</span>, highlighting the fact that this is not a requirement of the <em>clugen</em>
@@ -828,7 +828,7 @@ separation (<span class="arithmatex">\(n \times 1\)</span> vector), and <span cl
 of cluster offsets.</p>
 <p>The <span class="arithmatex">\(c_c()\)</span> function is an optional parameter, allowing users to customize its
 behavior. By default, <span class="arithmatex">\(c_c()\)</span> is implemented by the
-<a class="autorefs autorefs-internal" href="../reference/#clugen.clucenters"><code class="highlight">clucenters()</code></a> function, which determines the cluster
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.clucenters"><code class="highlight">clucenters()</code></a> function, which determines the cluster
 centers according to:</p>
 <div class="arithmatex">\[
 \mathbf{C}=c\mathbf{U} \cdot \operatorname{diag}(\mathbf{s}) + \mathbf{1}\,\mathbf{o}^T
@@ -839,7 +839,7 @@ vector with all entries equal to 1.</p>
 <p>Figure 3 shows scatters plots of the results generated by <em>clugen</em> for two
 different implementations of the <span class="arithmatex">\(c_c()\)</span> function, namely using the uniform the
 distribution (the default, implemented by the
-<a class="autorefs autorefs-internal" href="../reference/#clugen.clucenters"><code class="highlight">clucenters()</code></a> function, Figure 3a), and direct
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.clucenters"><code class="highlight">clucenters()</code></a> function, Figure 3a), and direct
 specification of cluster centers (Figure 3b).</p>
 <p><img alt="**Figure 3** - The output of *clugen* for two different implementations of the
 \(c_c()\) function for finding cluster centers: a) the default, using the uniform
@@ -857,7 +857,7 @@ the cluster-supporting lines, <span class="arithmatex">\(c\)</span> is the numbe
 length, and <span class="arithmatex">\(l_\sigma\)</span> is the length dispersion.</p>
 <p>The <span class="arithmatex">\(l()\)</span> function is an optional parameter, allowing users to customize its
 behavior. By default, <span class="arithmatex">\(l()\)</span> is implemented by the
-<a class="autorefs autorefs-internal" href="../reference/#clugen.llengths"><code class="highlight">llengths()</code></a> function, which determines the <span class="arithmatex">\(\ell_i\)</span>
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.llengths"><code class="highlight">llengths()</code></a> function, which determines the <span class="arithmatex">\(\ell_i\)</span>
 length of each cluster-supporting line <span class="arithmatex">\(i\)</span> according to:</p>
 <div class="arithmatex">\[
 \ell_i\sim\left|\mathcal{N}(l,l_\sigma^2)\right|
@@ -884,7 +884,7 @@ angle differences between <span class="arithmatex">\(\mathbf{d}\)</span> and the
 is the number of clusters, and <span class="arithmatex">\(\theta_\sigma\)</span> is the angle dispersion.</p>
 <p>The <span class="arithmatex">\(\theta_\Delta()\)</span> function is an optional parameter, allowing users to
 customize its behavior. By default, <span class="arithmatex">\(\theta_\Delta()\)</span> is implemented by the
-<a class="autorefs autorefs-internal" href="../reference/#clugen.angle_deltas"><code class="highlight">angle_deltas()</code></a> function, which determines the
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.angle_deltas"><code class="highlight">angle_deltas()</code></a> function, which determines the
 <span class="arithmatex">\(\theta_{\Delta i}\)</span> angle difference between <span class="arithmatex">\(\mathbf{d}\)</span> and the <span class="arithmatex">\(i\)</span>-th
 cluster-supporting line according to:</p>
 <div class="arithmatex">\[
@@ -956,7 +956,7 @@ the line length and number of points in cluster <span class="arithmatex">\(i\)</
 <p>The <span class="arithmatex">\(p_\text{proj}()\)</span> function is an optional parameter, allowing users to
 customize its behavior. <code class="highlight">pyclugen</code> provides two concrete implementations out of
 the box, specified by passing <code class="highlight">&quot;norm&quot;</code> or <code class="highlight">&quot;unif&quot;</code> to
-<a class="autorefs autorefs-internal" href="../reference/#clugen.clugen"><code class="highlight">clugen()</code></a>'s <code class="highlight">proj_dist_fn</code> parameter. These work as
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.clugen"><code class="highlight">clugen()</code></a>'s <code class="highlight">proj_dist_fn</code> parameter. These work as
 follows:</p>
 <ul>
 <li><code class="highlight">&quot;norm&quot;</code> (default) - Each element of <span class="arithmatex">\(\mathbf{w}_i\)</span> is derived from
@@ -987,7 +987,7 @@ distances drawn from the Rayleigh distribution. All parameters are set as in Fig
 is set to 5000." src="https://raw.githubusercontent.com/clugen/.github/main/images/proj_dist_fn.png" /></p>
 <h5 id="63-determine-coordinates-of-point-projections-on-the-cluster-supporting-line">6.3. Determine coordinates of point projections on the cluster-supporting line<a class="headerlink" href="#63-determine-coordinates-of-point-projections-on-the-cluster-supporting-line" title="Permanent link">&para;</a></h5>
 <p>This is a deterministic step performed by the
-<a class="autorefs autorefs-internal" href="../reference/#clugen.points_on_line"><code class="highlight">points_on_line()</code></a> function using the vector
+<a class="autorefs autorefs-internal" href="../reference/#pyclugen.points_on_line"><code class="highlight">points_on_line()</code></a> function using the vector
 formulation of the line equation, as follows:</p>
 <div class="arithmatex">\[
 \mathbf{P}_i^\text{proj}=\mathbf{1}\,\mathbf{c}_i^T + \mathbf{w}_i\hat{\mathbf{d}}_i^T
@@ -1013,7 +1013,7 @@ and <span class="arithmatex">\(f_\sigma\)</span> is the lateral dispersion param
 of the cluster-supporting line.</p>
 <p>The <span class="arithmatex">\(p_\text{final}()\)</span> function is an optional parameter, allowing users to
 customize its behavior. <code class="highlight">pyclugen</code> provides two concrete implementations out of
-the box, specified by passing <code class="highlight">&quot;n-1&quot;</code> or <code class="highlight">&quot;n&quot;</code> to <a class="autorefs autorefs-internal" href="../reference/#clugen.clugen"><code class="highlight">clugen()</code></a>'s
+the box, specified by passing <code class="highlight">&quot;n-1&quot;</code> or <code class="highlight">&quot;n&quot;</code> to <a class="autorefs autorefs-internal" href="../reference/#pyclugen.clugen"><code class="highlight">clugen()</code></a>'s
 <code class="highlight">point_dist_fn</code> parameter. These work as follows:</p>
 <ul>
 <li><code class="highlight">&quot;n-1&quot;</code> (default) - Points are placed on a hyperplane orthogonal to the
@@ -1022,14 +1022,14 @@ the box, specified by passing <code class="highlight">&quot;n-1&quot;</code> or 
   and determining their magnitude using the normal distribution
   (<span class="arithmatex">\(\mu=0\)</span>, <span class="arithmatex">\(\sigma=f_\sigma\)</span>). These vectors are then added to the respective
   projections on the cluster-supporting line, yielding the final cluster points.
-  This behavior is implemented in the <a class="autorefs autorefs-internal" href="../reference/#clugen.clupoints_n_1"><code class="highlight">clupoints_n_1()</code></a>
+  This behavior is implemented in the <a class="autorefs autorefs-internal" href="../reference/#pyclugen.clupoints_n_1"><code class="highlight">clupoints_n_1()</code></a>
   function.</li>
 <li><code class="highlight">&quot;n&quot;</code> - Points are placed around their respective projections. This is done by
   obtaining <span class="arithmatex">\(p_i\)</span> random unit vectors, and determining their magnitude using
   the normal distribution (<span class="arithmatex">\(\mu=0\)</span>, <span class="arithmatex">\(\sigma=f_\sigma\)</span>). These vectors are
   then added to the respective projections on the cluster-supporting line,
   yielding the final cluster points. This behavior is implemented in the
-  <a class="autorefs autorefs-internal" href="../reference/#clugen.clupoints_n"><code class="highlight">clupoints_n()</code></a> function.</li>
+  <a class="autorefs autorefs-internal" href="../reference/#pyclugen.clupoints_n"><code class="highlight">clupoints_n()</code></a> function.</li>
 </ul>
 <p>Figure 7 highlights the differences between these two approaches in 2D, where a
 hyperplane is simply a line.</p>

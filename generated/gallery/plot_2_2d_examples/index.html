@@ -599,16 +599,16 @@ to download the full example code</p>
 <h1 id="examples-in-2d">Examples in 2D<a class="headerlink" href="#examples-in-2d" title="Permanent link">&para;</a></h1>
 <p>This section contains several examples on how to generate 2D data with
 <strong>pyclugen</strong>. To run the examples we first need to import the
-<a class="autorefs autorefs-internal" href="../../../reference/#clugen.clugen"><code class="highlight">clugen()</code></a> function:</p>
+<a class="autorefs autorefs-internal" href="../../../reference/#pyclugen.clugen"><code class="highlight">clugen()</code></a> function:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 6-9 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">clugen</span> <span class="kn">import</span> <span class="n">clugen</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pyclugen</span> <span class="kn">import</span> <span class="n">clugen</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 10-14 -->
 
 <p>To make the examples exactly reproducible we'll import a random number
 generator from NumPy and pass it as a parameter to
-<a class="autorefs autorefs-internal" href="../../../reference/#clugen.clugen"><code class="highlight">clugen()</code></a>. We'll also create a small helper function
+<a class="autorefs autorefs-internal" href="../../../reference/#pyclugen.clugen"><code class="highlight">clugen()</code></a>. We'll also create a small helper function
 for providing us a brand new seeded generator:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 14-21 -->
 
@@ -918,11 +918,11 @@ function:</p>
 
 <h3 id="custom-point-placement-using-the-exponential-distribution">Custom point placement using the exponential distribution<a class="headerlink" href="#custom-point-placement-using-the-exponential-distribution" title="Permanent link">&para;</a></h3>
 <p>For this example we require the
-<a class="autorefs autorefs-internal" href="../../../reference/#clugen.clupoints_n_1_template"><code class="highlight">clupoints_n_1_template()</code></a>
+<a class="autorefs autorefs-internal" href="../../../reference/#pyclugen.clupoints_n_1_template"><code class="highlight">clupoints_n_1_template()</code></a>
 helper function:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 297-300 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="kn">from</span> <span class="nn">clugen</span> <span class="kn">import</span> <span class="n">clupoints_n_1_template</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="kn">from</span> <span class="nn">pyclugen</span> <span class="kn">import</span> <span class="n">clupoints_n_1_template</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 301-304 -->
 
@@ -1002,7 +1002,7 @@ helper function:</p>
 <a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a>    <span class="n">e39</span><span class="p">,</span> <span class="s2">&quot;e39: equal size (custom)&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><img alt="e37: normal dist. (default), e38: unif. dist. (custom), e39: equal size (custom)" class="mkd-glr-single-img" src="../images/mkd_glr_plot_2_2d_examples_013.png" srcset="../images/mkd_glr_plot_2_2d_examples_013.png" /></p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  9.367 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  9.260 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href="../plot_2_2d_examples.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 104c-13.3 0-24-10.7-24-24s10.7-24 24-24 24 10.7 24 24-10.7 24-24 24z"/></svg></span> Download Python source code: plot_2_2d_examples.py</a></p>
