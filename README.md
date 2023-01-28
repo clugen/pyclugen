@@ -1,4 +1,4 @@
-![tests](https://github.com/clugen/pyclugen/actions/workflows/tests.yml/badge.svg)
+[![Tests](https://github.com/clugen/pyclugen/actions/workflows/tests.yml/badge.svg)](https://github.com/clugen/pyclugen/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/clugen/pyclugen/branch/main/graph/badge.svg?token=3K5ZN35AJ5)](https://codecov.io/gh/clugen/pyclugen)
 [![docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://clugen.github.io/pyclugen/)
 [![PyPI](https://img.shields.io/pypi/v/pyclugen)](https://pypi.org/project/pyclugen/)
