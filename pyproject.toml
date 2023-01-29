@@ -56,6 +56,11 @@ dev = [
     "pytest-mypy",
     "seaborn" ]
 
+[project.urls]
+"Bug Reports" = "https://github.com/clugen/pyclugen/issues"
+"Documentation" = "https://clugen.github.io/pyclugen/"
+"Source" = "https://github.com/clugen/pyclugen/"
+
 [tool.setuptools]
 packages = ["pyclugen"]
 
