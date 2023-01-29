@@ -3,10 +3,10 @@ name: Tests
 on:
   pull_request:
     branches: [main]
-    paths: [ 'pyclugen/**', 'tests/**' ]
+    paths: [ 'pyclugen/**', 'tests/**', 'pyproject.toml' ]
   push:
     branches: [main]
-    paths: [ 'pyclugen/**', 'tests/**' ]
+    paths: [ 'pyclugen/**', 'tests/**', 'pyproject.toml' ]
     tags: '*'
 
 jobs:
