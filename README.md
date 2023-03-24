@@ -2,6 +2,7 @@
 [![codecov](https://codecov.io/gh/clugen/pyclugen/branch/main/graph/badge.svg?token=3K5ZN35AJ5)](https://codecov.io/gh/clugen/pyclugen)
 [![docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://clugen.github.io/pyclugen/)
 [![PyPI](https://img.shields.io/pypi/v/pyclugen)](https://pypi.org/project/pyclugen/)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/pyclugen?color=blueviolet)
 [![MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](https://tldrlegal.com/license/mit-license)
 
 # pyclugen
