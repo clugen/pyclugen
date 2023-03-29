@@ -6,7 +6,17 @@
 
 from typing import Callable, NamedTuple, Optional, Union
 
-from numpy import asarray, concatenate, cumsum, isclose, sum, zeros
+from numpy import (
+    any,
+    apply_along_axis,
+    asarray,
+    concatenate,
+    cumsum,
+    isclose,
+    repeat,
+    sum,
+    zeros,
+)
 from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import ArrayLike, NDArray
@@ -120,8 +130,9 @@ def clugen(
       num_dims: Number of dimensions.
       num_clusters: Number of clusters to generate.
       num_points: Total number of points to generate.
-      direction: Average direction of the cluster-supporting lines (vector of size
-        `num_dims`).
+      direction: Average direction of the cluster-supporting lines. Can be a
+        vector of length `num_dims` (same direction for all clusters) or a
+        matrix of size `num_clusters` x `num_dims` (one direction per cluster).
       angle_disp: Angle dispersion of cluster-supporting lines (radians).
       cluster_sep: Average cluster separation in each dimension (vector of size
         `num_dims`).
@@ -207,17 +218,41 @@ def clugen(
     if num_clusters < 1:
         raise ValueError("Number of clusters, `num_clust`, must be > 0")
 
-    # Check that direction vector has magnitude > 0
-    if isclose(norm(direction), 0):
-        raise ValueError("`direction` must have magnitude > 0")
+    # Is direction a vector or a matrix?
+    arrdir: NDArray = asarray(direction)
+    if arrdir.ndim == 1:
+        # It's a vector, let's convert it into a row matrix, since this will be
+        # useful down the road
+        arrdir = arrdir.reshape((1, -1))
+    elif arrdir.ndim == 2:
+        # If a matrix was given (i.e. a main direction is given for each cluster),
+        # check if the number of directions is the same as the number of clusters
+        dir_size_1 = arrdir.shape[0]
+        if dir_size_1 != num_clusters:
+            raise ValueError(
+                "Number of rows in `direction` must be the same as the "
+                + f"number of clusters ({dir_size_1} != {num_clusters})"
+            )
+    else:
+        # The `directions` array must be a vector or a matrix, so if we get here
+        # it means we have invalid arguments
+        raise ValueError(
+            "`direction` must be a vector (1D array) or a matrix (2D array), "
+            + f"but is {arrdir.ndim}D"
+        )
 
     # Check that direction has num_dims dimensions
-    arrdir = asarray(direction)
-    if arrdir.size != num_dims:
+    dir_size_2 = arrdir.shape[1]
+    if dir_size_2 != num_dims:
         raise ValueError(
-            "Length of `direction` must be equal to `num_dims` "
-            + f"({arrdir.size} != {num_dims})"
+            "Length of directions in `direction` must be equal to "
+            + f"`num_dims` ({dir_size_2} != {num_dims})"
         )
+
+    # Check that directions have magnitude > 0
+    dir_magnitudes = apply_along_axis(norm, 1, arrdir)
+    if any(isclose(dir_magnitudes, 0)):
+        raise ValueError("Directions in `direction` must have magnitude > 0")
 
     # If allow_empty is false, make sure there are enough points to distribute
     # by the clusters
@@ -312,8 +347,12 @@ def clugen(
     # Determine cluster properties #
     # ############################ #
 
-    # Normalize main direction
-    arrdir = arrdir / norm(arrdir)
+    # Normalize main direction(s)
+    direction = apply_along_axis(lambda a: a / norm(a), 1, arrdir)
+
+    # If only one main direction was given, expand it for all clusters
+    if arrdir.ndim == 1:
+        arrdir = repeat(arrdir, num_clusters, axis=0)
 
     # Determine cluster sizes
     cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng)
@@ -331,12 +370,13 @@ def clugen(
     # Obtain angles between main direction and cluster-supporting lines
     cluster_angles = angle_deltas_fn(num_clusters, angle_disp, rng)
 
-    # Determine normalized cluster directions
-    cluster_directions = zeros((num_clusters, num_dims))
-    for i in range(num_clusters):
-        cluster_directions[i, :] = rand_vector_at_angle(
-            arrdir, cluster_angles[i], rng=rng
-        )
+    # Determine normalized cluster directions by applying the obtained angles
+    cluster_directions = apply_along_axis(
+        lambda v, a: rand_vector_at_angle(v, next(a), rng),
+        1,
+        arrdir,
+        iter(cluster_angles),
+    )
 
     # ################################# #
     # Determine points for each cluster #
