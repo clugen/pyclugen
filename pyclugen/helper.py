@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Nuno Fachada and contributors
+# Copyright (c) 2020-2023 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
@@ -171,16 +171,13 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
     # If the allow_empty parameter is set to true, don't do anything and return
     # immediately; this is useful for quick `clusizes_fn` one-liners
     if not allow_empty:
-
         # Find empty clusters
         empty_clusts = [idx for idx, val in enumerate(clu_num_points) if val == 0]
 
         # If there are empty clusters and enough points for all clusters...
         if len(empty_clusts) > 0 and sum(clu_num_points) >= clu_num_points.size:
-
             # Go through the empty clusters...
             for i0 in empty_clusts:
-
                 # ...get a point from the largest cluster and assign it to the
                 # current empty cluster
                 imax = argmax(clu_num_points)

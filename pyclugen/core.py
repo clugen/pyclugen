@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Nuno Fachada and contributors
+# Copyright (c) 2020-2023 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
@@ -99,7 +99,6 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
 
     # Find a random, non-parallel vector to u
     while True:
-
         # Find normalized random vector
         r = rand_unit_vector(u.size, rng=rng)
 

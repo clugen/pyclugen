@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Nuno Fachada and contributors
+# Copyright (c) 2020-2023 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
@@ -398,7 +398,6 @@ def clugen(
 
     # Loop through clusters and create points for each one
     for i in range(num_clusters):
-
         # Start and end indexes for points in current cluster
         idx_start = cumsum_points[i]
         idx_end = cumsum_points[i + 1]

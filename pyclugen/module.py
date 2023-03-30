@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Nuno Fachada and contributors
+# Copyright (c) 2020-2023 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
@@ -156,6 +156,8 @@ def clupoints_n_1(
     Returns:
       Generated points ( $p \times n$ matrix).
     """
+    # No blank line allowed here
+
     # Define function to get distances from points to their projections on the
     # line (i.e., using the normal distribution)
     def dist_fn(clu_num_points, ldisp, rg):
