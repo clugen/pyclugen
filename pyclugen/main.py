@@ -353,7 +353,7 @@ def clugen(
     # ############################ #
 
     # Normalize main direction(s)
-    direction = apply_along_axis(lambda a: a / norm(a), 1, arrdir)
+    arrdir = apply_along_axis(lambda a: a / norm(a), 1, arrdir)
 
     # If only one main direction was given, expand it for all clusters
     if dir_ndims == 1:
