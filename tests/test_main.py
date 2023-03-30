@@ -8,49 +8,12 @@ import re
 import warnings
 
 import pytest
-from numpy import abs, all, arange, array, diag, linspace, ones, pi, sum, unique, zeros
-from numpy.random import PCG64, Generator
+from numpy import abs, all, arange, array, pi, sum, unique
 from numpy.testing import assert_allclose
 
 from pyclugen.helper import angle_btw
 from pyclugen.main import clugen
 from pyclugen.module import angle_deltas, clucenters, clusizes, llengths
-
-
-@pytest.fixture(params=[0, 98765])
-def prng(request):
-    """Provides random number generators."""
-    return Generator(PCG64(request.param))
-
-
-@pytest.fixture(params=[1, 2, 3, 7])
-def ndims(request):
-    """Provides a number of dimensions."""
-    return request.param
-
-
-@pytest.fixture(params=[1, 10, 800])
-def num_points(request):
-    """Provides a number of points."""
-    return request.param
-
-
-@pytest.fixture(params=[1, 4, 25])
-def num_clusters(request):
-    """Provides a number of clusters."""
-    return request.param
-
-
-@pytest.fixture(params=[0.0, 20.0])
-def lat_std(request):
-    """Provides values for lat_std."""
-    return request.param
-
-
-@pytest.fixture(params=[0, pi / 8, pi])
-def angle_std(request):
-    """Provides an angle standard deviation."""
-    return request.param
 
 
 def test_clugen_mandatory(
@@ -132,57 +95,6 @@ def test_clugen_mandatory(
                 abs(result.angles[i]),
                 atol=1e-11,
             )
-
-
-@pytest.fixture(params=["norm", "unif", lambda ln, n, r: linspace(-ln / 2, ln / 2, n)])
-def ptdist_fn(request):
-    """Provides a point distribution function."""
-    return request.param
-
-
-@pytest.fixture(
-    params=["n-1", "n", lambda prj, ls, ln, cd, cc, r: prj + ones(prj.shape)]
-)
-def ptoff_fn(request):
-    """Provides a point offset function."""
-    return request.param
-
-
-def csz_equi_size(nclu, tpts, ae, rng):
-    """Alternative cluster sizing function for testing purposes."""
-    cs = zeros(nclu, dtype=int)
-    for i in range(tpts):
-        cs[i % nclu] += 1
-    return cs
-
-
-@pytest.fixture(params=[clusizes, csz_equi_size])
-def csz_fn(request):
-    """Provides a cluster sizes function."""
-    return request.param
-
-
-@pytest.fixture(
-    params=[
-        clucenters,
-        lambda nc, cs, co, r: diag(arange(1, nc + 1)) @ ones((nc, cs.size)),
-    ]
-)
-def cctr_fn(request):
-    """Provides a cluster centers function."""
-    return request.param
-
-
-@pytest.fixture(params=[llengths, lambda nc, ln, ls, r: 10 + 10 * r.random(nc)])
-def llen_fn(request):
-    """Provides a a line lengths function."""
-    return request.param
-
-
-@pytest.fixture(params=[angle_deltas, lambda nc, asd, r: zeros(nc)])
-def lang_fn(request):
-    """Provides a line angles function."""
-    return request.param
 
 
 def test_clugen_optional(
@@ -420,7 +332,7 @@ def test_clugen_exceptions(prng):
     with pytest.raises(
         ValueError,
         match=re.escape(
-            "Length of `direction` must be equal to `num_dims` "
+            "Length of directions in `direction` must be equal to `num_dims` "
             + f"({bad_dir.size} != {nd})"
         ),
     ):

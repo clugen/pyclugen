@@ -6,7 +6,6 @@
 
 import warnings
 
-import pytest
 from numpy import abs, dot, isclose, pi
 from numpy.linalg import norm
 from numpy.testing import assert_allclose
@@ -18,12 +17,6 @@ from pyclugen.core import (
     rand_vector_at_angle,
 )
 from pyclugen.helper import angle_btw
-
-
-@pytest.fixture(params=[1, 10, 500])
-def num_points(request):
-    """Provides a number of points."""
-    return request.param
 
 
 def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
