@@ -30,4 +30,4 @@ jobs:
         pip install pip --upgrade
         pip install .[dev]
     - name: Test with pytest
-      run: pytest
+      run: pytest --test-mode=fast
