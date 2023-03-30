@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 import os
-from typing import Callable, Sequence
+from typing import Callable, NamedTuple, Sequence
 
 import pytest
 from numpy import arange, diag, linspace, ones, pi, zeros
@@ -53,97 +53,129 @@ def _lang_zeros(nc: int, asd: float, r: Generator) -> NDArray:
     return zeros(nc)
 
 
-def _is_test_mode(tm: str):
-    """Return true if the specified test mode is set."""
-    return str(os.environ.get("PYCLUGEN_TEST_MODE")).lower() == tm.lower()
+class CGParams(NamedTuple):
+    seeds: Sequence[int]
+    t_ndims: Sequence[int]
+    t_num_points: Sequence[int]
+    t_num_clusters: Sequence[int]
+    t_lat_std: Sequence[float]
+    t_angle_std: Sequence[float]
+    ptdist: Sequence[str | Callable[[float, int, Generator], NDArray]]
+    ptoff: Sequence[
+        str | Callable[[NDArray, float, float, NDArray, NDArray, Generator], NDArray]
+    ]
+    csz: Sequence[Callable[[int, int, bool, Generator], NDArray]]
+    cctr: Sequence[Callable[[int, NDArray, NDArray, Generator], NDArray]]
+    llen: Sequence[Callable[[int, float, float, Generator], NDArray]]
+    lang: Sequence[Callable[[int, float, Generator], NDArray]]
 
 
-seeds: Sequence[int]
-t_ndims: Sequence[int]
-t_num_points: Sequence[int]
-t_num_clusters: Sequence[int]
-t_lat_std: Sequence[float]
-t_angle_std: Sequence[float]
-ptdist: Sequence[str | Callable[[float, int, Generator], NDArray]]
-ptoff: Sequence[
-    str | Callable[[NDArray, float, float, NDArray, NDArray, Generator], NDArray]
-]
-csz: Sequence[Callable[[int, int, bool, Generator], NDArray]]
-cctr: Sequence[Callable[[int, NDArray, NDArray, Generator], NDArray]]
-llen: Sequence[Callable[[int, float, float, Generator], NDArray]]
-lang: Sequence[Callable[[int, float, Generator], NDArray]]
+_params_defined: bool = False
+_params: CGParams
 
-if _is_test_mode("fast"):
-    # Fast test mode, quick check if everything is working
-    tm = "fast"
-    seeds = [123]
-    t_ndims = [2]
-    t_num_points = [50]
-    t_num_clusters = [4]
-    t_lat_std = [2.0]
-    t_angle_std = [pi / 128]
-    ptdist = ["norm"]
-    ptoff = ["n-1"]
-    csz = [clusizes]
-    cctr = [clucenters]
-    llen = [llengths]
-    lang = [angle_deltas]
 
-elif os.environ.get("CI") is not None or _is_test_mode("ci"):
-    # CI test mode
-    tm = "ci"
-    seeds = [123]
-    t_ndims = [1, 2, 3]
-    t_num_points = [1, 10, 500]
-    t_num_clusters = [1, 10]
-    t_lat_std = [0.0, 10.0]
-    t_angle_std = [0, pi / 128, pi / 2, pi, 2 * pi]
-    ptdist = ["norm", "unif", _ptdist_evenly]
-    ptoff = ["n-1", "n", _ptoff_ones]
-    csz = [clusizes, _csz_equi_size]
-    cctr = [clucenters, _cctr_diag]
-    llen = [llengths, _llen_0_20]
-    lang = [angle_deltas, _lang_zeros]
+def pytest_addoption(parser):
+    parser.addoption(
+        "--test-mode",
+        action="store",
+        default="normal",
+        help="test-mode: fast, ci, normal or full",
+        choices=("fast", "ci", "normal", "full"),
+    )
 
-elif not _is_test_mode("full"):
-    # If not full, assume "normal" test mode
-    tm = "normal"
-    seeds = [0, 123, 6789]
-    t_ndims = [1, 2, 3, 10]
-    t_num_points = [1, 10, 500, 2500]
-    t_num_clusters = [1, 10, 50]
-    t_lat_std = [0.0, 10.0]
-    t_angle_std = [0, pi / 128, pi / 8, pi / 2, pi]
-    ptdist = ["norm", "unif", _ptdist_evenly]
-    ptoff = ["n-1", "n", _ptoff_ones]
-    csz = [clusizes, _csz_equi_size]
-    cctr = [clucenters, _cctr_diag]
-    llen = [llengths, _llen_0_20]
-    lang = [angle_deltas, _lang_zeros]
-
-else:
-    # Full testing mode, can take a long time
-    tm = "full"
-    seeds = [0, 123, 6789, 9876543]
-    t_ndims = [1, 2, 3, 5, 10, 30]
-    t_num_points = [1, 10, 500, 2500, 10000]
-    t_num_clusters = [1, 2, 5, 10, 50, 100]
-    t_lat_std = [0.0, 5.0, 10.0, 500.0]
-    t_angle_std = [0, pi / 128, pi / 32, pi / 4, pi / 2, pi, 2 * 3 / pi, 2 * pi]
-    ptdist = ["norm", "unif", _ptdist_evenly]
-    ptoff = ["n-1", "n", _ptoff_ones]
-    csz = [clusizes, _csz_equi_size]
-    cctr = [clucenters, _cctr_diag]
-    llen = [llengths, _llen_0_20]
-    lang = [angle_deltas, _lang_zeros]
-
+def pytest_generate_tests(metafunc):
+    if "param1" in metafunc.fixturenames:
+        if metafunc.config.getoption("all"):
+            end = 5
+        else:
+            end = 2
+        metafunc.parametrize("param1", range(end))
 
 def pytest_report_header(config):
     """Show pyclugen test mode when running pytest."""
-    return f"pyclugen test mode: {tm}"
+    return f"pyclugen test mode: {config.getoption('--test-mode')}"
 
 
-@pytest.fixture(params=seeds)
+@pytest.fixture(scope="session")
+def cgparams(config) -> CGParams:
+    if not _params_defined:
+        _params_defined = True
+        test_mode = config.getoption("--test-mode")
+        if test_mode == "fast":
+            # Fast test mode, quick check if everything is working
+            _params = CGParams(
+                seeds=[123],
+                t_ndims=[2],
+                t_num_points=[50],
+                t_num_clusters=[4],
+                t_lat_std=[2.0],
+                t_angle_std=[pi / 128],
+                ptdist=["norm"],
+                ptoff=["n-1"],
+                csz=[clusizes],
+                cctr=[clucenters],
+                llen=[llengths],
+                lang=[angle_deltas],
+            )
+        elif test_mode == "ci":
+            # CI test mode
+            _params = CGParams(
+                seeds=[123],
+                t_ndims=[1, 2, 3],
+                t_num_points=[1, 10, 500],
+                t_num_clusters=[1, 10],
+                t_lat_std=[0.0, 10.0],
+                t_angle_std=[0, pi / 128, pi / 2, pi, 2 * pi],
+                ptdist=["norm", "unif", _ptdist_evenly],
+                ptoff=["n-1", "n", _ptoff_ones],
+                csz=[clusizes, _csz_equi_size],
+                cctr=[clucenters, _cctr_diag],
+                llen=[llengths, _llen_0_20],
+                lang=[angle_deltas, _lang_zeros],
+            )
+        elif test_mode == "normal":
+            _params = CGParams(
+                seeds=[0, 123, 6789],
+                t_ndims=[1, 2, 3, 10],
+                t_num_points=[1, 10, 500, 2500],
+                t_num_clusters=[1, 10, 50],
+                t_lat_std=[0.0, 10.0],
+                t_angle_std=[0, pi / 128, pi / 8, pi / 2, pi],
+                ptdist=["norm", "unif", _ptdist_evenly],
+                ptoff=["n-1", "n", _ptoff_ones],
+                csz=[clusizes, _csz_equi_size],
+                cctr=[clucenters, _cctr_diag],
+                llen=[llengths, _llen_0_20],
+                lang=[angle_deltas, _lang_zeros],
+            )
+        elif test_mode == "full":
+            _params = CGParams(
+                seeds=[0, 123, 6789, 9876543],
+                t_ndims=[1, 2, 3, 5, 10, 30],
+                t_num_points=[1, 10, 500, 2500, 10000],
+                t_num_clusters=[1, 2, 5, 10, 50, 100],
+                t_lat_std=[0.0, 5.0, 10.0, 500.0],
+                t_angle_std=[
+                    0,
+                    pi / 128,
+                    pi / 32,
+                    pi / 4,
+                    pi / 2,
+                    pi,
+                    2 * 3 / pi,
+                    2 * pi,
+                ],
+                ptdist=["norm", "unif", _ptdist_evenly],
+                ptoff=["n-1", "n", _ptoff_ones],
+                csz=[clusizes, _csz_equi_size],
+                cctr=[clucenters, _cctr_diag],
+                llen=[llengths, _llen_0_20],
+                lang=[angle_deltas, _lang_zeros],
+            )
+    return _params
+
+
+@pytest.fixture(params=_params.seeds)
 def seed(request):
     """Provides PRNG seeds."""
     return request.param
@@ -155,25 +187,25 @@ def prng(seed):
     return Generator(PCG64(seed))
 
 
-@pytest.fixture(params=t_ndims)
+@pytest.fixture(params=_params.t_ndims)
 def ndims(request):
     """Provides a number of dimensions."""
     return request.param
 
 
-@pytest.fixture(params=t_num_points)
+@pytest.fixture(params=_params.t_num_points)
 def num_points(request):
     """Provides a number of points."""
     return request.param
 
 
-@pytest.fixture(params=t_num_clusters)
+@pytest.fixture(params=_params.t_num_clusters)
 def num_clusters(request):
     """Provides a number of clusters."""
     return request.param
 
 
-@pytest.fixture(params=t_lat_std)
+@pytest.fixture(params=_params.t_lat_std)
 def lat_std(request):
     """Provides values for lat_std."""
     return request.param
@@ -197,7 +229,7 @@ def allow_empty(request):
     return request.param
 
 
-@pytest.fixture(params=t_angle_std)
+@pytest.fixture(params=_params.t_angle_std)
 def angle_std(request):
     """Provides an angle standard deviation."""
     return request.param
@@ -250,37 +282,37 @@ def clu_sep(request, ndims):
     return request.param(ndims)
 
 
-@pytest.fixture(params=ptdist)
+@pytest.fixture(params=_params.ptdist)
 def ptdist_fn(request):
     """Provides a point distribution function."""
     return request.param
 
 
-@pytest.fixture(params=ptoff)
+@pytest.fixture(params=_params.ptoff)
 def ptoff_fn(request):
     """Provides a point offset function."""
     return request.param
 
 
-@pytest.fixture(params=csz)
+@pytest.fixture(params=_params.csz)
 def csz_fn(request):
     """Provides a cluster sizes function."""
     return request.param
 
 
-@pytest.fixture(params=cctr)
+@pytest.fixture(params=_params.cctr)
 def cctr_fn(request):
     """Provides a cluster centers function."""
     return request.param
 
 
-@pytest.fixture(params=llen)
+@pytest.fixture(params=_params.llen)
 def llen_fn(request):
     """Provides a a line lengths function."""
     return request.param
 
 
-@pytest.fixture(params=lang)
+@pytest.fixture(params=_params.lang)
 def lang_fn(request):
     """Provides a line angles function."""
     return request.param
