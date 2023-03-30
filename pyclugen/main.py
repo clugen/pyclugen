@@ -218,13 +218,18 @@ def clugen(
     if num_clusters < 1:
         raise ValueError("Number of clusters, `num_clust`, must be > 0")
 
-    # Is direction a vector or a matrix?
+    # Convert given direction into a NumPy array
     arrdir: NDArray = asarray(direction)
-    if arrdir.ndim == 1:
+
+    # Get number of dimensions in `direction` array
+    dir_ndims = arrdir.ndim
+
+    # Is direction a vector or a matrix?
+    if dir_ndims == 1:
         # It's a vector, let's convert it into a row matrix, since this will be
         # useful down the road
         arrdir = arrdir.reshape((1, -1))
-    elif arrdir.ndim == 2:
+    elif dir_ndims == 2:
         # If a matrix was given (i.e. a main direction is given for each cluster),
         # check if the number of directions is the same as the number of clusters
         dir_size_1 = arrdir.shape[0]
@@ -238,7 +243,7 @@ def clugen(
         # it means we have invalid arguments
         raise ValueError(
             "`direction` must be a vector (1D array) or a matrix (2D array), "
-            + f"but is {arrdir.ndim}D"
+            + f"but is {dir_ndims}D"
         )
 
     # Check that direction has num_dims dimensions
@@ -351,7 +356,7 @@ def clugen(
     direction = apply_along_axis(lambda a: a / norm(a), 1, arrdir)
 
     # If only one main direction was given, expand it for all clusters
-    if arrdir.ndim == 1:
+    if dir_ndims == 1:
         arrdir = repeat(arrdir, num_clusters, axis=0)
 
     # Determine cluster sizes
