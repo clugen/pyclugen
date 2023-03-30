@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Nuno Fachada and contributors
+# Copyright (c) 2020-2023 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
@@ -16,6 +16,8 @@ from pyclugen.helper import angle_btw, clupoints_n_1_template, fix_empty, fix_nu
 
 def test_angle_btw():
     """Test the angle_btw() function."""
+    # No blank line allowed here
+
     # Commonly used function for determining the angle between two vectors
     def common_angle_btw(v1, v2):
         return arccos(dot(v1, v2) / (norm(v1) * norm(v2)))
@@ -70,7 +72,6 @@ def test_clupoints_n_1_template(
     # The point minus its projection should yield an approximately
     # orthogonal vector to the cluster line
     for u in pts - proj:
-
         # Vector should be approximately orthogonal to the cluster line
         assert_allclose(dot(direc, u), 0, atol=1e-7)
 

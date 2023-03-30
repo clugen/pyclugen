@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Nuno Fachada and contributors
+# Copyright (c) 2020-2023 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
@@ -23,7 +23,7 @@ def test_clugen_mandatory(
     num_points,
     vector,
     angle_std,
-    clu_sep,
+    clusep_fn,
     llength_mu,
     llength_sigma,
     lat_std,
@@ -44,7 +44,7 @@ def test_clugen_mandatory(
                 num_points,
                 direc,
                 angle_std,
-                clu_sep,
+                clusep_fn(ndims),
                 llength_mu,
                 llength_sigma,
                 lat_std,
@@ -63,7 +63,7 @@ def test_clugen_mandatory(
                 num_points,
                 direc,
                 angle_std,
-                clu_sep,
+                clusep_fn(ndims),
                 llength_mu,
                 llength_sigma,
                 lat_std,
@@ -101,8 +101,8 @@ def test_clugen_optional(
     prng,
     ndims,
     vector,
-    clu_sep,
-    clu_offset,
+    clusep_fn,
+    cluoff_fn,
     allow_empty,
     ptdist_fn,
     ptoff_fn,
@@ -132,12 +132,12 @@ def test_clugen_optional(
             tpts,
             direc,
             astd,
-            clu_sep,
+            clusep_fn(ndims),
             len_mu,
             len_std,
             lat_std,
             allow_empty=allow_empty,
-            cluster_offset=clu_offset,
+            cluster_offset=cluoff_fn(ndims),
             proj_dist_fn=ptdist_fn,
             point_dist_fn=ptoff_fn,
             clusizes_fn=csz_fn,

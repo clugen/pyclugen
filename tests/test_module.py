@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2022 Nuno Fachada and contributors
+# Copyright (c) 2020-2023 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
@@ -28,13 +28,15 @@ def test_angle_deltas(prng, num_clusters, angle_std):
     assert all(abs(angles) <= pi / 2)
 
 
-def test_clucenters(ndims, prng, num_clusters, clu_offset, clu_sep):
+def test_clucenters(ndims, prng, num_clusters, cluoff_fn, clusep_fn):
     """Test the clucenters() function."""
     # Get cluster centers with the clucenters() function
     with warnings.catch_warnings():
         # Check that the function runs without warnings
         warnings.simplefilter("error")
-        clu_ctrs = clucenters(num_clusters, clu_sep, clu_offset, rng=prng)
+        clu_ctrs = clucenters(
+            num_clusters, clusep_fn(ndims), cluoff_fn(ndims), rng=prng
+        )
 
     # Check that return value has the correct dimensions
     assert clu_ctrs.shape == (num_clusters, ndims)
