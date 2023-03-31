@@ -8,7 +8,7 @@ import re
 import warnings
 
 import pytest
-from numpy import abs, all, arange, array, pi, sum, unique
+from numpy import abs, all, arange, array, pi, repeat, sum, unique
 from numpy.testing import assert_allclose
 
 from pyclugen.helper import angle_btw
@@ -21,7 +21,7 @@ def test_clugen_mandatory(
     ndims,
     num_clusters,
     num_points,
-    vector,
+    vec_or_mat,
     angle_std,
     clusep_fn,
     llength_mu,
@@ -29,7 +29,7 @@ def test_clugen_mandatory(
     lat_std,
 ):
     """Test the mandatory parameters of the clugen() function."""
-    direc = vector(ndims)
+    direc = vec_or_mat(ndims, num_clusters)
 
     # By default, allow_empty is false, so clugen() must be given more points
     # than clusters...
@@ -89,9 +89,11 @@ def test_clugen_mandatory(
 
     # Check that cluster directions have the correct angles with the main direction
     if ndims > 1:
+        if direc.ndim == 1:
+            direc = repeat(direc.reshape((1, -1)), num_clusters, axis=0)
         for i in range(num_clusters):
             assert_allclose(
-                angle_btw(direc, result.directions[i, :]),
+                angle_btw(direc[i, :], result.directions[i, :]),
                 abs(result.angles[i]),
                 atol=1e-11,
             )
@@ -100,7 +102,7 @@ def test_clugen_mandatory(
 def test_clugen_optional(
     prng,
     ndims,
-    vector,
+    vec_or_mat,
     clusep_fn,
     cluoff_fn,
     allow_empty,
@@ -121,7 +123,7 @@ def test_clugen_optional(
     lat_std = 2
 
     # Get direction
-    direc = vector(ndims)
+    direc = vec_or_mat(ndims, nclu)
 
     with warnings.catch_warnings():
         # Check that the function runs without warnings
@@ -170,9 +172,11 @@ def test_clugen_optional(
 
     # Check that cluster directions have the correct angles with the main direction
     if ndims > 1:
+        if direc.ndim == 1:
+            direc = repeat(direc.reshape((1, -1)), nclu, axis=0)
         for i in range(nclu):
             assert_allclose(
-                angle_btw(direc, result.directions[i, :]),
+                angle_btw(direc[i, :], result.directions[i, :]),
                 abs(result.angles[i]),
                 atol=1e-11,
             )

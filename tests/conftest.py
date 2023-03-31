@@ -221,3 +221,22 @@ def uvector(prng):
         return v / norm(v)
 
     return _uvector
+
+
+@pytest.fixture(params=["vec", "mat"])
+def vec_or_mat(prng, request):
+    """Provides a vector or a matrix."""
+    if request.param == "vec":
+
+        def _vec(ndim, nclu):
+            return prng.random(ndim)
+
+        return _vec
+    elif request.param == "mat":
+
+        def _mat(ndim, nclu):
+            return prng.random((nclu, ndim))
+
+        return _mat
+    else:
+        raise ValueError(f"Unknown fixture parameter {request.param!r}")
