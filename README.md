@@ -1,6 +1,6 @@
 [![Tests](https://github.com/clugen/pyclugen/actions/workflows/tests.yml/badge.svg)](https://github.com/clugen/pyclugen/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/clugen/pyclugen/branch/main/graph/badge.svg?token=3K5ZN35AJ5)](https://codecov.io/gh/clugen/pyclugen)
-[![docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://clugen.github.io/pyclugen/)
+[![docs](https://img.shields.io/badge/docs-click_here-blue.svg)](https://clugen.github.io/pyclugen/)
 [![PyPI](https://img.shields.io/pypi/v/pyclugen)](https://pypi.org/project/pyclugen/)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/pyclugen?color=blueviolet)
 [![MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](https://tldrlegal.com/license/mit-license)
@@ -53,6 +53,9 @@ plt.show()
 ```
 
 ![3D example.](https://github.com/clugen/.github/blob/main/images/example3d_python.png?raw=true)
+
+See the [documentation](https://clugen.github.io/pyclugen/) for more examples
+and a detailed description of the many possibilities offered by this package.
 
 ## See also
 
