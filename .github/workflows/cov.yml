@@ -24,7 +24,7 @@ jobs:
         pip install pip --upgrade
         pip install .[dev]
     - name: Test with pytest and create coverage report
-      run: pytest --cov=pyclugen --cov-report=xml --test-mode=ci
+      run: pytest --cov=pyclugen --cov-report=xml --test-level=ci
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
