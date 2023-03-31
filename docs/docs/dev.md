@@ -15,8 +15,31 @@ On Windows replace `source env/bin/activate` with `. env\Scripts\activate`.
 
 ## Run tests
 
+Tests can be executed with the following command:
+
 ```text
 $ pytest
+```
+
+The previous command runs the tests at `normal` level by default. This test
+level can also be specified explicitly:
+
+```text
+$ pytest --test-level=normal
+```
+
+There are four test levels, from fastest to slowest (i.e., from less thorough to
+more exhaustive): `fast`, `ci`, `normal` and `full`. The `fast` level tests all
+functions using typical parameters, just to check if everything is working. The
+`ci` level performs the minimal amount of testing that yields complete test
+coverage. Beyond complete coverage, the `normal` and `full` levels also test
+increasing combinations of parameters and PRNG seeds, which may be important to
+root out rare corner cases. Note that the `full` level can be extremely slow.
+
+To generate a test coverage report, run pytest as follows:
+
+```text
+$ pytest --cov=pyclugen --cov-report=html --test-level=ci
 ```
 
 ## Build docs
