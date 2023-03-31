@@ -12,6 +12,8 @@ generating multidimensional clusters. Each cluster is supported by a line
 segment, the position, orientation and length of which guide where the
 respective points are placed.
 
+See the [documentation](https://clugen.github.io/pyclugen/) for more details.
+
 ## Installation
 
 Install from PyPI:
@@ -53,9 +55,6 @@ plt.show()
 ```
 
 ![3D example.](https://github.com/clugen/.github/blob/main/images/example3d_python.png?raw=true)
-
-See the [documentation](https://clugen.github.io/pyclugen/) for more examples
-and a detailed description of the many possibilities offered by this package.
 
 ## See also
 
