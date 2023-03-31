@@ -38,11 +38,11 @@ nd = 5
 
 #%%
 
-e82 = clugen(nd, 6, 1500, [1, 1, 0.5, 0, 0], np.pi / 16, 30 * np.ones(nd), 30, 4, 3, rng=rng(seed))
+e085 = clugen(nd, 6, 1500, [1, 1, 0.5, 0, 0], np.pi / 16, 30 * np.ones(nd), 30, 4, 3, rng=rng(seed))
 
 #%%
 
-plot_examples_nd(e82, "e82: 5D with optional parameters set to defaults")
+plot_examples_nd(e085, "e085: 5D with optional parameters set to defaults")
 
 #%%
 # ## 5D example with `proj_dist_fn = "unif"` and `point_dist_fn = "n"`
@@ -56,12 +56,12 @@ nd = 5
 
 #%%
 
-e83 = clugen(nd, 6, 1500, [0.1, 0.3, 0.5, 0.3, 0.1], np.pi / 12, 30 * np.ones(nd), 35, 5, 3.5,
+e086 = clugen(nd, 6, 1500, [0.1, 0.3, 0.5, 0.3, 0.1], np.pi / 12, 30 * np.ones(nd), 35, 5, 3.5,
     proj_dist_fn="unif", point_dist_fn="n", rng=rng(seed))
 
 #%%
 
-plot_examples_nd(e83, "e83: 5D with proj_dist_fn=\"unif\" and point_dist_fn=\"n\"")
+plot_examples_nd(e086, "e086: 5D with proj_dist_fn=\"unif\" and point_dist_fn=\"n\"")
 
 #%%
 # ## 4D example with custom projection placement using the Beta distribution
@@ -81,9 +81,9 @@ def proj_beta(len, n, rng):
 
 #%%
 
-e84 = clugen(nd, 5, 1500, np.ones(nd), np.pi / 6, 30 * np.ones(nd), 60, 15, 6, rng=rng(seed),
+e087 = clugen(nd, 5, 1500, np.ones(nd), np.pi / 6, 30 * np.ones(nd), 60, 15, 6, rng=rng(seed),
     proj_dist_fn=proj_beta)
 
 #%%
 
-plot_examples_nd(e84, "e84: 4D with custom proj_dist_fn (Beta)")
+plot_examples_nd(e087, "e087: 4D with custom proj_dist_fn (Beta)")
