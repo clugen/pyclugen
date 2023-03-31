@@ -6,7 +6,7 @@
 
 from typing import Callable
 
-from numpy import abs, arctan, argmax, argmin, pi, signbit, sum, zeros
+from numpy import abs, arctan, argmax, argmin, sum, zeros
 from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import NDArray
@@ -53,14 +53,7 @@ def angle_btw(v1: NDArray, v2: NDArray) -> float:
     y = u1 - u2
     x = u1 + u2
 
-    a0 = 2 * arctan(norm(y) / norm(x))
-
-    if (not signbit(a0)) or signbit(pi - a0):
-        return a0
-    elif signbit(a0):
-        return 0.0
-    else:
-        return pi
+    return 2 * arctan(norm(y) / norm(x))
 
 
 def clupoints_n_1_template(
