@@ -391,6 +391,36 @@ def test_clugen_exceptions(prng):
             rng=prng,
         )
 
+    # Direction needs to be a 1D array (vector) or 2D array (matrix)
+    bad_dir = prng.random((nclu, nd, 2))
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "`direction` must be a vector (1D array) or a matrix (2D array), "
+            + f"but is {bad_dir.ndim}D"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            bad_dir,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
     # cluster_sep needs to have nd dims
     bad_clusep = array([10, 0, 5, 1.4])
     with pytest.raises(
