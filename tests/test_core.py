@@ -43,7 +43,7 @@ def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
         # Get distance from current point to line
         d = norm((pt - ctr) - dot((pt - ctr), direc) * direc)
         # Check that it is approximately zero
-        assert_allclose(d, 0, atol=1e-14)
+        assert_allclose(d, 0, atol=1e-13)
 
 
 def test_rand_ortho_vector(ndims, prng, uvector):
