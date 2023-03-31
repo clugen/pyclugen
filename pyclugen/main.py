@@ -4,7 +4,9 @@
 
 """This module contains the main `clugen()` function."""
 
-from typing import Callable, NamedTuple, Optional, Union
+from __future__ import annotations
+
+from typing import Callable, NamedTuple, Optional
 
 from numpy import (
     any,
@@ -84,10 +86,9 @@ def clugen(
     lateral_disp: float,
     allow_empty: bool = False,
     cluster_offset: Optional[ArrayLike] = None,
-    proj_dist_fn: Union[str, Callable[[float, int, Generator], NDArray]] = "norm",
-    point_dist_fn: Union[
-        str, Callable[[NDArray, float, float, NDArray, NDArray, Generator], NDArray]
-    ] = "n-1",
+    proj_dist_fn: str | Callable[[float, int, Generator], NDArray] = "norm",
+    point_dist_fn: str
+    | Callable[[NDArray, float, float, NDArray, NDArray, Generator], NDArray] = "n-1",
     clusizes_fn: Callable[[int, int, bool, Generator], NDArray] = clusizes,
     clucenters_fn: Callable[[int, NDArray, NDArray, Generator], NDArray] = clucenters,
     llengths_fn: Callable[[int, float, float, Generator], NDArray] = llengths,
