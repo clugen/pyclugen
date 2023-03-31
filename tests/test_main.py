@@ -331,13 +331,43 @@ def test_clugen_exceptions(prng):
             rng=prng,
         )
 
-    # Direction needs to have nd dims
+    # Direction needs to have nd size (or nd columns)
     bad_dir = array([1, 1])
     with pytest.raises(
         ValueError,
         match=re.escape(
             "Length of directions in `direction` must be equal to `num_dims` "
             + f"({bad_dir.size} != {nd})"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            bad_dir,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Direction needs to have 1 or nclu rows
+    bad_dir = repeat([[1, 1]], nclu + 1, axis=0)
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "Number of rows in `direction` must be the same as the number of "
+            + f"clusters ({bad_dir.shape[0]} != {nclu})"
         ),
     ):
         clugen(
