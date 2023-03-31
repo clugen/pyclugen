@@ -67,12 +67,12 @@ def zeros_ones_and_randoms_factory(std, seeds):
 
 
 def pytest_addoption(parser):
-    """Add '--test-mode' option to pytest."""
+    """Add '--test-level' option to pytest."""
     parser.addoption(
-        "--test-mode",
+        "--test-level",
         action="store",
         default="normal",
-        help="test-mode: fast, ci, normal or full",
+        help="test-level: fast, ci, normal or full",
         choices=("fast", "ci", "normal", "full"),
     )
 
@@ -94,15 +94,15 @@ lang: Sequence[Callable[[int, float, Generator], NDArray]]
 
 
 def pytest_report_header(config):
-    """Show pyclugen test mode when running pytest."""
-    return f"pyclugen test mode: {config.getoption('--test-mode')}"
+    """Show pyclugen test level when running pytest."""
+    return f"pyclugen test level: {config.getoption('--test-level')}"
 
 
 def pytest_generate_tests(metafunc):
-    """Generate test data depending on '--test-mode' option."""
-    test_mode = metafunc.config.getoption("--test-mode")
-    if test_mode == "fast":
-        # Fast test mode, quick check if everything is working
+    """Generate test data depending on '--test-level' option."""
+    test_level = metafunc.config.getoption("--test-level")
+    if test_level == "fast":
+        # Fast test level, quick check if everything is working
         seeds = [123]
         t_ndims = [2]
         t_num_points = [50]
@@ -120,8 +120,8 @@ def pytest_generate_tests(metafunc):
         cctr = [clucenters]
         llen = [llengths]
         lang = [angle_deltas]
-    elif test_mode == "ci":
-        # CI test mode
+    elif test_level == "ci":
+        # CI test level
         seeds = [123]
         t_ndims = [1, 2, 3]
         t_num_points = [1, 10, 500]
@@ -139,7 +139,7 @@ def pytest_generate_tests(metafunc):
         cctr = [clucenters, _cctr_diag]
         llen = [llengths, _llen_0_20]
         lang = [angle_deltas, _lang_zeros]
-    elif test_mode == "normal":
+    elif test_level == "normal":
         seeds = [0, 123, 6789]
         t_ndims = [1, 2, 3, 10]
         t_num_points = [1, 10, 500, 2500]
@@ -157,7 +157,7 @@ def pytest_generate_tests(metafunc):
         cctr = [clucenters, _cctr_diag]
         llen = [llengths, _llen_0_20]
         lang = [angle_deltas, _lang_zeros]
-    elif test_mode == "full":
+    elif test_level == "full":
         seeds = [0, 123, 6789, 9876543]
         t_ndims = [1, 2, 3, 5, 10, 30]
         t_num_points = [1, 10, 500, 2500, 10000]
@@ -176,7 +176,7 @@ def pytest_generate_tests(metafunc):
         llen = [llengths, _llen_0_20]
         lang = [angle_deltas, _lang_zeros]
     else:
-        raise ValueError(f"Unknown test mode {test_mode!r}")
+        raise ValueError(f"Unknown test level {test_level!r}")
 
     def param_if(param: str, value: Sequence[Any]):
         if param in metafunc.fixturenames:
