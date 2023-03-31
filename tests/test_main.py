@@ -9,7 +9,8 @@ import warnings
 
 import pytest
 from numpy import abs, all, arange, array, pi, repeat, sum, unique
-from numpy.testing import assert_allclose
+from numpy.random import Generator, Philox
+from numpy.testing import assert_allclose, assert_array_equal
 
 from pyclugen.helper import angle_btw
 from pyclugen.main import clugen
@@ -180,6 +181,45 @@ def test_clugen_optional(
                 abs(result.angles[i]),
                 atol=1e-11,
             )
+
+
+def test_clugen_reproducibility(seed, ndims):
+    """Test that clugen() provides reproducible results."""
+    # This line can't be blank
+
+    def run_clugen(seed, ndims):
+        # Initialize a pseudo-random generator with the specified seed
+        prng = Generator(Philox(seed))
+
+        # Run clugen and return results
+        return clugen(
+            ndims,
+            prng.integers(1, 20),  # Number of clusters
+            prng.integers(1, 500),  # Number of points
+            prng.random(ndims),  # Direction
+            prng.random(),  # Angle dispersion
+            prng.random(ndims),  # Cluster separation
+            prng.random(),  # Line length average
+            prng.random(),  # Line length dispersion
+            prng.random(),  # Lateral dispersion
+            rng=prng,
+        )
+
+    # Run clugen with specified seed and get results
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
+        r1 = run_clugen(seed, ndims)
+
+    # Run clugen again with the same seed and get results
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
+        r2 = run_clugen(seed, ndims)
+
+    # Check that results are the same
+    assert_array_equal(r1.points, r2.points)
+    assert_array_equal(r1.clusters, r2.clusters)
 
 
 def test_clugen_exceptions(prng):
