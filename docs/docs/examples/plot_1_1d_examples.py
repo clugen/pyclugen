@@ -39,13 +39,13 @@ def proj_weibull(len, n, rng):
 
 #%%
 
-e79 = clugen(1, 3, 1000, [1], 0, [10], 6, 1.5, 0, rng=rng(seed))
-e80 = clugen(1, 3, 1000, [1], 0, [10], 6, 1.5, 0, rng=rng(seed), proj_dist_fn="unif")
-e81 = clugen(1, 3, 1000, [1], 0, [10], 6, 1.5, 0, rng=rng(seed), proj_dist_fn=proj_weibull)
+e079 = clugen(1, 3, 1000, [1], 0, [10], 6, 1.5, 0, rng=rng(seed))
+e080 = clugen(1, 3, 1000, [1], 0, [10], 6, 1.5, 0, rng=rng(seed), proj_dist_fn="unif")
+e081 = clugen(1, 3, 1000, [1], 0, [10], 6, 1.5, 0, rng=rng(seed), proj_dist_fn=proj_weibull)
 
 #%%
 
 plot_examples_1d(
-    e79, "e79: proj_dist_fn = 'norm' (default)",
-    e80, "e80: proj_dist_fn = 'unif'",
-    e81, "e81: custom proj_dist_fn (Weibull)")
+    e079, "e079: proj_dist_fn = 'norm' (default)",
+    e080, "e080: proj_dist_fn = 'unif'",
+    e081, "e081: custom proj_dist_fn (Weibull)")
