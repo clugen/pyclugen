@@ -33,24 +33,23 @@ pip install git+https://github.com/clugen/pyclugen.git#egg=pyclugen
 ## Quick start
 
 ```python
-import pyclugen as cg
-import numpy as np
+from pyclugen import clugen
 import matplotlib.pyplot as plt
 ```
 
 ```python
-out2 = cg.clugen(2, 4, 400, [1, 0], np.pi / 8, [50, 10], 20, 1, 2)
-plt.scatter(out2.points[:,0], out2.points[:,1], c=out2.clusters)
+out2 = clugen(2, 4, 400, [1, 0], 0.4, [50, 10], 20, 1, 2)
+plt.scatter(out2.points[:, 0], out2.points[:, 1], c=out2.clusters)
 plt.show()
 ```
 
 ![2D example.](https://github.com/clugen/.github/blob/main/images/example2d_python.png?raw=true)
 
 ```python
-out3 = cg.clugen(3, 5, 10000, [0.5, 0.5, 0.5], np.pi / 16, [10, 10, 10], 10, 1, 2)
+out3 = clugen(3, 5, 10000, [0.5, 0.5, 0.5], 0.2, [10, 10, 10], 10, 1, 2)
 fig = plt.figure()
-ax = fig.add_subplot(projection='3d')
-ax.scatter(out3.points[:,0], out3.points[:,1], out3.points[:,2], c=out3.clusters)
+ax = fig.add_subplot(projection="3d")
+ax.scatter(out3.points[:, 0], out3.points[:, 1], out3.points[:, 2], c=out3.clusters)
 plt.show()
 ```
 
