@@ -183,6 +183,85 @@ def test_clugen_optional(
             )
 
 
+def test_clugen_optional_direct(
+    prng,
+    ndims,
+    num_clusters,
+    vec_or_mat,
+    clusep_fn,
+    allow_empty,
+):
+    """Test the optional parameters of the clugen() function."""
+    # Direct parameters (instead of functions)
+    csz_direct = prng.integers(1, 100, num_clusters)
+    cctr_direct = prng.normal(size=(num_clusters, ndims))
+    llen_direct = prng.normal(size=num_clusters)
+    lang_direct = prng.random(num_clusters)
+
+    # Valid arguments
+    tpts = sum(csz_direct)
+    astd = pi / 333
+    len_mu = 6
+    len_std = 1.1
+    lat_std = 1.6
+
+    # Get direction
+    direc = vec_or_mat(ndims, num_clusters)
+
+    with warnings.catch_warnings():
+        # Check that the function runs without warnings
+        warnings.simplefilter("error")
+        result = clugen(
+            ndims,
+            num_clusters,
+            tpts,
+            direc,
+            astd,
+            clusep_fn(ndims),
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=allow_empty,
+            clusizes_fn=csz_direct,
+            clucenters_fn=cctr_direct,
+            llengths_fn=llen_direct,
+            angle_deltas_fn=lang_direct,
+            rng=prng,
+        )
+
+    # Check dimensions of result variables
+    assert result.points.shape == (tpts, ndims)
+    assert result.clusters.shape == (tpts,)
+    assert result.projections.shape == (tpts, ndims)
+    assert result.sizes.shape == (num_clusters,)
+    assert result.centers.shape == (num_clusters, ndims)
+    assert result.directions.shape == (num_clusters, ndims)
+    assert result.angles.shape == (num_clusters,)
+    assert result.lengths.shape == (num_clusters,)
+
+    # Check point cluster indexes
+    if not allow_empty:
+        assert all(unique(result.clusters) == arange(num_clusters))
+    else:
+        assert all(result.clusters < num_clusters)
+
+    # Check total points
+    assert sum(result.sizes) == tpts
+    # This might not be the case if the specified clusize_fn does not obey
+    # the total number of points
+
+    # Check that cluster directions have the correct angles with the main direction
+    if ndims > 1:
+        if direc.ndim == 1:
+            direc = repeat(direc.reshape((1, -1)), num_clusters, axis=0)
+        for i in range(num_clusters):
+            assert_allclose(
+                angle_btw(direc[i, :], result.directions[i, :]),
+                abs(result.angles[i]),
+                atol=1e-11,
+            )
+
+
 def test_clugen_reproducibility(seed, ndims):
     """Test that clugen() provides reproducible results."""
     # This line can't be blank
