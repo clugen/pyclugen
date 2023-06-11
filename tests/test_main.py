@@ -707,3 +707,117 @@ def test_clugen_exceptions(prng):
             angle_deltas_fn=langles_fn,
             rng=prng,
         )
+
+    # Invalid direct clusizes
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "clusizes_fn has to be either a function or a `num_clusters`-sized array"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=prng.integers(1, tpts * nclu, size=nclu + 1),
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Invalid direct clucenters
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "clucenters_fn has to be either a function or a matrix of size "
+            + "`num_clusters` x `num_dims`"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=prng.normal(size=(nclu + 1, nd + 1)),
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Invalid direct llengths
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "llengths_fn has to be either a function or a `num_clusters`-sized array"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=prng.random(size=nclu + 1),
+            angle_deltas_fn=langles_fn,
+            rng=prng,
+        )
+
+    # Invalid direct langles
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "angle_deltas_fn has to be either a function or a "
+            + "`num_clusters`-sized array"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            tpts,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=prng.random(size=nclu + 1),
+            rng=prng,
+        )
