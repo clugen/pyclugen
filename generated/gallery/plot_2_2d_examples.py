@@ -370,3 +370,32 @@ plt = plot_examples_2d(
     e037, "e037: normal dist. (default)",
     e038, "e038: unif. dist. (custom)",
     e039, "e039: equal size (custom)")
+
+#%%
+# ## Direct specification of optional parameters
+
+seed = 123
+
+#%%
+
+e040 = clugen(2, 4, 1000, [-1, 1], 0, [0, 0], 0, 0, 0.2, rng=rng(seed),
+    proj_dist_fn="unif", point_dist_fn="n", clusizes_fn=[50, 200, 500, 2000],
+    llengths_fn=[0, 2, 4, 6], clucenters_fn=[[-5, -5], [-2.5, -2.5], [0, 0], [2.5, 2.5]])
+
+e041 = clugen(2, 5, 1000, [[1, 1], [1, 0], [1, 0], [0, 1], [0, 1]],
+    0, [0, 0], 0, 0, 0.2, rng=rng(seed),
+    proj_dist_fn="unif", point_dist_fn="n",
+    clusizes_fn=[200, 500, 500, 500, 500], llengths_fn=[0, 5, 5, 5, 5],
+    clucenters_fn=[[0, 0], [0, 5], [0, -5], [5, 0], [-5, 0]])
+
+e042 = clugen(2, 5, 1000, [[0, 1], [0.25, 0.75], [0.5, 0.5], [0.75, 0.25], [1, 0]],
+    0, [0, 0], 5, 0, 0.2, rng=rng(seed),
+    proj_dist_fn="unif", point_dist_fn="n", clusizes_fn=[500, 500, 500, 500, 500],
+    clucenters_fn=[[-5, 0], [-3, -0.3], [-1, -0.8], [1, -1.6], [3, -2.5]])
+
+#%%
+
+plt = plot_examples_2d(
+    e040, "e040: direct params 1",
+    e041, "e041: direct params 2",
+    e042, "e042: direct params 3")
