@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyclugen"
 description = "Multidimensional cluster generation in Python"
-version = "0.2.0"
+version = "0.3.0"
 authors = [ { name = "Nuno Fachada", email = "faken@fakenmc.com" } ]
 readme = "README.md"
 requires-python = ">=3.8"
