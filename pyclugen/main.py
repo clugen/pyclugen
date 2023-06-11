@@ -89,10 +89,13 @@ def clugen(
     proj_dist_fn: str | Callable[[float, int, Generator], NDArray] = "norm",
     point_dist_fn: str
     | Callable[[NDArray, float, float, NDArray, NDArray, Generator], NDArray] = "n-1",
-    clusizes_fn: Callable[[int, int, bool, Generator], NDArray] = clusizes,
-    clucenters_fn: Callable[[int, NDArray, NDArray, Generator], NDArray] = clucenters,
-    llengths_fn: Callable[[int, float, float, Generator], NDArray] = llengths,
-    angle_deltas_fn: Callable[[int, float, Generator], NDArray] = angle_deltas,
+    clusizes_fn: Callable[[int, int, bool, Generator], NDArray] | ArrayLike = clusizes,
+    clucenters_fn: Callable[[int, NDArray, NDArray, Generator], NDArray]
+    | ArrayLike = clucenters,
+    llengths_fn: Callable[[int, float, float, Generator], NDArray]
+    | ArrayLike = llengths,
+    angle_deltas_fn: Callable[[int, float, Generator], NDArray]
+    | ArrayLike = angle_deltas,
     rng: Generator = _default_rng,
 ) -> Clusters:
     """Generate multidimensional clusters.
@@ -180,18 +183,22 @@ def clugen(
         allows the user to specify a custom function for this purpose, which must
         follow [`clusizes()`][pyclugen.module.clusizes] signature. Note that custom
         functions are not required to strictly obey the `num_points` parameter.
+        Alternatively, the user can specify an array of cluster sizes directly.
       clucenters_fn: Distribution of cluster centers. By default, cluster centers
         are determined by the [`clucenters()`][pyclugen.module.clucenters] function,
         which uses the uniform distribution, and takes into account the `num_clusters`
         and `cluster_sep` parameters for generating well-distributed cluster centers.
         This parameter allows the user to specify a custom function for this purpose,
         which must follow [`clucenters()`][pyclugen.module.clucenters] signature.
+        Alternatively, the user can specify a matrix of size `num_clusters` x
+        `num_dims` with the exact cluster centers.
       llengths_fn: Distribution of line lengths. By default, the lengths of
         cluster-supporting lines are determined by the
         [`llengths()`][pyclugen.module.llengths] function, which uses the folded
         normal distribution (μ=`llength`, σ=`llength_disp`). This parameter allows
         the user to specify a custom function for this purpose, which must follow
-        [`llengths()`][pyclugen.module.llengths] signature.
+        [`llengths()`][pyclugen.module.llengths] signature. Alternatively, the user
+        can specify an array of line lengths directly.
       angle_deltas_fn: Distribution of line angle differences with respect to
         `direction`. By default, the angles between `direction` and the direction of
         cluster-supporting lines are determined by the
@@ -199,7 +206,8 @@ def clugen(
         wrapped normal distribution (μ=0, σ=`angle_disp`) with support in the interval
         [-π/2, π/2]. This parameter allows the user to specify a custom function for
         this purpose, which must follow [`angle_deltas()`][pyclugen.module.angle_deltas]
-        signature.
+        signature. Alternatively, the user can specify an array of angle deltas
+        directly.
       rng: An optional instance of [`Generator`][numpy.random.Generator] for
         reproducible executions.
 
@@ -361,20 +369,50 @@ def clugen(
         arrdir = repeat(arrdir, num_clusters, axis=0)
 
     # Determine cluster sizes
-    cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng)
+    if callable(clusizes_fn):
+        cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng)
+    elif len(asarray(clusizes_fn)) == num_clusters:
+        cluster_sizes = asarray(clusizes_fn)
+    else:
+        raise ValueError(
+            "clusizes_fn has to be either a function or a `num_clusters`-sized array"
+        )
 
     # Custom clusizes_fn's are not required to obey num_points, so we update
     # it here just in case it's different from what the user specified
     num_points = sum(cluster_sizes)
 
     # Determine cluster centers
-    cluster_centers = clucenters_fn(num_clusters, cluster_sep, cluster_offset, rng)
+    if callable(clucenters_fn):
+        cluster_centers = clucenters_fn(num_clusters, cluster_sep, cluster_offset, rng)
+    elif asarray(clucenters_fn).shape == (num_clusters, num_dims):
+        cluster_centers = asarray(clucenters_fn)
+    else:
+        raise ValueError(
+            "clucenters_fn has to be either a function or a matrix of size "
+            + "`num_clusters` x `num_dims`"
+        )
 
     # Determine length of lines supporting clusters
-    cluster_lengths = llengths_fn(num_clusters, llength, llength_disp, rng)
+    if callable(llengths_fn):
+        cluster_lengths = llengths_fn(num_clusters, llength, llength_disp, rng)
+    elif len(asarray(llengths_fn)) == num_clusters:
+        cluster_lengths = asarray(llengths_fn)
+    else:
+        raise ValueError(
+            "llengths_fn has to be either a function or a `num_clusters`-sized array"
+        )
 
     # Obtain angles between main direction and cluster-supporting lines
-    cluster_angles = angle_deltas_fn(num_clusters, angle_disp, rng)
+    if callable(angle_deltas_fn):
+        cluster_angles = angle_deltas_fn(num_clusters, angle_disp, rng)
+    elif len(asarray(angle_deltas_fn)) == num_clusters:
+        cluster_angles = asarray(angle_deltas_fn)
+    else:
+        raise ValueError(
+            "angle_deltas_fn has to be either a function or a "
+            + "`num_clusters`-sized array"
+        )
 
     # Determine normalized cluster directions by applying the obtained angles
     cluster_directions = apply_along_axis(
