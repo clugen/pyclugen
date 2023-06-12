@@ -191,12 +191,12 @@ def test_clugen_optional_direct(
     clusep_fn,
     allow_empty,
 ):
-    """Test the optional parameters of the clugen() function."""
+    """Test optional parameters of clugen() with direct input."""
     # Direct parameters (instead of functions)
     csz_direct = prng.integers(1, 100, num_clusters)
     cctr_direct = prng.normal(size=(num_clusters, ndims))
-    llen_direct = prng.normal(size=num_clusters)
-    lang_direct = prng.random(num_clusters)
+    llen_direct = 20 * prng.random(num_clusters)
+    lang_direct = pi * prng.random(num_clusters) - pi / 2
 
     # Valid arguments
     tpts = sum(csz_direct)
