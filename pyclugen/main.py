@@ -20,6 +20,7 @@ from numpy import (
     issubdtype,
     repeat,
     sum,
+    unique,
     zeros,
 )
 from numpy.linalg import norm
@@ -487,7 +488,7 @@ def clumerge(
     fields: tuple[str, ...] = ("points", "clusters"),
     clusters_field: str | None = "clusters",
     output_type: str = "namedtuple",
-) -> NamedTuple | dict[str, ArrayLike]:
+) -> dict[str, ArrayLike]:
     """Merges the fields (specified in `fields`) of two or more `data` sets."""
     # Number of elements in each array the merged dataset
     numel: int = 0
@@ -496,7 +497,7 @@ def clumerge(
     fields_info: dict[str, int] = {}
 
     # Merged dataset to output, initially empty
-    # output: dict[str, ArrayLike] = {}
+    output: dict[str, ArrayLike] = {}
 
     # Create a fields set
     fields_set: MutableSet[str] = set(fields)
@@ -577,4 +578,46 @@ def clumerge(
         # Update total number of elements
         numel += numel_i
 
-    return ddata
+    # Initialize output dictionary fields with room for all items
+    for field in fields_info:
+        if field == clusters_field:
+            output[field] = zeros((numel,), dtype=integer)
+        elif fields_info[field] == 1:
+            output[field] = zeros((numel,))
+        else:
+            output[field] = zeros((numel, fields_info[field]))
+
+    # Copy items from input data to output dictionary, field-wise
+    copied: int = 0
+    last_cluster: int = 0
+
+    # Create merged output
+    for dt in ddata:
+        # How many elements to copy for the current data item?
+        tocopy: int = len(dt[fields[0]])
+
+        # Cycle through each field and its information
+        for field in fields_info:
+            # Copy elements
+            if field == clusters_field:
+                # If this is a clusters field, update the cluster IDs
+                old_clusters = unique(dt[clusters_field])
+                new_clusters = list(
+                    range(last_cluster + 1, last_cluster + len(old_clusters) + 1)
+                )
+                mapping = dict(zip(old_clusters, new_clusters, strict=True))
+                last_cluster = new_clusters[-1]
+
+                output[field][copied : (copied + tocopy)] = [
+                    mapping[val] for val in dt[clusters_field]
+                ]
+
+            else:
+                # Otherwise just copy the elements
+                output[field][copied : (copied + tocopy), :] = dt[field]
+
+        # Update how many were copied so far
+        copied += tocopy
+
+    # Return result
+    return output
