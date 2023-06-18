@@ -18,6 +18,7 @@ Note that:
 __all__ = [
     "Clusters",
     "clugen",
+    "clumerge",
     "points_on_line",
     "rand_ortho_vector",
     "rand_unit_vector",
@@ -41,7 +42,7 @@ from pyclugen.core import (
     rand_vector_at_angle,
 )
 from pyclugen.helper import angle_btw, clupoints_n_1_template, fix_empty, fix_num_points
-from pyclugen.main import Clusters, clugen
+from pyclugen.main import Clusters, clugen, clumerge
 from pyclugen.module import (
     angle_deltas,
     clucenters,

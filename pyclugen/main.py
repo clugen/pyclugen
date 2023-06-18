@@ -6,7 +6,8 @@
 
 from __future__ import annotations
 
-from typing import Callable, NamedTuple, Optional
+from collections.abc import Mapping, MutableSequence, MutableSet
+from typing import Callable, NamedTuple, Optional, cast
 
 from numpy import (
     any,
@@ -14,7 +15,9 @@ from numpy import (
     asarray,
     concatenate,
     cumsum,
+    integer,
     isclose,
+    issubdtype,
     repeat,
     sum,
     zeros,
@@ -473,3 +476,105 @@ def clugen(
         cluster_angles,
         cluster_lengths,
     )
+
+
+def _getcols(a: NDArray) -> int:
+    return a.shape[1] if len(a.shape) > 1 else 1
+
+
+def clumerge(
+    *data: NamedTuple | Mapping[str, ArrayLike],
+    fields: tuple[str, ...] = ("points", "clusters"),
+    clusters_field: str | None = "clusters",
+    output_type: str = "namedtuple",
+) -> NamedTuple | dict[str, ArrayLike]:
+    """Merges the fields (specified in `fields`) of two or more `data` sets."""
+    # Number of elements in each array the merged dataset
+    numel: int = 0
+
+    # Number of columns of values in each field
+    fields_info: dict[str, int] = {}
+
+    # Merged dataset to output, initially empty
+    # output: dict[str, ArrayLike] = {}
+
+    # Create a fields set
+    fields_set: MutableSet[str] = set(fields)
+
+    # If a clusters field is given, add it
+    if clusters_field is not None:
+        fields_set.add(str(clusters_field))
+
+    # Check that the output type is either "namedtuple" or "dict"
+    output_type = output_type.lower()
+    if output_type != "namedtuple" and output_type != "dict":
+        raise ValueError("`output_type` must be 'namedtuple' or 'dict'")
+
+    # Data in dictionary format with NDArray views on data
+    ddata: MutableSequence[Mapping[str, NDArray]] = []
+    for dt in data:
+        # If dt is a named tuple, convert it into a dictionary
+        ddt: Mapping[str, ArrayLike]
+        if isinstance(dt, dict):
+            ddt = cast(dict, dt)
+        else:
+            ntdt = cast(NamedTuple, dt)
+            ddt = ntdt._asdict()
+
+        # Convert dictionary values to NDArrays
+        ddtnp: Mapping[str, NDArray] = {k: asarray(v) for k, v in ddt.items()}
+
+        # Add converted dictionary to our sequence of dictionaries
+        ddata.append(ddtnp)
+
+    # Cycle through data items
+    for dt in ddata:
+        # Number of elements in the current item
+        numel_i: int = -1
+
+        # Cycle through fields for the current item
+        for field in fields_set:
+            if field not in dt:
+                raise ValueError(f"Data item does not contain required field `{field}`")
+            elif field == clusters_field and not issubdtype(
+                dt[clusters_field].dtype, integer
+            ):
+                raise ValueError(f"`{clusters_field}` must contain integer types")
+
+            # Get the field value
+            value = dt[field]
+
+            # Number of elements in field value
+            numel_tmp = len(value)
+
+            # Check the number of elements in the field value
+            if numel_i == -1:
+                # First field: get number of elements in value (must be the same
+                # for the remaining field values)
+                numel_i = numel_tmp
+
+            elif numel_tmp != numel_i:
+                # Fields values after the first must have the same number of
+                # elements
+                raise ValueError(
+                    "Data item contains fields with different sizes "
+                    + f"({numel_tmp} != {numel_i})"
+                )
+
+            # Get/check info about the field value type
+            if field not in fields_info:
+                # If it's the first time this field appears, just get the info
+                fields_info[field] = _getcols(value)
+
+            else:
+                # If this field already appeared in previous data items, get the
+                # info and check/determine its compatibility with respect to
+                # previous data items
+                if _getcols(value) != fields_info[field]:
+                    # Number of columns must be the same
+                    raise ValueError(f"Dimension mismatch in field `{field}`")
+
+        # Update total number of elements
+        numel += numel_i
+
+    return ddata
