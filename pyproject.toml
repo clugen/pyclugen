@@ -96,7 +96,7 @@ skip_gitignore = "True"
 extend-select = ["B9", "C4"]
 max-line-length = 88
 max-doc-length = 88
-ignore = [ "B018", "SIM106", "W503" ]
+ignore = [ "B018", "E203", "SIM106", "W503" ]
 doctests = true
 exclude = [
     ".git",
