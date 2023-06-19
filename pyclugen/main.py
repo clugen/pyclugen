@@ -27,7 +27,7 @@ from numpy import (
 )
 from numpy.linalg import norm
 from numpy.random import Generator
-from numpy.typing import ArrayLike, NDArray
+from numpy.typing import ArrayLike, DTypeLike, NDArray
 
 from .core import points_on_line, rand_vector_at_angle
 from .module import (
@@ -485,7 +485,7 @@ def clugen(
 class _FieldInfo:
     """Field information for merging datasets."""
 
-    dtype: dtype
+    dtype: DTypeLike
     """The field data type, may be promoted when merging."""
 
     ncol: int
