@@ -503,7 +503,7 @@ def clumerge(
     *data: NamedTuple | Mapping[str, ArrayLike],
     fields: tuple[str, ...] = ("points", "clusters"),
     clusters_field: str | None = "clusters",
-) -> dict[str, ArrayLike]:
+) -> dict[str, NDArray]:
     """Merges the fields (specified in `fields`) of two or more `data` sets."""
     # Number of elements in each array the merged dataset
     numel: int = 0
@@ -512,7 +512,7 @@ def clumerge(
     fields_info: dict[str, _FieldInfo] = {}
 
     # Merged dataset to output, initially empty
-    output: dict[str, ArrayLike] = {}
+    output: dict[str, NDArray] = {}
 
     # Create a fields set
     fields_set: MutableSet[str] = set(fields)
