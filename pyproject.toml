@@ -66,6 +66,7 @@ packages = ["pyclugen"]
 
 [tool.mypy]
 python_version = 3.8
+warn_unused_ignores = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"
