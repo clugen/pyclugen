@@ -91,6 +91,10 @@ csz: Sequence[Callable[[int, int, bool, Generator], NDArray]]
 cctr: Sequence[Callable[[int, NDArray, NDArray, Generator], NDArray]]
 llen: Sequence[Callable[[int, float, float, Generator], NDArray]]
 lang: Sequence[Callable[[int, float, Generator], NDArray]]
+t_ds_cg_n: Sequence[int]
+t_ds_ot_n: Sequence[int]
+t_ds_od_n: Sequence[int]
+t_no_clusters_field: Sequence[bool]
 
 
 def pytest_report_header(config):
@@ -120,6 +124,10 @@ def pytest_generate_tests(metafunc):
         cctr = [clucenters]
         llen = [llengths]
         lang = [angle_deltas]
+        t_ds_cg_n = [0, 1]
+        t_ds_ot_n = [0]
+        t_ds_od_n = [0, 1]
+        t_no_clusters_field = (False,)
     elif test_level == "ci":
         # CI test level
         seeds = [123]
@@ -139,6 +147,10 @@ def pytest_generate_tests(metafunc):
         cctr = [clucenters, _cctr_diag]
         llen = [llengths, _llen_0_20]
         lang = [angle_deltas, _lang_zeros]
+        t_ds_cg_n = [0, 2]
+        t_ds_ot_n = [0, 1]
+        t_ds_od_n = [0, 1]
+        t_no_clusters_field = [False, True]
     elif test_level == "normal":
         seeds = [0, 123, 6789]
         t_ndims = [1, 2, 3, 10]
@@ -157,6 +169,10 @@ def pytest_generate_tests(metafunc):
         cctr = [clucenters, _cctr_diag]
         llen = [llengths, _llen_0_20]
         lang = [angle_deltas, _lang_zeros]
+        t_ds_cg_n = [0, 1, 2]
+        t_ds_ot_n = [0, 1]
+        t_ds_od_n = [0, 1, 2]
+        t_no_clusters_field = [False, True]
     elif test_level == "full":
         seeds = [0, 123, 6789, 9876543]
         t_ndims = [1, 2, 3, 5, 10, 30]
@@ -175,6 +191,10 @@ def pytest_generate_tests(metafunc):
         cctr = [clucenters, _cctr_diag]
         llen = [llengths, _llen_0_20]
         lang = [angle_deltas, _lang_zeros]
+        t_ds_cg_n = [0, 1, 2, 3]
+        t_ds_ot_n = [0, 1, 2]
+        t_ds_od_n = [0, 1, 2]
+        t_no_clusters_field = [False, True]
     else:
         raise ValueError(f"Unknown test level {test_level!r}")
 
@@ -200,6 +220,10 @@ def pytest_generate_tests(metafunc):
     param_if("cctr_fn", cctr)
     param_if("llen_fn", llen)
     param_if("lang_fn", lang)
+    param_if("ds_cg_n", t_ds_cg_n)
+    param_if("ds_ot_n", t_ds_ot_n)
+    param_if("ds_od_n", t_ds_od_n)
+    param_if("no_clusters_field", t_no_clusters_field)
 
 
 @pytest.fixture()

@@ -4,16 +4,21 @@
 
 """Tests for the main clugen() function."""
 
+from __future__ import annotations
+
 import re
 import warnings
+from collections.abc import Mapping, MutableSequence
+from typing import NamedTuple
 
 import pytest
 from numpy import abs, all, arange, array, pi, repeat, sum, unique
 from numpy.random import Generator, Philox
 from numpy.testing import assert_allclose, assert_array_equal
+from numpy.typing import ArrayLike
 
 from pyclugen.helper import angle_btw
-from pyclugen.main import clugen
+from pyclugen.main import clugen, clumerge
 from pyclugen.module import angle_deltas, clucenters, clusizes, llengths
 
 
@@ -821,3 +826,55 @@ def test_clugen_exceptions(prng):
             angle_deltas_fn=prng.random(size=nclu + 1),
             rng=prng,
         )
+
+
+def test_clumerge_general(
+    prng: Generator,
+    ndims,
+    ds_cg_n,
+    ds_ot_n,
+    ds_od_n,
+    no_clusters_field,
+):
+    """Test clumerge() with several parameters and various data sources."""
+    if ds_cg_n + ds_ot_n + ds_od_n > 0:
+        datasets: MutableSequence[NamedTuple | Mapping[str, ArrayLike]] = []
+        tclu: int = 0
+        tpts: int = 0
+
+        # Create data sets with clugen()
+        for _ in range(ds_cg_n):
+            # clugen() should run without problem
+            with warnings.catch_warnings():
+                # Check that the function runs without warnings
+                warnings.simplefilter("error")
+
+                ds = clugen(
+                    ndims,
+                    prng.integers(1, high=10),
+                    prng.integers(1, high=100),
+                    prng.uniform(size=ndims),
+                    prng.uniform(),
+                    prng.uniform(size=ndims),
+                    prng.uniform(),
+                    prng.uniform(),
+                    prng.uniform(),
+                    allow_empty=True,
+                    rng=prng,
+                )
+
+                if no_clusters_field:
+                    tclu = max(tclu, max(ds.clusters))
+                else:
+                    tclu += len(unique(ds.clusters))
+
+                tpts += len(ds.points)
+
+                datasets.append(ds)
+
+        # clumerge() should run without problem
+        with warnings.catch_warnings():
+            # Check that the function runs without warnings
+            warnings.simplefilter("error")
+
+            clumerge(*datasets)
