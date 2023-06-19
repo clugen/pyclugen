@@ -9,13 +9,13 @@ from __future__ import annotations
 import re
 import warnings
 from collections.abc import Mapping, MutableSequence
-from typing import NamedTuple
+from typing import NamedTuple, cast
 
 import pytest
-from numpy import abs, all, arange, array, pi, repeat, sum, unique
+from numpy import abs, all, arange, array, can_cast, int64, pi, repeat, sum, unique
 from numpy.random import Generator, Philox
 from numpy.testing import assert_allclose, assert_array_equal
-from numpy.typing import ArrayLike
+from numpy.typing import ArrayLike, NDArray
 
 from pyclugen.helper import angle_btw
 from pyclugen.main import clugen, clumerge
@@ -828,6 +828,11 @@ def test_clugen_exceptions(prng):
         )
 
 
+class _PointsClusters(NamedTuple):
+    points: NDArray
+    clusters: NDArray
+
+
 def test_clumerge_general(
     prng: Generator,
     ndims,
@@ -849,32 +854,58 @@ def test_clumerge_general(
                 # Check that the function runs without warnings
                 warnings.simplefilter("error")
 
-                ds = clugen(
+                ds_cg = clugen(
                     ndims,
-                    prng.integers(1, high=10),
-                    prng.integers(1, high=100),
-                    prng.uniform(size=ndims),
-                    prng.uniform(),
-                    prng.uniform(size=ndims),
-                    prng.uniform(),
-                    prng.uniform(),
-                    prng.uniform(),
+                    prng.integers(1, high=11),
+                    prng.integers(1, high=101),
+                    prng.random(size=ndims),
+                    prng.random(),
+                    prng.random(size=ndims),
+                    prng.random(),
+                    prng.random(),
+                    prng.random(),
                     allow_empty=True,
                     rng=prng,
                 )
 
                 if no_clusters_field:
-                    tclu = max(tclu, max(ds.clusters))
+                    tclu = max(tclu, max(ds_cg.clusters))
                 else:
-                    tclu += len(unique(ds.clusters))
+                    tclu += len(unique(ds_cg.clusters))
 
-                tpts += len(ds.points)
+                tpts += len(ds_cg.points)
 
-                datasets.append(ds)
+                datasets.append(ds_cg)
+
+        # Create non-clugen() data sets as named tuples
+        for _ in range(ds_ot_n):
+            npts = prng.integers(1, high=101)
+            nclu = prng.integers(1, high=min(3, npts) + 1)
+            ds_ot = _PointsClusters(
+                prng.random((npts, ndims)), prng.integers(1, high=nclu + 1, size=npts)
+            )
+            if no_clusters_field:
+                tclu = max(tclu, max(ds_ot.clusters))
+            else:
+                tclu += len(unique(ds_ot.clusters))
+
+            tpts += npts
+
+            datasets.append(ds_ot)
+
+        if tpts == 0:
+            return
 
         # clumerge() should run without problem
         with warnings.catch_warnings():
             # Check that the function runs without warnings
             warnings.simplefilter("error")
 
-            clumerge(*datasets)
+            mds: dict[str, NDArray] = cast(dict[str, NDArray], clumerge(*datasets))
+
+        # Check that the number of points and clusters is correct
+        expect_shape = (tpts,) if ndims == 1 else (tpts, ndims)
+
+        assert mds["points"].shape == expect_shape
+        # assert max(mds["clusters"]) == tclu
+        assert can_cast(mds["clusters"].dtype, int64)
