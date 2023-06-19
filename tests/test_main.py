@@ -893,8 +893,22 @@ def test_clumerge_general(
 
             datasets.append(ds_ot)
 
-        if tpts == 0:
-            return
+        # Create non-clugen() data sets as dictionaries
+        for _ in range(ds_od_n):
+            npts = prng.integers(1, high=101)
+            nclu = prng.integers(1, high=min(3, npts) + 1)
+            ds_od = {
+                "points": prng.random((npts, ndims)),
+                "clusters": prng.integers(1, high=nclu + 1, size=npts),
+            }
+            if no_clusters_field:
+                tclu = max(tclu, max(ds_od["clusters"]))
+            else:
+                tclu += len(unique(ds_od["clusters"]))
+
+            tpts += npts
+
+            datasets.append(ds_od)
 
         # clumerge() should run without problem
         with warnings.catch_warnings():
