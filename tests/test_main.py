@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 import warnings
 from collections.abc import Mapping, MutableSequence
-from typing import NamedTuple, cast
+from typing import Any, NamedTuple
 
 import pytest
 from numpy import abs, all, arange, array, can_cast, int64, pi, repeat, sum, unique
@@ -910,16 +910,21 @@ def test_clumerge_general(
 
             datasets.append(ds_od)
 
+        # Prepare optional keywords parameters
+        kwargs: dict[str, Any] = {}
+        if no_clusters_field:
+            kwargs["clusters_field"] = None
+
         # clumerge() should run without problem
         with warnings.catch_warnings():
             # Check that the function runs without warnings
             warnings.simplefilter("error")
 
-            mds: dict[str, NDArray] = cast(dict[str, NDArray], clumerge(*datasets))
+            mds: dict[str, NDArray] = clumerge(*datasets, **kwargs)
 
         # Check that the number of points and clusters is correct
         expect_shape = (tpts,) if ndims == 1 else (tpts, ndims)
 
         assert mds["points"].shape == expect_shape
-        # assert max(mds["clusters"]) == tclu
+        assert max(mds["clusters"]) == tclu
         assert can_cast(mds["clusters"].dtype, int64)
