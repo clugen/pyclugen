@@ -17,6 +17,8 @@ from numpy import (
     can_cast,
     concatenate,
     cumsum,
+    empty,
+    int32,
     int64,
     isclose,
     promote_types,
@@ -436,10 +438,10 @@ def clugen(
     cumsum_points = concatenate((asarray([0]), cumsum(cluster_sizes)))
 
     # Pre-allocate data structures for holding cluster info and points
-    point_clusters = zeros(num_points, dtype=int)  # Cluster indices of each point
-    point_projections = zeros((num_points, num_dims))  # Point projections on
+    point_clusters = empty(num_points, dtype=int32)  # Cluster indices of each point
+    point_projections = empty((num_points, num_dims))  # Point projections on
     #                                                  # cluster-supporting lines
-    points = zeros((num_points, num_dims))  # Final points to be generated
+    points = empty((num_points, num_dims))  # Final points to be generated
 
     # Loop through clusters and create points for each one
     for i in range(num_clusters):
@@ -594,9 +596,9 @@ def clumerge(
     # Initialize output dictionary fields with room for all items
     for field in fields_info:
         if fields_info[field].ncol == 1:
-            output[field] = zeros((numel,), dtype=fields_info[field].dtype)
+            output[field] = empty((numel,), dtype=fields_info[field].dtype)
         else:
-            output[field] = zeros(
+            output[field] = empty(
                 (numel, fields_info[field].ncol), dtype=fields_info[field].dtype
             )
 
