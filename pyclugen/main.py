@@ -487,7 +487,6 @@ def clumerge(
     *data: NamedTuple | Mapping[str, ArrayLike],
     fields: tuple[str, ...] = ("points", "clusters"),
     clusters_field: str | None = "clusters",
-    output_type: str = "namedtuple",
 ) -> dict[str, ArrayLike]:
     """Merges the fields (specified in `fields`) of two or more `data` sets."""
     # Number of elements in each array the merged dataset
@@ -505,11 +504,6 @@ def clumerge(
     # If a clusters field is given, add it
     if clusters_field is not None:
         fields_set.add(str(clusters_field))
-
-    # Check that the output type is either "namedtuple" or "dict"
-    output_type = output_type.lower()
-    if output_type != "namedtuple" and output_type != "dict":
-        raise ValueError("`output_type` must be 'namedtuple' or 'dict'")
 
     # Data in dictionary format with NDArray views on data
     ddata: MutableSequence[Mapping[str, NDArray]] = []
