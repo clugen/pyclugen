@@ -928,3 +928,73 @@ def test_clumerge_general(
         assert mds["points"].shape == expect_shape
         assert max(mds["clusters"]) == tclu
         assert can_cast(mds["clusters"].dtype, int64)
+
+
+def test_clumerge_fields(
+    prng: Generator,
+    ndims,
+    ds_cgs_n,
+):
+    """# Test clumerge with data from clugen() and merging more fields."""
+    datasets: MutableSequence[NamedTuple | Mapping[str, ArrayLike]] = []
+    tclu: int = 0
+    tclu_i: int = 0
+    tpts: int = 0
+
+    # Create data sets with clugen()
+    for _ in range(ds_cgs_n):
+        # clugen() should run without problem
+        with warnings.catch_warnings():
+            # Check that the function runs without warnings
+            warnings.simplefilter("error")
+
+            ds_cgs = clugen(
+                ndims,
+                prng.integers(1, high=11),
+                prng.integers(1, high=101),
+                prng.random(size=ndims),
+                prng.random(),
+                prng.random(size=ndims),
+                prng.random(),
+                prng.random(),
+                prng.random(),
+                allow_empty=True,
+                rng=prng,
+            )
+
+            tclu += len(unique(ds_cgs.clusters))
+            tpts += len(ds_cgs.points)
+            tclu_i += len(ds_cgs.sizes)
+            datasets.append(ds_cgs)
+
+        # Check that clumerge() is able to merge data set fields related to points
+        # without warnings
+        with warnings.catch_warnings():
+            # Check that the function runs without warnings
+            warnings.simplefilter("error")
+            mds = clumerge(*datasets, fields=("points", "clusters", "projections"))
+
+        # Check that the number of clusters and points is correct
+        expect_shape = (tpts,) if ndims == 1 else (tpts, ndims)
+        assert mds["points"].shape == expect_shape
+        assert mds["projections"].shape == expect_shape
+        assert max(mds["clusters"]) == tclu
+        assert can_cast(mds["clusters"].dtype, int64)
+
+        # Check that clumerge() is able to merge data set fields related to clusters
+        # without warnings
+        with warnings.catch_warnings():
+            # Check that the function runs without warnings
+            warnings.simplefilter("error")
+            mds = clumerge(*datasets, fields=("sizes", "centers", "directions", "angles", "lengths"),
+            clusters_field=None,
+        )
+
+        # Check that the cluster-related fields have the correct sizes
+        expect_shape = (tclu_i,) if ndims == 1 else  (tclu_i, ndims)
+        assert len(mds["sizes"]) == tclu_i
+        assert can_cast(mds["sizes"], int64)
+        assert mds["centers"].shape == expect_shape
+        assert mds["directions"].shape == expect_shape
+        assert len(mds["angles"]) == tclu_i
+        assert len(mds["lengths"]) == tclu_i

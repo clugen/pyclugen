@@ -95,6 +95,7 @@ t_ds_cg_n: Sequence[int]
 t_ds_ot_n: Sequence[int]
 t_ds_od_n: Sequence[int]
 t_no_clusters_field: Sequence[bool]
+t_ds_cgs_n: Sequence[int]
 
 
 def pytest_report_header(config):
@@ -128,6 +129,7 @@ def pytest_generate_tests(metafunc):
         t_ds_ot_n = [0]
         t_ds_od_n = [0, 1]
         t_no_clusters_field = (False,)
+        t_ds_cgs_n = [2]
     elif test_level == "ci":
         # CI test level
         seeds = [123]
@@ -151,6 +153,7 @@ def pytest_generate_tests(metafunc):
         t_ds_ot_n = [0, 1]
         t_ds_od_n = [0, 1]
         t_no_clusters_field = [False, True]
+        t_ds_cgs_n = [2, 3]
     elif test_level == "normal":
         seeds = [0, 123, 6789]
         t_ndims = [1, 2, 3, 10]
@@ -173,6 +176,7 @@ def pytest_generate_tests(metafunc):
         t_ds_ot_n = [0, 1]
         t_ds_od_n = [0, 1, 2]
         t_no_clusters_field = [False, True]
+        t_ds_cgs_n = [2, 3, 4]
     elif test_level == "full":
         seeds = [0, 123, 6789, 9876543]
         t_ndims = [1, 2, 3, 5, 10, 30]
@@ -195,6 +199,7 @@ def pytest_generate_tests(metafunc):
         t_ds_ot_n = [0, 1, 2]
         t_ds_od_n = [0, 1, 2]
         t_no_clusters_field = [False, True]
+        t_ds_cgs_n = [2, 3, 4, 5]
     else:
         raise ValueError(f"Unknown test level {test_level!r}")
 
@@ -224,6 +229,7 @@ def pytest_generate_tests(metafunc):
     param_if("ds_ot_n", t_ds_ot_n)
     param_if("ds_od_n", t_ds_od_n)
     param_if("no_clusters_field", t_no_clusters_field)
+    param_if("ds_cgs_n", t_ds_cgs_n)
 
 
 @pytest.fixture()
