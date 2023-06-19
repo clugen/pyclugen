@@ -630,7 +630,8 @@ def clumerge(
 
             else:
                 # Otherwise just copy the elements
-                output[field][copied : (copied + tocopy), :] = dt[field]
+                ncol: int = fields_info[field].ncol
+                output[field].flat[copied * ncol : (copied + tocopy) * ncol] = dt[field]
 
         # Update how many were copied so far
         copied += tocopy
