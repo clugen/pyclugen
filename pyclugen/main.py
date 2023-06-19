@@ -7,17 +7,19 @@
 from __future__ import annotations
 
 from collections.abc import Mapping, MutableSequence, MutableSet
+from dataclasses import dataclass
 from typing import Callable, NamedTuple, Optional, cast
 
 from numpy import (
     any,
     apply_along_axis,
     asarray,
+    can_cast,
     concatenate,
     cumsum,
-    integer,
+    int64,
     isclose,
-    issubdtype,
+    promote_types,
     repeat,
     sum,
     unique,
@@ -479,7 +481,19 @@ def clugen(
     )
 
 
+@dataclass
+class _FieldInfo:
+    """Field information for merging datasets."""
+
+    dtype: dtype
+    """The field data type, may be promoted when merging."""
+
+    ncol: int
+    """Number of columns in the data."""
+
+
 def _getcols(a: NDArray) -> int:
+    """Get number of columns from a NumPy array, returns 1 if just a vector."""
     return a.shape[1] if len(a.shape) > 1 else 1
 
 
@@ -493,7 +507,7 @@ def clumerge(
     numel: int = 0
 
     # Number of columns of values in each field
-    fields_info: dict[str, int] = {}
+    fields_info: dict[str, _FieldInfo] = {}
 
     # Merged dataset to output, initially empty
     output: dict[str, ArrayLike] = {}
@@ -531,13 +545,13 @@ def clumerge(
         for field in fields_set:
             if field not in dt:
                 raise ValueError(f"Data item does not contain required field `{field}`")
-            elif field == clusters_field and not issubdtype(
-                dt[clusters_field].dtype, integer
+            elif field == clusters_field and not can_cast(
+                dt[clusters_field].dtype, int64
             ):
                 raise ValueError(f"`{clusters_field}` must contain integer types")
 
             # Get the field value
-            value = dt[field]
+            value: NDArray = dt[field]
 
             # Number of elements in field value
             numel_tmp = len(value)
@@ -559,27 +573,32 @@ def clumerge(
             # Get/check info about the field value type
             if field not in fields_info:
                 # If it's the first time this field appears, just get the info
-                fields_info[field] = _getcols(value)
+                fields_info[field] = _FieldInfo(value.dtype, _getcols(value))
 
             else:
                 # If this field already appeared in previous data items, get the
                 # info and check/determine its compatibility with respect to
                 # previous data items
-                if _getcols(value) != fields_info[field]:
+                if _getcols(value) != fields_info[field].ncol:
                     # Number of columns must be the same
                     raise ValueError(f"Dimension mismatch in field `{field}`")
+
+                # Get the common supertype
+                fields_info[field].dtype = promote_types(
+                    fields_info[field].dtype, value.dtype
+                )
 
         # Update total number of elements
         numel += numel_i
 
     # Initialize output dictionary fields with room for all items
     for field in fields_info:
-        if field == clusters_field:
-            output[field] = zeros((numel,), dtype=integer)
-        elif fields_info[field] == 1:
-            output[field] = zeros((numel,))
+        if fields_info[field].ncol == 1:
+            output[field] = zeros((numel,), dtype=fields_info[field].dtype)
         else:
-            output[field] = zeros((numel, fields_info[field]))
+            output[field] = zeros(
+                (numel, fields_info[field].ncol), dtype=fields_info[field].dtype
+            )
 
     # Copy items from input data to output dictionary, field-wise
     copied: int = 0
