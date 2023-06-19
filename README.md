@@ -8,11 +8,13 @@
 # pyclugen
 
 **pyclugen** is a Python implementation of the *clugen* algorithm for
-generating multidimensional clusters. Each cluster is supported by a line
-segment, the position, orientation and length of which guide where the
-respective points are placed.
+generating multidimensional clusters with arbitrary distributions. Each cluster
+is supported by a line segment, the position, orientation and length of which
+guide where the respective points are placed.
 
-See the [documentation](https://clugen.github.io/pyclugen/) for more details.
+See the [documentation](https://clugen.github.io/pyclugen/) and
+[examples](https://clugen.github.io/pyclugen/generated/gallery/) for more
+details.
 
 ## Installation
 
