@@ -506,7 +506,47 @@ def clumerge(
     fields: tuple[str, ...] = ("points", "clusters"),
     clusters_field: str | None = "clusters",
 ) -> dict[str, NDArray]:
-    """Merges the fields (specified in `fields`) of two or more `data` sets."""
+    r"""Merges the fields (specified in `fields`) of two or more `data` sets.
+
+    Merges the fields (specified in `fields`) of two or more `data` sets (named
+    tuples or dictionaries). The fields to be merged need to have the same
+    number of columns. The corresponding merged field will contain the rows of
+    the fields to be merged, and will have a common supertype.
+
+    The `clusters_field` parameter specifies a field containing integers that
+    identify the cluster to which the respective points belongs to. If
+    `clusters_field` is specified (by default it's specified as `"clusters"`),
+    cluster assignments in individual datasets will be updated in the merged
+    dataset so that clusters are considered separate. This parameter can be set
+    to `None`, in which case no field will be considered as a special cluster
+    assignments field.
+
+    This function can be used to merge data sets generated with the
+    [`clugen()`][pyclugen.main.clugen] function, by default merging the
+    `points` and `clusters` fields in those data sets. It also works with
+    arbitrary data by specifying alternative fields in the `fields` parameter.
+    It can be used, for example, to merge third-party data with
+    [`clugen()`][pyclugen.main.clugen]-generated data.
+
+    Examples:
+        >>> from pyclugen import clugen, clumerge
+        >>> data1 = clugen(2, 5, 1000, [1, 1], 0.01, [20, 20], 14, 1.2, 1.5);
+        >>> data2 = clugen(2, 3, 450, [0.8, -0.3], 0, [25, 21], 6, 0.4, 3.5);
+        >>> data3 = clugen(2, 2, 600, [0, -0.7], 0.2, [15, 10], 1, 0.1, 5.2);
+        >>> data_merged = clumerge(data1, data2, data3)
+
+    Args:
+      *data: One or more cluster data sets whose `fields` are to be merged.
+      fields: Fields to be merged, which must exist in the data set given in
+        `*data`.
+      clusters_field: Field containing the integer cluster labels. If specified,
+        cluster assignments in individual datasets will be updated in the merged
+        dataset so that clusters are considered separate.
+
+    Returns:
+      A dictionary, where keys correspond to field names, and values to the
+        merged numerical arrays.
+    """
     # Number of elements in each array the merged dataset
     numel: int = 0
 
