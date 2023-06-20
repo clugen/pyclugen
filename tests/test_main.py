@@ -1000,3 +1000,60 @@ def test_clumerge_fields(
         assert mds["directions"].shape == expect_shape
         assert len(mds["angles"]) == tclu_i
         assert len(mds["lengths"]) == tclu_i
+
+
+def test_clumerge_exceptions(prng: Generator):
+    """Test that clumerge() raises the expected exceptions."""
+    # Data item does not contain required field `unknown`
+    nd = 3
+    npts = prng.integers(10, high=101)
+    ds = {
+        "points": prng.random((npts, nd)),
+        "clusters": prng.integers(1, high=6, size=npts),
+    }
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Data item does not contain required field `unknown`"),
+    ):
+        clumerge(ds, fields=("clusters", "unknown"))
+
+    # "`{clusters_field}` must contain integer types
+    nd = 4
+    npts = prng.integers(10, high=101)
+    ds = {"points": prng.random((npts, nd)), "clusters": prng.random(npts)}
+    with pytest.raises(
+        ValueError,
+        match=re.escape("`clusters` must contain integer types"),
+    ):
+        clumerge(ds)
+
+    # Data item contains fields with different sizes (npts != npts / 2)
+    nd = 2
+    npts = prng.integers(10, high=101)
+    ds = {
+        "points": prng.random((npts, nd)),
+        "clusters": prng.integers(1, high=6, size=npts // 2),
+    }
+    with pytest.raises(
+        ValueError,
+        match=r"Data item contains fields with different sizes \([0-9]+ != [0-9]+\)",
+    ):
+        clumerge(ds)
+
+    # Dimension mismatch in field `points`
+    nd1 = 2
+    nd2 = 3
+    npts = prng.integers(10, high=101)
+    ds1 = {
+        "points": prng.random((npts, nd1)),
+        "clusters": prng.integers(1, high=6, size=npts),
+    }
+    ds2 = {
+        "points": prng.random((npts, nd2)),
+        "clusters": prng.integers(1, high=6, size=npts),
+    }
+    with pytest.raises(
+        ValueError,
+        match=re.escape("Dimension mismatch in field `points`"),
+    ):
+        clumerge(ds1, ds2)
