@@ -986,12 +986,14 @@ def test_clumerge_fields(
         with warnings.catch_warnings():
             # Check that the function runs without warnings
             warnings.simplefilter("error")
-            mds = clumerge(*datasets, fields=("sizes", "centers", "directions", "angles", "lengths"),
-            clusters_field=None,
-        )
+            mds = clumerge(
+                *datasets,
+                fields=("sizes", "centers", "directions", "angles", "lengths"),
+                clusters_field=None,
+            )
 
         # Check that the cluster-related fields have the correct sizes
-        expect_shape = (tclu_i,) if ndims == 1 else  (tclu_i, ndims)
+        expect_shape = (tclu_i,) if ndims == 1 else (tclu_i, ndims)
         assert len(mds["sizes"]) == tclu_i
         assert can_cast(mds["sizes"], int64)
         assert mds["centers"].shape == expect_shape

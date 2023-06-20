@@ -31,7 +31,7 @@ def _ptoff_ones(
 
 def _csz_equi_size(nclu: int, tpts: int, ae: bool, rng: Generator) -> NDArray:
     """Alternative cluster sizing function for testing purposes."""
-    cs = zeros(nclu, dtype=int)
+    cs: NDArray = zeros(nclu, dtype=int)
     for i in range(tpts):
         cs[i % nclu] += 1
     return cs

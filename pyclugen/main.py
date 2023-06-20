@@ -438,7 +438,9 @@ def clugen(
     cumsum_points = concatenate((asarray([0]), cumsum(cluster_sizes)))
 
     # Pre-allocate data structures for holding cluster info and points
-    point_clusters = empty(num_points, dtype=int32)  # Cluster indices of each point
+    point_clusters: NDArray = empty(
+        num_points, dtype=int32
+    )  # Cluster indices of each point
     point_projections = empty((num_points, num_dims))  # Point projections on
     #                                                  # cluster-supporting lines
     points = empty((num_points, num_dims))  # Final points to be generated
