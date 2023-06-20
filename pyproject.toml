@@ -97,7 +97,11 @@ skip_gitignore = "True"
 extend-select = ["B9", "C4"]
 max-line-length = 88
 max-doc-length = 88
-ignore = [ "B018", "E203", "SIM106", "W503" ]
+ignore = [
+    "B905",  # Force `strict` in zip(), but this requires Python 3.10
+    "E203",  # "whitespace before ':'"", but that's how black likes it
+    "W503" ] # "line break before binary operator", conflicts with black
+
 doctests = true
 exclude = [
     ".git",

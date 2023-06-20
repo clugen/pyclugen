@@ -620,7 +620,7 @@ def clumerge(
                 new_clusters = list(
                     range(last_cluster + 1, last_cluster + len(old_clusters) + 1)
                 )
-                old2new = zip(old_clusters, new_clusters, strict=True)  # type: ignore
+                old2new = zip(old_clusters, new_clusters)
                 mapping = dict(old2new)
                 last_cluster = new_clusters[-1]
 
