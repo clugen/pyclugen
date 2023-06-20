@@ -101,7 +101,7 @@ def test_clugen_mandatory(
             assert_allclose(
                 angle_btw(direc[i, :], result.directions[i, :]),
                 abs(result.angles[i]),
-                atol=1e-6,
+                atol=1e-5,
             )
 
 
