@@ -15,13 +15,13 @@
         <link rel="canonical" href="https://clugen.github.io/pyclugen/generated/gallery/plot_functions/">
       
       
-        <link rel="prev" href="../plot_4_nd_examples/">
+        <link rel="prev" href="../plot_5_mrg_examples/">
       
       
         <link rel="next" href="../../../reference/">
       
       <link rel="icon" href="https://raw.githubusercontent.com/clugen/.github/main/logos/favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
     
     
       
@@ -50,11 +50,11 @@
     
       <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
+      <link rel="stylesheet" href="../../../sg_gallery-binder.css">
+    
       <link rel="stylesheet" href="../../../sg_gallery-dataframe.css">
     
       <link rel="stylesheet" href="../../../sg_gallery-rendered-html.css">
-    
-      <link rel="stylesheet" href="../../../sg_gallery-binder.css">
     
       <link rel="stylesheet" href="../../../sg_gallery.css">
     
@@ -362,6 +362,8 @@
         
           
         
+          
+        
       
       
         
@@ -434,6 +436,20 @@
     <li class="md-nav__item">
       <a href="../plot_4_nd_examples/" class="md-nav__link">
         Examples in nD
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plot_5_mrg_examples/" class="md-nav__link">
+        Merging and hierarchical cluster examples
       </a>
     </li>
   
@@ -609,41 +625,51 @@ to download the full example code</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 7-8 -->
 
 <h2 id="import-the-required-libraries">Import the required libraries<a class="headerlink" href="#import-the-required-libraries" title="Permanent link">&para;</a></h2>
-<!-- GENERATED FROM PYTHON SOURCE LINES 8-16 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 8-17 -->
 
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># type: ignore</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>  <span class="c1"># type: ignore</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kn">from</span> <span class="nn">pyclugen</span> <span class="kn">import</span> <span class="n">Clusters</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">numpy.typing</span> <span class="k">as</span> <span class="nn">npt</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="kn">from</span> <span class="nn">pyclugen</span> <span class="kn">import</span> <span class="n">Clusters</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 17-18 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 18-19 -->
 
 <h2 id="clusters2df">clusters2df<a class="headerlink" href="#clusters2df" title="Permanent link">&para;</a></h2>
-<!-- GENERATED FROM PYTHON SOURCE LINES 18-38 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 19-48 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">clusters2df</span><span class="p">(</span><span class="o">*</span><span class="n">exs</span><span class="p">:</span> <span class="n">Clusters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a sequence of clusters to a Pandas dataframe.&quot;&quot;&quot;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">iex</span> <span class="o">=</span> <span class="mi">1</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="n">exs</span><span class="p">:</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>            <span class="n">data</span><span class="o">=</span><span class="n">ex</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="mi">1</span><span class="p">))]</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        <span class="p">)</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">clusters</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">iex</span><span class="p">]</span> <span class="o">*</span> <span class="n">ex</span><span class="o">.</span><span class="n">clusters</span><span class="o">.</span><span class="n">size</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        <span class="n">iex</span> <span class="o">+=</span> <span class="mi">1</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span> <span class="nf">clusters2df</span><span class="p">(</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="o">*</span><span class="n">exs</span><span class="p">:</span> <span class="n">Clusters</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">npt</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">],</span> <span class="n">clusters_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;clusters&quot;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a sequence of clusters to a Pandas dataframe.&quot;&quot;&quot;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">iex</span> <span class="o">=</span> <span class="mi">1</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="k">for</span> <span class="n">ex</span> <span class="ow">in</span> <span class="n">exs</span><span class="p">:</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            <span class="n">points</span> <span class="o">=</span> <span class="n">ex</span><span class="p">[</span><span class="s2">&quot;points&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>            <span class="n">clusters</span> <span class="o">=</span> <span class="n">ex</span><span class="p">[</span><span class="n">clusters_field</span><span class="p">]</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>            <span class="n">points</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">points</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>            <span class="n">clusters</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">clusters</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>            <span class="n">data</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="mi">1</span><span class="p">))]</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>        <span class="p">)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clusters</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">iex</span><span class="p">]</span> <span class="o">*</span> <span class="n">clusters</span><span class="o">.</span><span class="n">size</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>        <span class="n">iex</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 39-40 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 49-50 -->
 
 <h2 id="get_plot_lims">get_plot_lims<a class="headerlink" href="#get_plot_lims" title="Permanent link">&para;</a></h2>
-<!-- GENERATED FROM PYTHON SOURCE LINES 40-62 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 50-72 -->
 
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span> <span class="nf">get_plot_lims</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pmargin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">):</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine the plot limits for the cluster data given in `df`.&quot;&quot;&quot;</span>
@@ -664,12 +690,12 @@ to download the full example code</p>
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
 <a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="k">return</span> <span class="n">xmaxs</span><span class="p">,</span> <span class="n">xmins</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 63-64 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 73-74 -->
 
 <h2 id="plot_examples_1d">plot_examples_1d<a class="headerlink" href="#plot_examples_1d" title="Permanent link">&para;</a></h2>
-<!-- GENERATED FROM PYTHON SOURCE LINES 64-99 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 74-109 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span> <span class="nf">plot_examples_1d</span><span class="p">(</span><span class="o">*</span><span class="n">ets</span><span class="p">,</span> <span class="n">ncols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">def</span> <span class="nf">plot_examples_1d</span><span class="p">(</span><span class="o">*</span><span class="n">ets</span><span class="p">,</span> <span class="n">ncols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">clusters_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;clusters&quot;</span><span class="p">):</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the 1D examples given in the ets parameter.&quot;&quot;&quot;</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="c1"># Get examples</span>
@@ -677,7 +703,7 @@ to download the full example code</p>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="c1"># Get titles</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">et</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">clusters2df</span><span class="p">(</span><span class="o">*</span><span class="n">ex</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">clusters2df</span><span class="p">(</span><span class="o">*</span><span class="n">ex</span><span class="p">,</span> <span class="n">clusters_field</span><span class="o">=</span><span class="n">clusters_field</span><span class="p">)</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="c1"># Set seaborn&#39;s dark grid style</span>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;darkgrid&quot;</span><span class="p">)</span>
@@ -701,146 +727,156 @@ to download the full example code</p>
 <a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">g_axes</span><span class="p">,</span> <span class="n">et</span><span class="p">):</span>
 <a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 100-101 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 110-111 -->
 
 <h2 id="plot_examples_2d">plot_examples_2d<a class="headerlink" href="#plot_examples_2d" title="Permanent link">&para;</a></h2>
-<!-- GENERATED FROM PYTHON SOURCE LINES 101-139 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 111-151 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">plot_examples_2d</span><span class="p">(</span><span class="o">*</span><span class="n">ets</span><span class="p">,</span> <span class="n">pmargin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">ncols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the 2D examples given in the ets parameter.&quot;&quot;&quot;</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="c1"># Get examples</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">ex</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="c1"># Get titles</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">et</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">clusters2df</span><span class="p">(</span><span class="o">*</span><span class="n">ex</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span> <span class="nf">plot_examples_2d</span><span class="p">(</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="o">*</span><span class="n">ets</span><span class="p">,</span> <span class="n">pmargin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">ncols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">clusters_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;clusters&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">):</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the 2D examples given in the ets parameter.&quot;&quot;&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="c1"># Get examples</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">ex</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="c1"># Get titles</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">et</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="c1"># Get limits in each dimension</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="n">xmaxs</span><span class="p">,</span> <span class="n">xmins</span> <span class="o">=</span> <span class="n">get_plot_lims</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pmargin</span><span class="o">=</span><span class="n">pmargin</span><span class="p">)</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="c1"># Set seaborn&#39;s dark grid style</span>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;darkgrid&quot;</span><span class="p">)</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="c1"># Use seaborn to create the plots</span>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>        <span class="n">df</span><span class="p">,</span>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="n">col</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>        <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>        <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>        <span class="n">aspect</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>        <span class="n">col_wrap</span><span class="o">=</span><span class="n">ncols</span><span class="p">,</span>
-<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    <span class="p">)</span>
-<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
-<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>    <span class="n">g</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">,</span> <span class="s2">&quot;x0&quot;</span><span class="p">,</span> <span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">clusters2df</span><span class="p">(</span><span class="o">*</span><span class="n">ex</span><span class="p">,</span> <span class="n">clusters_field</span><span class="o">=</span><span class="n">clusters_field</span><span class="p">)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="c1"># Get limits in each dimension</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="n">xmaxs</span><span class="p">,</span> <span class="n">xmins</span> <span class="o">=</span> <span class="n">get_plot_lims</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pmargin</span><span class="o">=</span><span class="n">pmargin</span><span class="p">)</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="c1"># Set seaborn&#39;s dark grid style</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;darkgrid&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="c1"># Use seaborn to create the plots</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="n">df</span><span class="p">,</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>        <span class="n">col</span><span class="o">=</span><span class="s2">&quot;example&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>        <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>        <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>        <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>        <span class="n">aspect</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        <span class="n">col_wrap</span><span class="o">=</span><span class="n">ncols</span><span class="p">,</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>    <span class="p">)</span>
 <a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>
-<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    <span class="c1"># Set the plot titles and x, y labels</span>
-<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">et</span><span class="p">):</span>
-<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    <span class="n">g</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">,</span> <span class="s2">&quot;x0&quot;</span><span class="p">,</span> <span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>    <span class="c1"># Set the plot titles and x, y labels</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">et</span><span class="p">):</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 140-141 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 152-153 -->
 
 <h2 id="plot_examples_3d">plot_examples_3d<a class="headerlink" href="#plot_examples_3d" title="Permanent link">&para;</a></h2>
-<!-- GENERATED FROM PYTHON SOURCE LINES 141-201 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 153-219 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">plot_examples_3d</span><span class="p">(</span><span class="o">*</span><span class="n">ets</span><span class="p">,</span> <span class="n">pmargin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">ncols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="mi">350</span><span class="p">):</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the 3D examples given in the ets parameter.&quot;&quot;&quot;</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="c1"># Get examples</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">ex</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="c1"># Get titles</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">et</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="c1"># Number of plots and number of rows in combined plot</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">num_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">nrows</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_plots</span> <span class="o">/</span> <span class="n">ncols</span><span class="p">)))</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">blank_plots</span> <span class="o">=</span> <span class="n">nrows</span> <span class="o">*</span> <span class="n">ncols</span> <span class="o">-</span> <span class="n">num_plots</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">clusters2df</span><span class="p">(</span><span class="o">*</span><span class="n">ex</span><span class="p">)</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="c1"># Get limits in each dimension</span>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="n">xmaxs</span><span class="p">,</span> <span class="n">xmins</span> <span class="o">=</span> <span class="n">get_plot_lims</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pmargin</span><span class="o">=</span><span class="n">pmargin</span><span class="p">)</span>
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>    <span class="c1"># Reset to default Matplotlib style, to avoid seaborn interference</span>
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>    <span class="n">sns</span><span class="o">.</span><span class="n">reset_orig</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span> <span class="nf">plot_examples_3d</span><span class="p">(</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="o">*</span><span class="n">ets</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">pmargin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">ncols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">side</span><span class="o">=</span><span class="mi">350</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">clusters_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;clusters&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">):</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the 3D examples given in the ets parameter.&quot;&quot;&quot;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="c1"># Get examples</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">ex</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="c1"># Get titles</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="n">et</span> <span class="o">=</span> <span class="n">ets</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="c1"># Number of plots and number of rows in combined plot</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="n">num_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="n">nrows</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_plots</span> <span class="o">/</span> <span class="n">ncols</span><span class="p">)))</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="n">blank_plots</span> <span class="o">=</span> <span class="n">nrows</span> <span class="o">*</span> <span class="n">ncols</span> <span class="o">-</span> <span class="n">num_plots</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">clusters2df</span><span class="p">(</span><span class="o">*</span><span class="n">ex</span><span class="p">,</span> <span class="n">clusters_field</span><span class="o">=</span><span class="n">clusters_field</span><span class="p">)</span>
 <a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
-<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>    <span class="c1"># To convert inches to pixels afterwards</span>
-<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="n">px</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">]</span>  <span class="c1"># pixel in inches</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>    <span class="c1"># Get limits in each dimension</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="n">xmaxs</span><span class="p">,</span> <span class="n">xmins</span> <span class="o">=</span> <span class="n">get_plot_lims</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pmargin</span><span class="o">=</span><span class="n">pmargin</span><span class="p">)</span>
 <a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
-<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>    <span class="c1"># Use Matplotlib to create the plots</span>
-<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>    <span class="n">_</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>        <span class="n">nrows</span><span class="p">,</span>
-<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>        <span class="n">ncols</span><span class="p">,</span>
-<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">side</span> <span class="o">*</span> <span class="n">px</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">side</span> <span class="o">*</span> <span class="n">px</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span>
-<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>        <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">),</span>
-<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>    <span class="p">)</span>
-<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>    <span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">ex</span><span class="p">,</span> <span class="n">et</span><span class="p">):</span>
-<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
-<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
-<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$z$&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
-<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pad</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
-<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a>            <span class="n">e</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a>            <span class="n">e</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
-<a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a>            <span class="n">e</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
-<a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>            <span class="n">c</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">clusters</span><span class="p">,</span>
-<a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a>            <span class="n">depthshade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a>            <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
-<a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a>            <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-<a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a>        <span class="p">)</span>
-<a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a>
-<a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a>    <span class="c1"># Remaining plots are left blank</span>
-<a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a>    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span> <span class="o">+</span> <span class="n">blank_plots</span><span class="p">]:</span>
-<a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
-<a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>    <span class="c1"># Reset to default Matplotlib style, to avoid seaborn interference</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>    <span class="n">sns</span><span class="o">.</span><span class="n">reset_orig</span><span class="p">()</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>    <span class="c1"># To convert inches to pixels afterwards</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>    <span class="n">px</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">]</span>  <span class="c1"># pixel in inches</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>    <span class="c1"># Use Matplotlib to create the plots</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>    <span class="n">_</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>        <span class="n">nrows</span><span class="p">,</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>        <span class="n">ncols</span><span class="p">,</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">side</span> <span class="o">*</span> <span class="n">px</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">side</span> <span class="o">*</span> <span class="n">px</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">),</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>        <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">),</span>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a>    <span class="p">)</span>
+<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>    <span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>    <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axs</span><span class="p">,</span> <span class="n">ex</span><span class="p">,</span> <span class="n">et</span><span class="p">):</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_zlim</span><span class="p">(</span><span class="n">xmins</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y$&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s2">&quot;$z$&quot;</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pad</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+<a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a>            <span class="n">e</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+<a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a>            <span class="n">e</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+<a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a>            <span class="n">e</span><span class="o">.</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+<a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a>            <span class="n">c</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">clusters</span><span class="p">,</span>
+<a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a>            <span class="n">depthshade</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a>            <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a>            <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+<a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a>        <span class="p">)</span>
+<a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a>
+<a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a>    <span class="c1"># Remaining plots are left blank</span>
+<a id="__codelineno-5-59" name="__codelineno-5-59" href="#__codelineno-5-59"></a>    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axs</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span> <span class="o">+</span> <span class="n">blank_plots</span><span class="p">]:</span>
+<a id="__codelineno-5-60" name="__codelineno-5-60" href="#__codelineno-5-60"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<a id="__codelineno-5-61" name="__codelineno-5-61" href="#__codelineno-5-61"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-62" name="__codelineno-5-62" href="#__codelineno-5-62"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
-<!-- GENERATED FROM PYTHON SOURCE LINES 202-203 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 220-221 -->
 
 <h2 id="plot_examples_nd">plot_examples_nd<a class="headerlink" href="#plot_examples_nd" title="Permanent link">&para;</a></h2>
-<!-- GENERATED FROM PYTHON SOURCE LINES 203-238 -->
+<!-- GENERATED FROM PYTHON SOURCE LINES 221-258 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span> <span class="nf">plot_examples_nd</span><span class="p">(</span><span class="n">ex</span><span class="p">:</span> <span class="n">Clusters</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pmargin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">):</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the nD example given in the ex parameter.&quot;&quot;&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="c1"># How many dimensions?</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">nd</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">clusters2df</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span> <span class="nf">plot_examples_nd</span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">ex</span><span class="p">:</span> <span class="n">Clusters</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pmargin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">clusters_field</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;clusters&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">):</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the nD example given in the ex parameter.&quot;&quot;&quot;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="c1"># How many dimensions?</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">nd</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="c1"># Get limits in each dimension</span>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">xmaxs</span><span class="p">,</span> <span class="n">xmins</span> <span class="o">=</span> <span class="n">get_plot_lims</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pmargin</span><span class="o">=</span><span class="n">pmargin</span><span class="p">)</span>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="c1"># Set seaborn&#39;s dark grid style</span>
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;darkgrid&quot;</span><span class="p">)</span>
-<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
-<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="c1"># Create pairwise plots with nothing on the diagonal</span>
-<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;deep&quot;</span><span class="p">)</span>
-<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="n">g</span><span class="o">.</span><span class="n">map_offdiag</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>    <span class="n">g</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
-<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>    <span class="c1"># Decorate plot</span>
-<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nd</span><span class="p">):</span>
-<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nd</span><span class="p">):</span>
-<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
-<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>                <span class="c1"># Set the x labels in the diagonal plots</span>
-<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>                <span class="n">xycoord</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmaxs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">xmins</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
-<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>                <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>                    <span class="n">xycoord</span><span class="p">,</span> <span class="n">xycoord</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;$x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span>
-<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>                <span class="p">)</span>
-<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>            <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>                <span class="c1"># Set appropriate plot intervals and aspect ratio</span>
-<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>                <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">xmins</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
-<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>                <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">xmins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
-<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>                <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">clusters2df</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">clusters_field</span><span class="o">=</span><span class="n">clusters_field</span><span class="p">)</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="c1"># Get limits in each dimension</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">xmaxs</span><span class="p">,</span> <span class="n">xmins</span> <span class="o">=</span> <span class="n">get_plot_lims</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pmargin</span><span class="o">=</span><span class="n">pmargin</span><span class="p">)</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="c1"># Set seaborn&#39;s dark grid style</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;darkgrid&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="c1"># Create pairwise plots with nothing on the diagonal</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>    <span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;deep&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>    <span class="n">g</span><span class="o">.</span><span class="n">map_offdiag</span><span class="p">(</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>    <span class="n">g</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>    <span class="c1"># Decorate plot</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nd</span><span class="p">):</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nd</span><span class="p">):</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>                <span class="c1"># Set the x labels in the diagonal plots</span>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>                <span class="n">xycoord</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmaxs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">xmins</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>                <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>                    <span class="n">xycoord</span><span class="p">,</span> <span class="n">xycoord</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;$x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>                <span class="p">)</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>            <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>                <span class="c1"># Set appropriate plot intervals and aspect ratio</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>                <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">xmins</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>                <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">xmins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xmaxs</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a>                <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>Total running time of the script:</strong> ( 0 minutes  0.006 seconds)</p>
 <div id="download_links"></div>
@@ -913,13 +949,19 @@ to download the full example code</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.expand", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.b4d07000.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a51614de.min.js"></script>
       
-        <script src="../../../javascripts/mathjax.js"></script>
+        
+          <script src="../../../javascripts/mathjax.js"></script>
+        
       
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
       
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+          <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
       
     
   </body>

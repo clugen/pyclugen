@@ -3,39 +3,49 @@
 Several auxiliary functions for plotting the examples in this documentation.
 """
 
-#%%
+# %%
 # ## Import the required libraries
 
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 import seaborn as sns  # type: ignore
 
 from pyclugen import Clusters
 
-#%%
+# %%
 # ## clusters2df
 
 
-def clusters2df(*exs: Clusters) -> pd.DataFrame:
+def clusters2df(
+    *exs: Clusters | dict[str, npt.ArrayLike], clusters_field: str = "clusters"
+) -> pd.DataFrame:
     """Convert a sequence of clusters to a Pandas dataframe."""
 
     dfs = []
     iex = 1
 
     for ex in exs:
+        if isinstance(ex, dict):
+            points = ex["points"]
+            clusters = ex[clusters_field]
+        else:
+            points = ex.points
+            clusters = ex.clusters
+
         df = pd.DataFrame(
-            data=ex.points, columns=[f"x{i}" for i in range(np.size(ex.points, 1))]
+            data=points, columns=[f"x{i}" for i in range(np.size(points, 1))]
         )
-        df["cluster"] = ex.clusters.tolist()
-        df["example"] = [iex] * ex.clusters.size
+        df["cluster"] = clusters.tolist()
+        df["example"] = [iex] * clusters.size
         dfs.append(df)
         iex += 1
 
     return pd.concat(dfs, ignore_index=True)
 
 
-#%%
+# %%
 # ## get_plot_lims
 
 
@@ -59,11 +69,11 @@ def get_plot_lims(df: pd.DataFrame, pmargin: float = 0.1):
     return xmaxs, xmins
 
 
-#%%
+# %%
 # ## plot_examples_1d
 
 
-def plot_examples_1d(*ets, ncols: int = 3):
+def plot_examples_1d(*ets, ncols: int = 3, clusters_field: str = "clusters"):
     """Plot the 1D examples given in the ets parameter."""
 
     # Get examples
@@ -71,7 +81,7 @@ def plot_examples_1d(*ets, ncols: int = 3):
     # Get titles
     et = ets[1::2]
 
-    df = clusters2df(*ex)
+    df = clusters2df(*ex, clusters_field=clusters_field)
 
     # Set seaborn's dark grid style
     sns.set_theme(style="darkgrid")
@@ -96,11 +106,13 @@ def plot_examples_1d(*ets, ncols: int = 3):
         ax.set_title(t)
 
 
-#%%
+# %%
 # ## plot_examples_2d
 
 
-def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
+def plot_examples_2d(
+    *ets, pmargin: float = 0.1, ncols: int = 3, clusters_field: str = "clusters"
+):
     """Plot the 2D examples given in the ets parameter."""
 
     # Get examples
@@ -108,7 +120,7 @@ def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
     # Get titles
     et = ets[1::2]
 
-    df = clusters2df(*ex)
+    df = clusters2df(*ex, clusters_field=clusters_field)
 
     # Get limits in each dimension
     xmaxs, xmins = get_plot_lims(df, pmargin=pmargin)
@@ -136,11 +148,17 @@ def plot_examples_2d(*ets, pmargin: float = 0.1, ncols: int = 3):
         ax.set_ylabel("y")
 
 
-#%%
+# %%
 # ## plot_examples_3d
 
 
-def plot_examples_3d(*ets, pmargin: float = 0.1, ncols: int = 3, side=350):
+def plot_examples_3d(
+    *ets,
+    pmargin: float = 0.1,
+    ncols: int = 3,
+    side=350,
+    clusters_field: str = "clusters",
+):
     """Plot the 3D examples given in the ets parameter."""
 
     # Get examples
@@ -153,7 +171,7 @@ def plot_examples_3d(*ets, pmargin: float = 0.1, ncols: int = 3, side=350):
     nrows = max(1, int(np.ceil(num_plots / ncols)))
     blank_plots = nrows * ncols - num_plots
 
-    df = clusters2df(*ex)
+    df = clusters2df(*ex, clusters_field=clusters_field)
 
     # Get limits in each dimension
     xmaxs, xmins = get_plot_lims(df, pmargin=pmargin)
@@ -198,17 +216,19 @@ def plot_examples_3d(*ets, pmargin: float = 0.1, ncols: int = 3, side=350):
         ax.patch.set_alpha(0)
 
 
-#%%
+# %%
 # ## plot_examples_nd
 
 
-def plot_examples_nd(ex: Clusters, t: str, pmargin: float = 0.1):
+def plot_examples_nd(
+    ex: Clusters, t: str, pmargin: float = 0.1, clusters_field: str = "clusters"
+):
     """Plot the nD example given in the ex parameter."""
 
     # How many dimensions?
     nd = ex.points.shape[1]
 
-    df = clusters2df(ex)
+    df = clusters2df(ex, clusters_field=clusters_field)
 
     # Get limits in each dimension
     xmaxs, xmins = get_plot_lims(df, pmargin=pmargin)
