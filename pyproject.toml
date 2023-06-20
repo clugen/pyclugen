@@ -54,6 +54,7 @@ dev = [
     "coverage",
     "pytest-cov >= 3.0.0",
     "pytest-mypy",
+    "scikit-learn",
     "seaborn" ]
 
 [project.urls]
