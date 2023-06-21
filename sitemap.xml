@@ -2,62 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://clugen.github.io/pyclugen/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/dev/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/reference/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/theory/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/generated/gallery/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/generated/gallery/mg_execution_times/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/generated/gallery/plot_1_1d_examples/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/generated/gallery/plot_2_2d_examples/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/generated/gallery/plot_3_3d_examples/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/generated/gallery/plot_4_nd_examples/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/generated/gallery/plot_5_mrg_examples/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://clugen.github.io/pyclugen/generated/gallery/plot_functions/</loc>
-         <lastmod>2023-06-20</lastmod>
+         <lastmod>2023-06-21</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
