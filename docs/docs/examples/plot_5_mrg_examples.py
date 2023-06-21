@@ -78,9 +78,9 @@ e093 = clumerge(e092, e090) # clumerge(e092, e088, e089) would also work
 #%%
 
 plot_examples_2d(
-    e090, "e092: original merged data sets",
-    e092, "e094: random uniform noise",
-    e093, "e095: data sets with noise",
+    e090, "e090: original merged data sets",
+    e092, "e092: random uniform noise",
+    e093, "e093: data sets with noise",
     pmargin=0)
 
 #%%
