@@ -50,7 +50,7 @@ plot_examples_2d(
 
 #%%
 # In the previous example, clusters from individual data sets remain as separate
-# clusters in the merged data set. It's also possible to mantain the original
+# clusters in the merged data set. It's also possible to maintain the original
 # cluster labels by setting the `clusters_field` parameter to `None`:
 
 #%%
