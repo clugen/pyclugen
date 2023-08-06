@@ -70,8 +70,10 @@ plt.show()
 
 If you use this software, please cite the following reference:
 
-* Fachada, N. & de Andrade, D. (2023). Generating Multidimensional Clusters With
-  Support Lines. <https://doi.org/10.48550/arXiv.2301.10327>.
+* Fachada, N. & de Andrade, D. (2023). Generating multidimensional clusters
+  with support lines. *Knowledge-Based Systems*, 277, 110836.
+  <https://doi.org/10.1016/j.knosys.2023.110836>
+  ([arXiv preprint](https://doi.org/10.48550/arXiv.2301.10327))
 
 ## License
 
