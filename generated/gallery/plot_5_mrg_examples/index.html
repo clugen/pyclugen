@@ -21,7 +21,7 @@
         <link rel="next" href="../plot_functions/">
       
       <link rel="icon" href="https://raw.githubusercontent.com/clugen/.github/main/logos/favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
@@ -50,13 +50,13 @@
     
       <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../sg_gallery-binder.css">
-    
       <link rel="stylesheet" href="../../../sg_gallery-dataframe.css">
     
-      <link rel="stylesheet" href="../../../sg_gallery-rendered-html.css">
+      <link rel="stylesheet" href="../../../sg_gallery-binder.css">
     
       <link rel="stylesheet" href="../../../sg_gallery.css">
+    
+      <link rel="stylesheet" href="../../../sg_gallery-rendered-html.css">
     
     <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -649,45 +649,57 @@ the <a href="../plot_2_2d_examples">2D examples</a>:</p>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">e090</span><span class="p">,</span> <span class="s2">&quot;e090: merged data sets&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><img alt="e088: data set 1, e089: data set 2, e090: merged data sets" class="mkd-glr-single-img" src="../images/mkd_glr_plot_5_mrg_examples_001.png" srcset="../images/mkd_glr_plot_5_mrg_examples_001.png" /></p>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>/home/runner/.local/lib/python3.10/site-packages/seaborn/axisgrid.py:118:<span class="w"> </span>UserWarning:<span class="w"> </span>The<span class="w"> </span>figure<span class="w"> </span>layout<span class="w"> </span>has<span class="w"> </span>changed<span class="w"> </span>to<span class="w"> </span>tight
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>self._figure.tight_layout<span class="o">(</span>*args,<span class="w"> </span>**kwargs<span class="o">)</span>
+</code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 52-55 -->
 
 <p>In the previous example, clusters from individual data sets remain as separate
-clusters in the merged data set. It's also possible to mantain the original
+clusters in the merged data set. It's also possible to maintain the original
 cluster labels by setting the <code class="highlight">clusters_field</code> parameter to <code class="highlight">None</code>:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 57-60 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">e091</span> <span class="o">=</span> <span class="n">clumerge</span><span class="p">(</span><span class="n">e088</span><span class="p">,</span> <span class="n">e089</span><span class="p">,</span> <span class="n">clusters_field</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">e091</span> <span class="o">=</span> <span class="n">clumerge</span><span class="p">(</span><span class="n">e088</span><span class="p">,</span> <span class="n">e089</span><span class="p">,</span> <span class="n">clusters_field</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 61-67 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">plot_examples_2d</span><span class="p">(</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">e088</span><span class="p">,</span> <span class="s2">&quot;e088: data set 1&quot;</span><span class="p">,</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">e089</span><span class="p">,</span> <span class="s2">&quot;e089: data set 2&quot;</span><span class="p">,</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">e091</span><span class="p">,</span> <span class="s2">&quot;e091: merged data sets&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">plot_examples_2d</span><span class="p">(</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">e088</span><span class="p">,</span> <span class="s2">&quot;e088: data set 1&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">e089</span><span class="p">,</span> <span class="s2">&quot;e089: data set 2&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">e091</span><span class="p">,</span> <span class="s2">&quot;e091: merged data sets&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><img alt="e088: data set 1, e089: data set 2, e091: merged data sets" class="mkd-glr-single-img" src="../images/mkd_glr_plot_5_mrg_examples_002.png" srcset="../images/mkd_glr_plot_5_mrg_examples_002.png" /></p>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>/home/runner/.local/lib/python3.10/site-packages/seaborn/axisgrid.py:118:<span class="w"> </span>UserWarning:<span class="w"> </span>The<span class="w"> </span>figure<span class="w"> </span>layout<span class="w"> </span>has<span class="w"> </span>changed<span class="w"> </span>to<span class="w"> </span>tight
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>self._figure.tight_layout<span class="o">(</span>*args,<span class="w"> </span>**kwargs<span class="o">)</span>
+</code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 68-69 -->
 
 <h2 id="adding-noise-to-a-clugen-generated-data-set">Adding noise to a <code class="highlight">clugen()</code>-generated data set<a class="headerlink" href="#adding-noise-to-a-clugen-generated-data-set" title="Permanent link">&para;</a></h2>
 <!-- GENERATED FROM PYTHON SOURCE LINES 69-72 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">seed</span> <span class="o">=</span> <span class="mi">333</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">seed</span> <span class="o">=</span> <span class="mi">333</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 73-78 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">prng</span> <span class="o">=</span> <span class="n">rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">e092</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;points&quot;</span><span class="p">:</span> <span class="mi">120</span> <span class="o">*</span> <span class="n">prng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;clusters&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)}</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">e093</span> <span class="o">=</span> <span class="n">clumerge</span><span class="p">(</span><span class="n">e092</span><span class="p">,</span> <span class="n">e090</span><span class="p">)</span> <span class="c1"># clumerge(e092, e088, e089) would also work</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">prng</span> <span class="o">=</span> <span class="n">rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">e092</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;points&quot;</span><span class="p">:</span> <span class="mi">120</span> <span class="o">*</span> <span class="n">prng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;clusters&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)}</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">e093</span> <span class="o">=</span> <span class="n">clumerge</span><span class="p">(</span><span class="n">e092</span><span class="p">,</span> <span class="n">e090</span><span class="p">)</span> <span class="c1"># clumerge(e092, e088, e089) would also work</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 79-86 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">plot_examples_2d</span><span class="p">(</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">e090</span><span class="p">,</span> <span class="s2">&quot;e090: original merged data sets&quot;</span><span class="p">,</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">e092</span><span class="p">,</span> <span class="s2">&quot;e092: random uniform noise&quot;</span><span class="p">,</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">e093</span><span class="p">,</span> <span class="s2">&quot;e093: data sets with noise&quot;</span><span class="p">,</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">pmargin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">plot_examples_2d</span><span class="p">(</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="n">e090</span><span class="p">,</span> <span class="s2">&quot;e090: original merged data sets&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="n">e092</span><span class="p">,</span> <span class="s2">&quot;e092: random uniform noise&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">e093</span><span class="p">,</span> <span class="s2">&quot;e093: data sets with noise&quot;</span><span class="p">,</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">pmargin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
 <p><img alt="e090: original merged data sets, e092: random uniform noise, e093: data sets with noise" class="mkd-glr-single-img" src="../images/mkd_glr_plot_5_mrg_examples_003.png" srcset="../images/mkd_glr_plot_5_mrg_examples_003.png" /></p>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>/home/runner/.local/lib/python3.10/site-packages/seaborn/axisgrid.py:118:<span class="w"> </span>UserWarning:<span class="w"> </span>The<span class="w"> </span>figure<span class="w"> </span>layout<span class="w"> </span>has<span class="w"> </span>changed<span class="w"> </span>to<span class="w"> </span>tight
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>self._figure.tight_layout<span class="o">(</span>*args,<span class="w"> </span>**kwargs<span class="o">)</span>
+</code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 87-92 -->
 
 <h2 id="merging-with-data-not-generated-with-clugen">Merging with data not generated with <code class="highlight">clugen()</code><a class="headerlink" href="#merging-with-data-not-generated-with-clugen" title="Permanent link">&para;</a></h2>
@@ -696,46 +708,54 @@ other data sets, for example data created with one of
 <a href="https://scikit-learn.org/">scikit-learn</a>'s generators:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 92-95 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">seed</span> <span class="o">=</span> <span class="mi">321</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">seed</span> <span class="o">=</span> <span class="mi">321</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 96-106 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_moons</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">e094</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;points&quot;</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="s2">&quot;clusters&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">}</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">e095</span> <span class="o">=</span> <span class="n">clugen</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">12</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">proj_dist_fn</span> <span class="o">=</span> <span class="s2">&quot;unif&quot;</span><span class="p">,</span> <span class="n">point_dist_fn</span> <span class="o">=</span> <span class="s2">&quot;n&quot;</span><span class="p">)</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">e096</span> <span class="o">=</span> <span class="n">clumerge</span><span class="p">(</span><span class="n">e094</span><span class="p">,</span> <span class="n">e095</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_moons</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="n">e094</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;points&quot;</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="s2">&quot;clusters&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">}</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">e095</span> <span class="o">=</span> <span class="n">clugen</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">12</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="n">proj_dist_fn</span> <span class="o">=</span> <span class="s2">&quot;unif&quot;</span><span class="p">,</span> <span class="n">point_dist_fn</span> <span class="o">=</span> <span class="s2">&quot;n&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">e096</span> <span class="o">=</span> <span class="n">clumerge</span><span class="p">(</span><span class="n">e094</span><span class="p">,</span> <span class="n">e095</span><span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 107-113 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">plt</span> <span class="o">=</span> <span class="n">plot_examples_2d</span><span class="p">(</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">e094</span><span class="p">,</span> <span class="s2">&quot;e094: generated w/ make_moons()&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">e095</span><span class="p">,</span> <span class="s2">&quot;e095: generated w/ clugen()&quot;</span><span class="p">,</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">e096</span><span class="p">,</span> <span class="s2">&quot;e096: merged data&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">plt</span> <span class="o">=</span> <span class="n">plot_examples_2d</span><span class="p">(</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    <span class="n">e094</span><span class="p">,</span> <span class="s2">&quot;e094: generated w/ make_moons()&quot;</span><span class="p">,</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="n">e095</span><span class="p">,</span> <span class="s2">&quot;e095: generated w/ clugen()&quot;</span><span class="p">,</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">e096</span><span class="p">,</span> <span class="s2">&quot;e096: merged data&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><img alt="e094: generated w/ make_moons(), e095: generated w/ clugen(), e096: merged data" class="mkd-glr-single-img" src="../images/mkd_glr_plot_5_mrg_examples_004.png" srcset="../images/mkd_glr_plot_5_mrg_examples_004.png" /></p>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>/home/runner/.local/lib/python3.10/site-packages/seaborn/axisgrid.py:118:<span class="w"> </span>UserWarning:<span class="w"> </span>The<span class="w"> </span>figure<span class="w"> </span>layout<span class="w"> </span>has<span class="w"> </span>changed<span class="w"> </span>to<span class="w"> </span>tight
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span>self._figure.tight_layout<span class="o">(</span>*args,<span class="w"> </span>**kwargs<span class="o">)</span>
+</code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 114-115 -->
 
 <p>We can also hierarchize clusters from different sources:</p>
 <!-- GENERATED FROM PYTHON SOURCE LINES 117-122 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">e097</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">e094</span><span class="p">,</span> <span class="s2">&quot;hclusters&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)}</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">e098</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">e095</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="s2">&quot;hclusters&quot;</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)}</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">e099</span> <span class="o">=</span> <span class="n">clumerge</span><span class="p">(</span><span class="n">e097</span><span class="p">,</span> <span class="n">e098</span><span class="p">,</span> <span class="n">clusters_field</span><span class="o">=</span><span class="s2">&quot;hclusters&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">e097</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">e094</span><span class="p">,</span> <span class="s2">&quot;hclusters&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)}</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">e098</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">e095</span><span class="o">.</span><span class="n">_asdict</span><span class="p">(),</span> <span class="s2">&quot;hclusters&quot;</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)}</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">e099</span> <span class="o">=</span> <span class="n">clumerge</span><span class="p">(</span><span class="n">e097</span><span class="p">,</span> <span class="n">e098</span><span class="p">,</span> <span class="n">clusters_field</span><span class="o">=</span><span class="s2">&quot;hclusters&quot;</span><span class="p">)</span>
 </code></pre></div>
 <!-- GENERATED FROM PYTHON SOURCE LINES 123-129 -->
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">plt</span> <span class="o">=</span> <span class="n">plot_examples_2d</span><span class="p">(</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="n">e097</span><span class="p">,</span> <span class="s2">&quot;e097: generated w/ make_moons()&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="n">e098</span><span class="p">,</span> <span class="s2">&quot;e098: generated w/ clugen()&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="n">e099</span><span class="p">,</span> <span class="s2">&quot;e099: merged data&quot;</span><span class="p">,</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">clusters_field</span><span class="o">=</span><span class="s2">&quot;hclusters&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">plt</span> <span class="o">=</span> <span class="n">plot_examples_2d</span><span class="p">(</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    <span class="n">e097</span><span class="p">,</span> <span class="s2">&quot;e097: generated w/ make_moons()&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="n">e098</span><span class="p">,</span> <span class="s2">&quot;e098: generated w/ clugen()&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    <span class="n">e099</span><span class="p">,</span> <span class="s2">&quot;e099: merged data&quot;</span><span class="p">,</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    <span class="n">clusters_field</span><span class="o">=</span><span class="s2">&quot;hclusters&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><img alt="e097: generated w/ make_moons(), e098: generated w/ clugen(), e099: merged data" class="mkd-glr-single-img" src="../images/mkd_glr_plot_5_mrg_examples_005.png" srcset="../images/mkd_glr_plot_5_mrg_examples_005.png" /></p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  3.471 seconds)</p>
+<p class="mkd-glr-script-out">Out:</p>
+<div class="mkd-glr-script-out-disp highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>/home/runner/.local/lib/python3.10/site-packages/seaborn/axisgrid.py:118:<span class="w"> </span>UserWarning:<span class="w"> </span>The<span class="w"> </span>figure<span class="w"> </span>layout<span class="w"> </span>has<span class="w"> </span>changed<span class="w"> </span>to<span class="w"> </span>tight
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span>self._figure.tight_layout<span class="o">(</span>*args,<span class="w"> </span>**kwargs<span class="o">)</span>
+</code></pre></div>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  4.084 seconds)</p>
 <div id="download_links"></div>
 
 <p><a class="md-button center" href="../plot_5_mrg_examples.py"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32v242.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64v-32c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg></span> Download Python source code: plot_5_mrg_examples.py</a></p>
@@ -803,10 +823,10 @@ other data sets, for example data created with one of
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.expand", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.expand", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.a51614de.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
       
         
           <script src="../../../javascripts/mathjax.js"></script>
