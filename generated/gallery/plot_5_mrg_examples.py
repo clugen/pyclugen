@@ -23,7 +23,7 @@ def rng(seed):
 # Although it is possible to merge data in any dimension, these examples will
 # focus on merging 2D data. Therefore, we'll use the same
 # [`plot_examples_2d`](plot_functions.md#plot_examples_2d) function used for
-# the [2D examples](../plot_2_2d_examples):
+# the [2D examples](plot_2_2d_examples.md):
 
 from plot_functions import plot_examples_2d
 
