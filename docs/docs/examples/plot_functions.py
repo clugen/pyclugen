@@ -6,6 +6,9 @@ Several auxiliary functions for plotting the examples in this documentation.
 # %%
 # ## Import the required libraries
 
+import os
+import warnings
+
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np
 import numpy.typing as npt
@@ -13,6 +16,10 @@ import pandas as pd
 import seaborn as sns  # type: ignore
 
 from pyclugen import Clusters
+
+# Hide annoying warnings when building docs in CI
+if os.getenv("CI") != None:
+    warnings.filterwarnings("ignore")
 
 # %%
 # ## clusters2df
