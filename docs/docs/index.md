@@ -62,7 +62,7 @@ following reference (please cite it if you use this software):
 
 ## Also in this documentation
 
-* [Theory: the clugen_ algorithm in detail](theory)
+* [Theory: the clugen algorithm in detail](theory)
 * [Detailed usage examples](examples)
 * [Reference](reference)
 * [Developing this package](dev)
