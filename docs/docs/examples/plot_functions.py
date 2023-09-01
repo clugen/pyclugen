@@ -133,8 +133,8 @@ def plot_examples_2d(
         df,
         col="example",
         hue="cluster",
-        xlim=(xmins[0], xmaxs[0]),
-        ylim=(xmins[1], xmaxs[1]),
+        xlim=(xmins.iloc[0], xmaxs.iloc[0]),
+        ylim=(xmins.iloc[1], xmaxs.iloc[1]),
         aspect=1,
         col_wrap=ncols,
     )
@@ -192,9 +192,9 @@ def plot_examples_3d(
     axs = axs.reshape(-1)
     for ax, e, t in zip(axs, ex, et):
         ax.set_title(t, fontsize=10)
-        ax.set_xlim(xmins[0], xmaxs[0])
-        ax.set_ylim(xmins[1], xmaxs[1])
-        ax.set_zlim(xmins[2], xmaxs[2])
+        ax.set_xlim(xmins.iloc[0], xmaxs.iloc[0])
+        ax.set_ylim(xmins.iloc[1], xmaxs.iloc[1])
+        ax.set_zlim(xmins.iloc[2], xmaxs.iloc[2])
         ax.set_xlabel("$x$", labelpad=-2)
         ax.set_ylabel("$y$", labelpad=-2)
         ax.set_zlabel("$z$", labelpad=-2)
@@ -246,12 +246,12 @@ def plot_examples_nd(
         for j in range(nd):
             if i == j:
                 # Set the x labels in the diagonal plots
-                xycoord = (xmaxs[i] + xmins[i]) / 2
+                xycoord = (xmaxs.iloc[i] + xmins.iloc[i]) / 2
                 g.axes[i, i].text(
                     xycoord, xycoord, f"$x{i}$", fontsize=20, ha="center", va="center"
                 )
             else:
                 # Set appropriate plot intervals and aspect ratio
-                g.axes[i, j].set_xlim([xmins[j], xmaxs[j]])
-                g.axes[i, j].set_ylim([xmins[i], xmaxs[i]])
+                g.axes[i, j].set_xlim([xmins.iloc[j], xmaxs.iloc[j]])
+                g.axes[i, j].set_ylim([xmins.iloc[i], xmaxs.iloc[i]])
                 g.axes[i, j].set_aspect(1)
