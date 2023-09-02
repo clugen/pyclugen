@@ -161,8 +161,8 @@ def clugen(
         - `"norm"` (default): Distribute point projections along lines using a normal
           distribution (μ=_line center_, σ=`llength/6`).
         - `"unif"`: Distribute points uniformly along the line.
-        - User-defined function, which accepts two parameters, line length (`float`),
-          number of points (`int`) and an instance of
+        - User-defined function, which accepts three parameters, line length (`float`),
+          number of points (`int`), and an instance of
           [`Generator`](https://numpy.org/doc/stable/reference/random/generator.html?highlight=generator#numpy.random.Generator),
           and returns an array containing the distance of each point projection to
           the center of the line. For example, the `"norm"` option roughly corresponds
