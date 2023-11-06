@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="https://raw.githubusercontent.com/clugen/.github/main/logos/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
     
     
       
@@ -30,10 +30,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.0e669242.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4b4a2bd9.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -54,13 +54,13 @@
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../sg_gallery.css">
-    
       <link rel="stylesheet" href="../sg_gallery-dataframe.css">
+    
+      <link rel="stylesheet" href="../sg_gallery-rendered-html.css">
     
       <link rel="stylesheet" href="../sg_gallery-binder.css">
     
-      <link rel="stylesheet" href="../sg_gallery-rendered-html.css">
+      <link rel="stylesheet" href="../sg_gallery.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -397,9 +397,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+    
       
-        
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
         
         
         
@@ -420,7 +424,8 @@
 
             </a>
             
-              <label class="md-nav__link " for="__nav_3">
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -831,7 +836,7 @@ meanings:</p>
 </ul>
 
             <details class="quote">
-              <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/main.py</code></summary>
+              <summary>Source code in <code>pyclugen/main.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
 <span class="normal"><a href="#__codelineno-0-48">48</a></span>
@@ -1232,7 +1237,7 @@ provided by Prof. W. Kahan in
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/helper.py</code></summary>
+            <summary>Source code in <code>pyclugen/helper.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-18">18</a></span>
 <span class="normal"><a href="#__codelineno-0-19">19</a></span>
 <span class="normal"><a href="#__codelineno-0-20">20</a></span>
@@ -1440,7 +1445,7 @@ lines, given in radians in the interval <span class="arithmatex">\(\left[-\pi/2,
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/module.py</code></summary>
+            <summary>Source code in <code>pyclugen/module.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-15">15</a></span>
 <span class="normal"><a href="#__codelineno-0-16">16</a></span>
 <span class="normal"><a href="#__codelineno-0-17">17</a></span>
@@ -1672,7 +1677,7 @@ uniform distribution between -0.5 and 0.5, and <span class="arithmatex">\(\mathb
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/module.py</code></summary>
+            <summary>Source code in <code>pyclugen/module.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-57"> 57</a></span>
 <span class="normal"><a href="#__codelineno-0-58"> 58</a></span>
 <span class="normal"><a href="#__codelineno-0-59"> 59</a></span>
@@ -2035,8 +2040,8 @@ with three possible values:</p>
 <li><code class="highlight">&quot;norm&quot;</code> (default): Distribute point projections along lines using a normal
   distribution (μ=<em>line center</em>, σ=<code class="highlight">llength/6</code>).</li>
 <li><code class="highlight">&quot;unif&quot;</code>: Distribute points uniformly along the line.</li>
-<li>User-defined function, which accepts two parameters, line length (<code class="highlight">float</code>),
-  number of points (<code class="highlight">int</code>) and an instance of
+<li>User-defined function, which accepts three parameters, line length (<code class="highlight">float</code>),
+  number of points (<code class="highlight">int</code>), and an instance of
   <a href="https://numpy.org/doc/stable/reference/random/generator.html?highlight=generator#numpy.random.Generator"><code class="highlight">Generator</code></a>,
   and returns an array containing the distance of each point projection to
   the center of the line. For example, the <code class="highlight">&quot;norm&quot;</code> option roughly corresponds
@@ -2205,7 +2210,7 @@ reproducible executions.</p>
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/main.py</code></summary>
+            <summary>Source code in <code>pyclugen/main.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
 <span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
 <span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
@@ -2685,8 +2690,8 @@ reproducible executions.</p>
 <a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">        - `&quot;norm&quot;` (default): Distribute point projections along lines using a normal</span>
 <a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">          distribution (μ=_line center_, σ=`llength/6`).</span>
 <a id="__codelineno-0-163" name="__codelineno-0-163"></a><span class="sd">        - `&quot;unif&quot;`: Distribute points uniformly along the line.</span>
-<a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="sd">        - User-defined function, which accepts two parameters, line length (`float`),</span>
-<a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="sd">          number of points (`int`) and an instance of</span>
+<a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="sd">        - User-defined function, which accepts three parameters, line length (`float`),</span>
+<a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="sd">          number of points (`int`), and an instance of</span>
 <a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="sd">          [`Generator`](https://numpy.org/doc/stable/reference/random/generator.html?highlight=generator#numpy.random.Generator),</span>
 <a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="sd">          and returns an array containing the distance of each point projection to</span>
 <a id="__codelineno-0-168" name="__codelineno-0-168"></a><span class="sd">          the center of the line. For example, the `&quot;norm&quot;` option roughly corresponds</span>
@@ -3149,7 +3154,7 @@ merged numerical arrays.</p>
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/main.py</code></summary>
+            <summary>Source code in <code>pyclugen/main.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-504">504</a></span>
 <span class="normal"><a href="#__codelineno-0-505">505</a></span>
 <span class="normal"><a href="#__codelineno-0-506">506</a></span>
@@ -3693,7 +3698,7 @@ lateral dispersion.</p>
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/module.py</code></summary>
+            <summary>Source code in <code>pyclugen/module.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-170">170</a></span>
 <span class="normal"><a href="#__codelineno-0-171">171</a></span>
 <span class="normal"><a href="#__codelineno-0-172">172</a></span>
@@ -4006,7 +4011,7 @@ lateral dispersion.</p>
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/module.py</code></summary>
+            <summary>Source code in <code>pyclugen/module.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-108">108</a></span>
 <span class="normal"><a href="#__codelineno-0-109">109</a></span>
 <span class="normal"><a href="#__codelineno-0-110">110</a></span>
@@ -4297,7 +4302,7 @@ on the cluster-supporting line.</p>
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/helper.py</code></summary>
+            <summary>Source code in <code>pyclugen/helper.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-59"> 59</a></span>
 <span class="normal"><a href="#__codelineno-0-60"> 60</a></span>
 <span class="normal"><a href="#__codelineno-0-61"> 61</a></span>
@@ -4582,7 +4587,7 @@ assuring that the final cluster sizes add up to <code class="highlight">num_poin
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/module.py</code></summary>
+            <summary>Source code in <code>pyclugen/module.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-235">235</a></span>
 <span class="normal"><a href="#__codelineno-0-236">236</a></span>
 <span class="normal"><a href="#__codelineno-0-237">237</a></span>
@@ -4823,7 +4828,7 @@ of size <span class="arithmatex">\(c\)</span>, which is the same reference than 
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/helper.py</code></summary>
+            <summary>Source code in <code>pyclugen/helper.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-132">132</a></span>
 <span class="normal"><a href="#__codelineno-0-133">133</a></span>
 <span class="normal"><a href="#__codelineno-0-134">134</a></span>
@@ -5035,7 +5040,7 @@ of size <span class="arithmatex">\(c\)</span>, which is the same reference than 
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/helper.py</code></summary>
+            <summary>Source code in <code>pyclugen/helper.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-183">183</a></span>
 <span class="normal"><a href="#__codelineno-0-184">184</a></span>
 <span class="normal"><a href="#__codelineno-0-185">185</a></span>
@@ -5249,7 +5254,7 @@ of size <span class="arithmatex">\(c\)</span>, which is the same reference than 
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/module.py</code></summary>
+            <summary>Source code in <code>pyclugen/module.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-300">300</a></span>
 <span class="normal"><a href="#__codelineno-0-301">301</a></span>
 <span class="normal"><a href="#__codelineno-0-302">302</a></span>
@@ -5448,7 +5453,7 @@ line, and <span class="arithmatex">\(\mathbf{1}\)</span> is a <span class="arith
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/core.py</code></summary>
+            <summary>Source code in <code>pyclugen/core.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-17">17</a></span>
 <span class="normal"><a href="#__codelineno-0-18">18</a></span>
 <span class="normal"><a href="#__codelineno-0-19">19</a></span>
@@ -5661,7 +5666,7 @@ line, and <span class="arithmatex">\(\mathbf{1}\)</span> is a <span class="arith
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/core.py</code></summary>
+            <summary>Source code in <code>pyclugen/core.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-70"> 70</a></span>
 <span class="normal"><a href="#__codelineno-0-71"> 71</a></span>
 <span class="normal"><a href="#__codelineno-0-72"> 72</a></span>
@@ -5862,7 +5867,7 @@ line, and <span class="arithmatex">\(\mathbf{1}\)</span> is a <span class="arith
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/core.py</code></summary>
+            <summary>Source code in <code>pyclugen/core.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-119">119</a></span>
 <span class="normal"><a href="#__codelineno-0-120">120</a></span>
 <span class="normal"><a href="#__codelineno-0-121">121</a></span>
@@ -6038,7 +6043,7 @@ with vector <code class="highlight">u</code>.</p>
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>/home/runner/.local/lib/python3.10/site-packages/pyclugen/core.py</code></summary>
+            <summary>Source code in <code>pyclugen/core.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-145">145</a></span>
 <span class="normal"><a href="#__codelineno-0-146">146</a></span>
 <span class="normal"><a href="#__codelineno-0-147">147</a></span>
@@ -6189,10 +6194,11 @@ with vector <code class="highlight">u</code>.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.expand", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "toc.integrate"], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.expand", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "toc.integrate"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.78eede0e.min.js"></script>
+      <script src="../assets/javascripts/bundle.81fa17fe.min.js"></script>
       
         <script src="../javascripts/mathjax.js"></script>
       
