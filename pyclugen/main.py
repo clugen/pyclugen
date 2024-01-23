@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2023 Nuno Fachada and contributors
+# Copyright (c) 2020-2024 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
@@ -28,7 +28,7 @@ from numpy import (
     zeros,
 )
 from numpy.linalg import norm
-from numpy.random import Generator
+from numpy.random import PCG64, Generator
 from numpy.typing import ArrayLike, DTypeLike, NDArray
 
 from .core import points_on_line, rand_vector_at_angle
@@ -104,7 +104,7 @@ def clugen(
     | ArrayLike = llengths,
     angle_deltas_fn: Callable[[int, float, Generator], NDArray]
     | ArrayLike = angle_deltas,
-    rng: Generator = _default_rng,
+    rng: int | Generator = _default_rng,
 ) -> Clusters:
     """Generate multidimensional clusters.
 
@@ -114,12 +114,10 @@ def clugen(
 
     ## Examples:
 
-        >>> import pyclugen as cg
         >>> import matplotlib.pyplot as plt
+        >>> from pyclugen import clugen
         >>> from numpy import pi
-        >>> from numpy.random import Generator, PCG64
-        >>> rng = Generator(PCG64(321))
-        >>> out = cg.clugen(2, 5, 10000, [1, 0.5], pi/16, [10, 40], 10, 1, 2, rng=rng)
+        >>> out = clugen(2, 5, 10000, [1, 0.5], pi/16, [10, 40], 10, 1, 2, rng=321)
         >>> out.centers # What are the cluster centers?
         array([[ 20.02876212,  36.59611434],
                [-15.60290734, -26.52169579],
@@ -216,8 +214,8 @@ def clugen(
         this purpose, which must follow [`angle_deltas()`][pyclugen.module.angle_deltas]
         signature. Alternatively, the user can specify an array of angle deltas
         directly.
-      rng: An optional instance of [`Generator`][numpy.random.Generator] for
-        reproducible executions.
+      rng: The seed for the random number generator or an instance of
+        [`Generator`][numpy.random.Generator] for reproducible executions.
 
     Returns:
       The generated clusters and associated information in the form of a
@@ -304,6 +302,17 @@ def clugen(
                 + f"({cluster_offset.size} != {num_dims})"
             )
 
+    # If the user specified rng as an int, create a proper rng object
+    rng_sel: Generator
+    if isinstance(rng, Generator):
+        rng_sel = cast(Generator, rng)
+    elif isinstance(rng, int):
+        rng_sel = Generator(PCG64(cast(int, rng)))
+    else:
+        raise ValueError(
+            f"`rng` must be an instance of int or Generator, but is {type(rng)}"
+        )
+
     # Check that proj_dist_fn specifies a valid way for projecting points along
     # cluster-supporting lines i.e., either "norm" (default), "unif" or a
     # user-defined function
@@ -340,7 +349,7 @@ def clugen(
 
     if num_dims == 1:
         # If 1D was specified, point projections are the points themselves
-        def pt_from_proj_fn(projs, lat_disp, length, clu_dir, clu_ctr, rng=rng):
+        def pt_from_proj_fn(projs, lat_disp, length, clu_dir, clu_ctr, rng=rng_sel):
             return projs
 
     elif callable(point_dist_fn):
@@ -378,7 +387,7 @@ def clugen(
 
     # Determine cluster sizes
     if callable(clusizes_fn):
-        cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng)
+        cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng_sel)
     elif len(asarray(clusizes_fn)) == num_clusters:
         cluster_sizes = asarray(clusizes_fn)
     else:
@@ -392,7 +401,9 @@ def clugen(
 
     # Determine cluster centers
     if callable(clucenters_fn):
-        cluster_centers = clucenters_fn(num_clusters, cluster_sep, cluster_offset, rng)
+        cluster_centers = clucenters_fn(
+            num_clusters, cluster_sep, cluster_offset, rng_sel
+        )
     elif asarray(clucenters_fn).shape == (num_clusters, num_dims):
         cluster_centers = asarray(clucenters_fn)
     else:
@@ -403,7 +414,7 @@ def clugen(
 
     # Determine length of lines supporting clusters
     if callable(llengths_fn):
-        cluster_lengths = llengths_fn(num_clusters, llength, llength_disp, rng)
+        cluster_lengths = llengths_fn(num_clusters, llength, llength_disp, rng_sel)
     elif len(asarray(llengths_fn)) == num_clusters:
         cluster_lengths = asarray(llengths_fn)
     else:
@@ -413,7 +424,7 @@ def clugen(
 
     # Obtain angles between main direction and cluster-supporting lines
     if callable(angle_deltas_fn):
-        cluster_angles = angle_deltas_fn(num_clusters, angle_disp, rng)
+        cluster_angles = angle_deltas_fn(num_clusters, angle_disp, rng_sel)
     elif len(asarray(angle_deltas_fn)) == num_clusters:
         cluster_angles = asarray(angle_deltas_fn)
     else:
@@ -424,7 +435,7 @@ def clugen(
 
     # Determine normalized cluster directions by applying the obtained angles
     cluster_directions = apply_along_axis(
-        lambda v, a: rand_vector_at_angle(v, next(a), rng),
+        lambda v, a: rand_vector_at_angle(v, next(a), rng_sel),
         1,
         arrdir,
         iter(cluster_angles),
@@ -455,7 +466,9 @@ def clugen(
         point_clusters[idx_start:idx_end] = i
 
         # Determine distance of point projections from the center of the line
-        ptproj_dist_fn_center = pointproj_fn(cluster_lengths[i], cluster_sizes[i], rng)
+        ptproj_dist_fn_center = pointproj_fn(
+            cluster_lengths[i], cluster_sizes[i], rng_sel
+        )
 
         # Determine coordinates of point projections on the line using the
         # parametric line equation (this works since cluster direction is normalized)
@@ -470,7 +483,7 @@ def clugen(
             cluster_lengths[i],
             cluster_directions[i, :],
             cluster_centers[i, :],
-            rng,
+            rng_sel,
         )
 
     return Clusters(
