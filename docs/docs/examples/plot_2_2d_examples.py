@@ -4,19 +4,8 @@ This section contains several examples on how to generate 2D data with
 **pyclugen**. To run the examples we first need to import the
 [`clugen()`][pyclugen.main.clugen] function:"""
 
-from pyclugen import clugen
-
-#%%
-# To make the examples exactly reproducible we'll import a random number
-# generator from NumPy and pass it as a parameter to
-# [`clugen()`][pyclugen.main.clugen]. We'll also create a small helper function
-# for providing us a brand new seeded generator:
-
 import numpy as np
-from numpy.random import PCG64, Generator
-
-def rng(seed):
-    return Generator(PCG64(seed))
+from pyclugen import clugen
 
 #%%
 # To plot these examples we use the [`plot_examples_2d`](plot_functions.md#plot_examples_2d)
@@ -34,9 +23,9 @@ seed = 123
 
 #%%
 
-e001 = clugen(2, 4, 2000, [1, 0], 0, [10, 10], 10, 1.5, 0.5, rng=rng(seed))
-e002 = clugen(2, 4, 200, [1, 1], 0, [10, 10], 10, 1.5, 0.5, rng=rng(seed))
-e003 = clugen(2, 4, 200, [0, 1], 0, [10, 10], 10, 1.5, 0.5, rng=rng(seed))
+e001 = clugen(2, 4, 2000, [1, 0], 0, [10, 10], 10, 1.5, 0.5, rng=seed)
+e002 = clugen(2, 4, 200, [1, 1], 0, [10, 10], 10, 1.5, 0.5, rng=seed)
+e003 = clugen(2, 4, 200, [0, 1], 0, [10, 10], 10, 1.5, 0.5, rng=seed)
 
 #%%
 
@@ -58,9 +47,9 @@ def angdel_90_fn(nclu, astd, rng):
 
 #%%
 
-e004 = clugen(2, 6, 500, [1, 0], 0, [10, 10], 10, 1.5, 0.5, rng=rng(seed))
-e005 = clugen(2, 6, 500, [1, 0], np.pi / 8, [10, 10], 10, 1.5, 0.5, rng=rng(seed))
-e006 = clugen(2, 6, 500, [1, 0], 0, [10, 10], 10, 1.5, 0.5, rng=rng(seed),
+e004 = clugen(2, 6, 500, [1, 0], 0, [10, 10], 10, 1.5, 0.5, rng=seed)
+e005 = clugen(2, 6, 500, [1, 0], np.pi / 8, [10, 10], 10, 1.5, 0.5, rng=seed)
+e006 = clugen(2, 6, 500, [1, 0], 0, [10, 10], 10, 1.5, 0.5, rng=seed,
     angle_deltas_fn=angdel_90_fn)
 
 #%%
@@ -79,11 +68,11 @@ seed = 567
 
 #%%
 
-e007 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10],  0, 0, 0.5, rng=rng(seed),
+e007 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10],  0, 0, 0.5, rng=seed,
     point_dist_fn="n")
-e008 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 10, 0, 0.5, rng=rng(seed),
+e008 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 10, 0, 0.5, rng=seed,
     point_dist_fn="n")
-e009 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 30, 0, 0.5, rng=rng(seed),
+e009 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 30, 0, 0.5, rng=seed,
     point_dist_fn="n")
 
 #%%
@@ -106,11 +95,11 @@ def llen_grow_fn(nclu, llen, llenstd, rng):
 
 #%%
 
-e010 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 15,  0.0, 0.5, rng=rng(seed),
+e010 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 15,  0.0, 0.5, rng=seed,
     point_dist_fn="n")
-e011 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 15, 10.0, 0.5, rng=rng(seed),
+e011 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 15, 10.0, 0.5, rng=seed,
     point_dist_fn="n")
-e012 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 10,  0.1, 0.5, rng=rng(seed),
+e012 = clugen(2, 5, 800, [1, 0], np.pi / 10, [10, 10], 10,  0.1, 0.5, rng=seed,
     llengths_fn=llen_grow_fn, point_dist_fn="n")
 
 #%%
@@ -131,9 +120,9 @@ seed = 21
 
 #%%
 
-e013 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 10], 10, 2, 2.5, rng=rng(seed))
-e014 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [30, 10], 10, 2, 2.5, rng=rng(seed))
-e015 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 30], 10, 2, 2.5, rng=rng(seed))
+e013 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 10], 10, 2, 2.5, rng=seed)
+e014 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [30, 10], 10, 2, 2.5, rng=seed)
+e015 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 30], 10, 2, 2.5, rng=seed)
 
 #%%
 
@@ -155,10 +144,10 @@ def centers_diag_fn(nclu, csep, coff, rng):
 
 #%%
 
-e016 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 10], 10, 2, 2.5, rng=rng(seed))
-e017 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 10], 10, 2, 2.5, rng=rng(seed),
+e016 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 10], 10, 2, 2.5, rng=seed)
+e017 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 10], 10, 2, 2.5, rng=seed,
     cluster_offset=[20, -20])
-e018 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 10], 10, 2, 2.5, rng=rng(seed),
+e018 = clugen(2, 8, 1000, [1, 1], np.pi / 4, [10, 10], 10, 2, 2.5, rng=seed,
     cluster_offset=[-50, -50], clucenters_fn=centers_diag_fn)
 
 #%%
@@ -177,9 +166,9 @@ seed = 654
 
 #%%
 
-e019 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 0.0, rng=rng(seed))
-e020 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 1.0, rng=rng(seed))
-e021 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 3.0, rng=rng(seed))
+e019 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 0.0, rng=seed)
+e020 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 1.0, rng=seed)
+e021 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 3.0, rng=seed)
 
 #%%
 
@@ -195,11 +184,11 @@ seed = 654
 
 #%%
 
-e022 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 0.0, rng=rng(seed),
+e022 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 0.0, rng=seed,
     proj_dist_fn="unif")
-e023 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 1.0, rng=rng(seed),
+e023 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 1.0, rng=seed,
     proj_dist_fn="unif")
-e024 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 3.0, rng=rng(seed),
+e024 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 3.0, rng=seed,
     proj_dist_fn="unif")
 
 #%%
@@ -219,11 +208,11 @@ def proj_laplace(len, n, rng):
 
 #%%
 
-e025 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 0.0, rng=rng(seed),
+e025 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 0.0, rng=seed,
     proj_dist_fn=proj_laplace)
-e026 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 1.0, rng=rng(seed),
+e026 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 1.0, rng=seed,
     proj_dist_fn=proj_laplace)
-e027 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 3.0, rng=rng(seed),
+e027 = clugen(2, 4, 1000, [1, 0], np.pi / 2, [20, 20], 13, 2, 3.0, rng=seed,
     proj_dist_fn=proj_laplace)
 
 #%%
@@ -248,10 +237,10 @@ def proj_laplace(len, n, rng):
 
 #%%
 
-e028 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed))
-e029 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed),
+e028 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed)
+e029 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed,
     proj_dist_fn="unif")
-e030 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed),
+e030 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed,
     proj_dist_fn=proj_laplace)
 
 #%%
@@ -274,11 +263,11 @@ def proj_laplace(len, n, rng):
 
 #%%
 
-e031 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed),
+e031 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed,
     point_dist_fn="n")
-e032 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed),
+e032 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed,
     point_dist_fn="n", proj_dist_fn="unif")
-e033 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed),
+e033 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed,
     point_dist_fn="n", proj_dist_fn=proj_laplace)
 
 #%%
@@ -317,11 +306,11 @@ def proj_laplace(len, n, rng):
 
 #%%
 
-e034 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed),
+e034 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed,
     point_dist_fn=clupoints_n_1_exp)
-e035 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed),
+e035 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed,
     point_dist_fn=clupoints_n_1_exp, proj_dist_fn="unif")
-e036 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=rng(seed),
+e036 = clugen(2, 5, 1500, [1, 0], np.pi / 3, [20, 20], 12, 3, 1.0, rng=seed,
     point_dist_fn=clupoints_n_1_exp, proj_dist_fn=proj_laplace)
 
 #%%
@@ -357,11 +346,11 @@ def centers_fixed(nclu, csep, coff, rng):
 
 #%%
 
-e037 = clugen(2, 4, 1500, [1, 1], np.pi, [20, 20], 0, 0, 5, rng=rng(seed),
+e037 = clugen(2, 4, 1500, [1, 1], np.pi, [20, 20], 0, 0, 5, rng=seed,
     point_dist_fn="n", clucenters_fn=centers_fixed)
-e038 = clugen(2, 4, 1500, [1, 1], np.pi, [20, 20], 0, 0, 5, rng=rng(seed),
+e038 = clugen(2, 4, 1500, [1, 1], np.pi, [20, 20], 0, 0, 5, rng=seed,
     point_dist_fn="n", clucenters_fn=centers_fixed, clusizes_fn=clusizes_unif)
-e039 = clugen(2, 4, 1500, [1, 1], np.pi, [20, 20], 0, 0, 5, rng=rng(seed),
+e039 = clugen(2, 4, 1500, [1, 1], np.pi, [20, 20], 0, 0, 5, rng=seed,
     point_dist_fn="n", clucenters_fn=centers_fixed, clusizes_fn=clusizes_equal)
 
 #%%
@@ -378,18 +367,18 @@ seed = 123
 
 #%%
 
-e040 = clugen(2, 4, 1000, [-1, 1], 0, [0, 0], 0, 0, 0.2, rng=rng(seed),
+e040 = clugen(2, 4, 1000, [-1, 1], 0, [0, 0], 0, 0, 0.2, rng=seed,
     proj_dist_fn="unif", point_dist_fn="n", clusizes_fn=[50, 200, 500, 2000],
     llengths_fn=[0, 2, 4, 6], clucenters_fn=[[-5, -5], [-2.5, -2.5], [0, 0], [2.5, 2.5]])
 
 e041 = clugen(2, 5, 1000, [[1, 1], [1, 0], [1, 0], [0, 1], [0, 1]],
-    0, [0, 0], 0, 0, 0.2, rng=rng(seed),
+    0, [0, 0], 0, 0, 0.2, rng=seed,
     proj_dist_fn="unif", point_dist_fn="n",
     clusizes_fn=[200, 500, 500, 500, 500], llengths_fn=[0, 5, 5, 5, 5],
     clucenters_fn=[[0, 0], [0, 5], [0, -5], [5, 0], [-5, 0]])
 
 e042 = clugen(2, 5, 1000, [[0, 1], [0.25, 0.75], [0.5, 0.5], [0.75, 0.25], [1, 0]],
-    0, [0, 0], 5, 0, 0.2, rng=rng(seed),
+    0, [0, 0], 5, 0, 0.2, rng=seed,
     proj_dist_fn="unif", point_dist_fn="n", clusizes_fn=[500, 500, 500, 500, 500],
     clucenters_fn=[[-5, 0], [-3, -0.3], [-1, -0.8], [1, -1.6], [3, -2.5]])
 
