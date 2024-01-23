@@ -5,19 +5,8 @@ generated with **pyclugen** or from other sources. To run the examples we first
 need to import the [`clugen()`][pyclugen.main.clugen] and
 [`clugen()`][pyclugen.main.clumerge] functions:"""
 
-from pyclugen import clugen, clumerge
-
-#%%
-# To make the examples exactly reproducible we'll import a random number
-# generator from NumPy and pass it as a parameter to
-# [`clugen()`][pyclugen.main.clugen]. We'll also create a small helper function
-# for providing us a brand new seeded generator:
-
 import numpy as np
-from numpy.random import PCG64, Generator
-
-def rng(seed):
-    return Generator(PCG64(seed))
+from pyclugen import clugen, clumerge
 
 #%%
 # Although it is possible to merge data in any dimension, these examples will
@@ -35,9 +24,9 @@ seed2 = 555
 
 #%%
 
-e088 = clugen(2, 5, 1000, [1, 1], np.pi / 12, [20, 20], 14, 1.2, 1.5, rng=rng(seed1),
+e088 = clugen(2, 5, 1000, [1, 1], np.pi / 12, [20, 20], 14, 1.2, 1.5, rng=seed1,
     proj_dist_fn="unif", point_dist_fn="n")
-e089 = clugen(2, 3, 1500, [1, 0], 0.05, [20, 20], 0, 0, 4, rng=rng(seed2),
+e089 = clugen(2, 3, 1500, [1, 0], 0.05, [20, 20], 0, 0, 4, rng=seed2,
     point_dist_fn="n", cluster_offset = [20, 0])
 e090 = clumerge(e088, e089)
 
@@ -71,7 +60,7 @@ seed = 333
 
 #%%
 
-prng = rng(seed)
+prng = np.random.default_rng(seed)
 e092 = {"points": 120 * prng.random((500, 2)) - 60, "clusters": np.ones(500, dtype=np.int32)}
 e093 = clumerge(e092, e090) # clumerge(e092, e088, e089) would also work
 
@@ -99,7 +88,7 @@ from sklearn.datasets import make_moons
 X, y = make_moons(100, noise=0.05, random_state=seed)
 
 e094 = {"points": X, "clusters": y}
-e095 = clugen(2, 4, 200, [1, 1], np.pi / 12, [1, 1], 0.1, 0.01, 0.25, rng=rng(seed),
+e095 = clugen(2, 4, 200, [1, 1], np.pi / 12, [1, 1], 0.1, 0.01, 0.25, rng=seed,
     proj_dist_fn = "unif", point_dist_fn = "n")
 e096 = clumerge(e094, e095)
 
