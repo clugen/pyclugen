@@ -267,11 +267,13 @@ def test_clugen_optional_direct(
             )
 
 
-def test_clugen_reproducibility(seed, ndims):
+@pytest.mark.parametrize("use_rng", [True, False])
+def test_clugen_reproducibility(seed, ndims, use_rng):
     """Test that clugen() provides reproducible results."""
     # This line can't be blank
 
     def run_clugen(seed, ndims):
+
         # Initialize a pseudo-random generator with the specified seed
         prng = Generator(Philox(seed))
 
@@ -286,7 +288,7 @@ def test_clugen_reproducibility(seed, ndims):
             prng.random(),  # Line length average
             prng.random(),  # Line length dispersion
             prng.random(),  # Lateral dispersion
-            rng=prng,
+            rng=prng if use_rng else seed,
         )
 
     # Run clugen with specified seed and get results
