@@ -829,6 +829,34 @@ def test_clugen_exceptions(prng):
             rng=prng,
         )
 
+    # Invalid rng
+    with pytest.raises(
+        ValueError,
+        match=re.escape(
+            "`rng` must be an instance of int or Generator, but is <class 'str'>"
+        ),
+    ):
+        clugen(
+            nd,
+            nclu,
+            0,
+            direc,
+            astd,
+            clu_sep,
+            len_mu,
+            len_std,
+            lat_std,
+            allow_empty=ae,
+            cluster_offset=clu_off,
+            proj_dist_fn=pt_dist,
+            point_dist_fn=pt_off,
+            clusizes_fn=csizes_fn,
+            clucenters_fn=ccenters_fn,
+            llengths_fn=llengths_fn,
+            angle_deltas_fn=langles_fn,
+            rng="not valid",
+        )
+
 
 class _PointsClusters(NamedTuple):
     points: NDArray
