@@ -3,7 +3,7 @@
 This section contains several examples on how to merge cluster data, either
 generated with **pyclugen** or from other sources. To run the examples we first
 need to import the [`clugen()`][pyclugen.main.clugen] and
-[`clugen()`][pyclugen.main.clumerge] functions:"""
+[`clumerge()`][pyclugen.main.clumerge] functions:"""
 
 import numpy as np
 from pyclugen import clugen, clumerge
