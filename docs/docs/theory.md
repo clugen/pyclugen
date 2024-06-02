@@ -35,7 +35,9 @@ are 10 units wide and tall, when
 applicable.](https://raw.githubusercontent.com/clugen/.github/main/images/algorithm.png)
 
 The example in Figure 1 was generated with the following parameters, the exact
-meaning of each will be discussed shortly:
+meaning of each is described in the documentation for the
+[`clugen()`][pyclugen.main.clugen] function, and further discussed in the
+article mentioned above:
 
 | Parameter values  | Description               |
 |:----------------- | :------------------------ |
@@ -51,4 +53,4 @@ meaning of each will be discussed shortly:
 
 Additionally, all optional parameters (not listed above) were left to their
 default values. The complete list of parameters is presented in the
-[`clugen()`](pyclugen.main.clugen) function documentation.
+[`clugen()`][pyclugen.main.clugen] function documentation.
