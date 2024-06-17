@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyclugen"
 description = "Multidimensional cluster generation in Python"
-version = "1.1.1"
+version = "1.1.2"
 authors = [ { name = "Nuno Fachada", email = "faken@fakenmc.com" } ]
 readme = "README.md"
 requires-python = ">=3.8"
@@ -26,7 +26,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering"
 ]
-dependencies = [ "numpy >= 1.20" ]
+dependencies = [ "numpy >= 1.20, < 2" ]
 
 [project.optional-dependencies]
 dev = [
