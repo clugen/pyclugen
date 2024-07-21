@@ -252,7 +252,7 @@ def clusizes(
         >>> sizes = clusizes(4, 1000, True, rng=prng)
         >>> sizes
         array([166, 217, 354, 263])
-        >>> sum(sizes)
+        >>> int(sum(sizes))
         1000
 
     Args:

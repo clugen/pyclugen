@@ -83,7 +83,7 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
         >>> r_ort = rand_ortho_vector(r, rng=rng) # Get random unit vector orth. to r
         >>> r_ort
         array([-0.1982903 , -0.61401512,  0.76398062])
-        >>> isclose(dot(r, r_ort), 0) # Check that vectors are indeed orthogonal
+        >>> bool(isclose(dot(r, r_ort), 0)) # Check that vectors are orthogonal
         True
 
     Args:
@@ -160,7 +160,7 @@ def rand_vector_at_angle(
         >>> v = rand_vector_at_angle(u, pi/4, rng=rng) # Get a vector at 45 degrees
         >>> v
         array([ 0.633066  , -0.50953554, -0.10693823, -0.57285705])
-        >>> degrees(arccos(dot(u, v) / norm(u) * norm(v))) # Angle between u and v
+        >>> float(degrees(arccos(dot(u, v) / norm(u) * norm(v)))) # u-v angle
         45.0
 
     Args:

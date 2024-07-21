@@ -37,7 +37,7 @@ def angle_btw(v1: NDArray, v2: NDArray) -> float:
         >>> from pyclugen import angle_btw
         >>> v1 = array([1.0, 1.0, 1.0, 1.0])
         >>> v2 = array([1.0, 0.0, 0.0, 0.0])
-        >>> degrees(angle_btw(v1, v2))
+        >>> float(degrees(angle_btw(v1, v2)))
         60.00000000000001
 
     Args:
