@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="https://raw.githubusercontent.com/clugen/.github/main/logos/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.76a95c52.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -56,11 +56,11 @@
     
       <link rel="stylesheet" href="../sg_gallery-dataframe.css">
     
-      <link rel="stylesheet" href="../sg_gallery-binder.css">
-    
       <link rel="stylesheet" href="../sg_gallery-rendered-html.css">
     
       <link rel="stylesheet" href="../sg_gallery.css">
+    
+      <link rel="stylesheet" href="../sg_gallery-binder.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -1194,7 +1194,7 @@ provided by Prof. W. Kahan in
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyclugen</span> <span class="kn">import</span> <span class="n">angle_btw</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">v1</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">v2</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">degrees</span><span class="p">(</span><span class="n">angle_btw</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">))</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="n">degrees</span><span class="p">(</span><span class="n">angle_btw</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)))</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">60.00000000000001</span>
 </code></pre></div>
 
@@ -1326,7 +1326,7 @@ provided by Prof. W. Kahan in
 <a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        &gt;&gt;&gt; from pyclugen import angle_btw</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        &gt;&gt;&gt; v1 = array([1.0, 1.0, 1.0, 1.0])</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        &gt;&gt;&gt; v2 = array([1.0, 0.0, 0.0, 0.0])</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        &gt;&gt;&gt; degrees(angle_btw(v1, v2))</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        &gt;&gt;&gt; float(degrees(angle_btw(v1, v2)))</span>
 <a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        60.00000000000001</span>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">    Args:</span>
@@ -4499,7 +4499,7 @@ assuring that the final cluster sizes add up to <code>num_points</code> via the
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">sizes</span> <span class="o">=</span> <span class="n">clusizes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">prng</span><span class="p">)</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">sizes</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">array([166, 217, 354, 263])</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">sum</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">sizes</span><span class="p">))</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">1000</span>
 </code></pre></div>
 
@@ -4681,7 +4681,7 @@ assuring that the final cluster sizes add up to <code>num_points</code> via the
 <a id="__codelineno-0-252" name="__codelineno-0-252"></a><span class="sd">        &gt;&gt;&gt; sizes = clusizes(4, 1000, True, rng=prng)</span>
 <a id="__codelineno-0-253" name="__codelineno-0-253"></a><span class="sd">        &gt;&gt;&gt; sizes</span>
 <a id="__codelineno-0-254" name="__codelineno-0-254"></a><span class="sd">        array([166, 217, 354, 263])</span>
-<a id="__codelineno-0-255" name="__codelineno-0-255"></a><span class="sd">        &gt;&gt;&gt; sum(sizes)</span>
+<a id="__codelineno-0-255" name="__codelineno-0-255"></a><span class="sd">        &gt;&gt;&gt; int(sum(sizes))</span>
 <a id="__codelineno-0-256" name="__codelineno-0-256"></a><span class="sd">        1000</span>
 <a id="__codelineno-0-257" name="__codelineno-0-257"></a>
 <a id="__codelineno-0-258" name="__codelineno-0-258"></a><span class="sd">    Args:</span>
@@ -5576,7 +5576,7 @@ line, and <span class="arithmatex">\(\mathbf{1}\)</span> is a <span class="arith
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">r_ort</span> <span class="o">=</span> <span class="n">rand_ortho_vector</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span> <span class="c1"># Get random unit vector orth. to r</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">r_ort</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">array([-0.1982903 , -0.61401512,  0.76398062])</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">isclose</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r_ort</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># Check that vectors are indeed orthogonal</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">bool</span><span class="p">(</span><span class="n">isclose</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r_ort</span><span class="p">),</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># Check that vectors are orthogonal</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">True</span>
 </code></pre></div>
 
@@ -5710,7 +5710,7 @@ line, and <span class="arithmatex">\(\mathbf{1}\)</span> is a <span class="arith
 <a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="sd">        &gt;&gt;&gt; r_ort = rand_ortho_vector(r, rng=rng) # Get random unit vector orth. to r</span>
 <a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">        &gt;&gt;&gt; r_ort</span>
 <a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">        array([-0.1982903 , -0.61401512,  0.76398062])</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">        &gt;&gt;&gt; isclose(dot(r, r_ort), 0) # Check that vectors are indeed orthogonal</span>
+<a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">        &gt;&gt;&gt; bool(isclose(dot(r, r_ort), 0)) # Check that vectors are orthogonal</span>
 <a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">        True</span>
 <a id="__codelineno-0-88" name="__codelineno-0-88"></a>
 <a id="__codelineno-0-89" name="__codelineno-0-89"></a><span class="sd">    Args:</span>
@@ -5926,7 +5926,7 @@ line, and <span class="arithmatex">\(\mathbf{1}\)</span> is a <span class="arith
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">rand_vector_at_angle</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span> <span class="c1"># Get a vector at 45 degrees</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">array([ 0.633066  , -0.50953554, -0.10693823, -0.57285705])</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">degrees</span><span class="p">(</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span> <span class="c1"># Angle between u and v</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">float</span><span class="p">(</span><span class="n">degrees</span><span class="p">(</span><span class="n">arccos</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">))))</span> <span class="c1"># u-v angle</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">45.0</span>
 </code></pre></div>
 
@@ -6068,7 +6068,7 @@ with vector <code>u</code>.</p>
 <a id="__codelineno-0-160" name="__codelineno-0-160"></a><span class="sd">        &gt;&gt;&gt; v = rand_vector_at_angle(u, pi/4, rng=rng) # Get a vector at 45 degrees</span>
 <a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="sd">        &gt;&gt;&gt; v</span>
 <a id="__codelineno-0-162" name="__codelineno-0-162"></a><span class="sd">        array([ 0.633066  , -0.50953554, -0.10693823, -0.57285705])</span>
-<a id="__codelineno-0-163" name="__codelineno-0-163"></a><span class="sd">        &gt;&gt;&gt; degrees(arccos(dot(u, v) / norm(u) * norm(v))) # Angle between u and v</span>
+<a id="__codelineno-0-163" name="__codelineno-0-163"></a><span class="sd">        &gt;&gt;&gt; float(degrees(arccos(dot(u, v) / norm(u) * norm(v)))) # u-v angle</span>
 <a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="sd">        45.0</span>
 <a id="__codelineno-0-165" name="__codelineno-0-165"></a>
 <a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="sd">    Args:</span>
@@ -6175,7 +6175,7 @@ with vector <code>u</code>.</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.expand", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "toc.integrate"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.ad660dcc.min.js"></script>
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
         <script src="../javascripts/mathjax.js"></script>
       
