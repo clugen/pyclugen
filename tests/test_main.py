@@ -909,7 +909,7 @@ def test_clumerge_general(
 
         # Create non-clugen() data sets as named tuples
         for _ in range(ds_ot_n):
-            npts = cast(int, prng.integers(1, high=101))
+            npts = cast(int, prng.integers(2, high=101))
             nclu = cast(int, prng.integers(1, high=min(3, npts)) + 1)
             ds_ot = _PointsClusters(
                 prng.random((npts, ndims)), prng.integers(1, high=nclu + 1, size=npts)
@@ -925,7 +925,7 @@ def test_clumerge_general(
 
         # Create non-clugen() data sets as dictionaries
         for _ in range(ds_od_n):
-            npts = cast(int, prng.integers(1, high=101))
+            npts = cast(int, prng.integers(2, high=101))
             nclu = cast(int, prng.integers(1, high=min(3, npts)) + 1)
             ds_od = {
                 "points": prng.random((npts, ndims)),
