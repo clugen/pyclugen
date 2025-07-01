@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 import warnings
 from collections.abc import Mapping, MutableSequence
-from typing import Any, NamedTuple
+from typing import Any, NamedTuple, cast
 
 import pytest
 from numpy import abs, all, arange, array, can_cast, int64, pi, repeat, sum, unique
@@ -886,8 +886,8 @@ def test_clumerge_general(
 
                 ds_cg = clugen(
                     ndims,
-                    prng.integers(1, high=11),
-                    prng.integers(1, high=101),
+                    cast(int, prng.integers(1, high=11)),
+                    cast(int, prng.integers(1, high=101)),
                     prng.random(size=ndims),
                     prng.random(),
                     prng.random(size=ndims),
@@ -909,8 +909,8 @@ def test_clumerge_general(
 
         # Create non-clugen() data sets as named tuples
         for _ in range(ds_ot_n):
-            npts = prng.integers(1, high=101)
-            nclu = prng.integers(1, high=min(3, npts) + 1)
+            npts = cast(int, prng.integers(1, high=101))
+            nclu = cast(int, prng.integers(1, high=min(3, npts)) + 1)
             ds_ot = _PointsClusters(
                 prng.random((npts, ndims)), prng.integers(1, high=nclu + 1, size=npts)
             )
@@ -925,8 +925,8 @@ def test_clumerge_general(
 
         # Create non-clugen() data sets as dictionaries
         for _ in range(ds_od_n):
-            npts = prng.integers(1, high=101)
-            nclu = prng.integers(1, high=min(3, npts) + 1)
+            npts = cast(int, prng.integers(1, high=101))
+            nclu = cast(int, prng.integers(1, high=min(3, npts)) + 1)
             ds_od = {
                 "points": prng.random((npts, ndims)),
                 "clusters": prng.integers(1, high=nclu + 1, size=npts),
@@ -980,8 +980,8 @@ def test_clumerge_fields(
 
             ds_cgs = clugen(
                 ndims,
-                prng.integers(1, high=11),
-                prng.integers(1, high=101),
+                cast(int, prng.integers(1, high=11)),
+                cast(int, prng.integers(1, high=101)),
                 prng.random(size=ndims),
                 prng.random(),
                 prng.random(size=ndims),
