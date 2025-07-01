@@ -6,7 +6,7 @@
 
 import warnings
 
-from numpy import abs, dot, isclose, pi
+import numpy as np
 from numpy.linalg import norm
 from numpy.testing import assert_allclose
 
@@ -41,7 +41,7 @@ def test_points_on_line(ndims, num_points, prng, llength_mu, uvector, vector):
     # Check that distance of points to the line is approximately zero
     for pt in pts:
         # Get distance from current point to line
-        d = norm((pt - ctr) - dot((pt - ctr), direc) * direc)
+        d = norm((pt - ctr) - np.dot((pt - ctr), direc) * direc)
         # Check that it is approximately zero
         assert_allclose(d, 0, atol=1e-13)
 
@@ -66,7 +66,7 @@ def test_rand_ortho_vector(ndims, prng, uvector):
     # Check that vectors u and r are orthogonal (only for nd > 1)
     if ndims > 1:
         # The dot product of orthogonal vectors must be (approximately) zero
-        assert_allclose(dot(u, r), 0, atol=1e-12)
+        assert_allclose(np.dot(u, r), 0, atol=1e-12)
 
 
 def test_rand_unit_vector(ndims, prng):
@@ -102,5 +102,5 @@ def test_rand_vector_at_angle(ndims, prng, uvector, angle_std):
     assert_allclose(norm(r), 1, atol=1e-14)
 
     # Check that vectors u and r have an angle of angle_std between them
-    if ndims > 1 and abs(angle_std) < pi / 2:
-        isclose(angle_btw(u, r), abs(angle_std), atol=1e-12)
+    if ndims > 1 and np.abs(angle_std) < np.pi / 2:
+        np.isclose(angle_btw(u, r), np.abs(angle_std), atol=1e-12)

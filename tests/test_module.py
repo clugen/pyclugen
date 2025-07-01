@@ -6,7 +6,7 @@
 
 import warnings
 
-from numpy import abs, all, dot, min, pi, sum
+import numpy as np
 from numpy.testing import assert_allclose
 
 from pyclugen.core import points_on_line
@@ -25,7 +25,7 @@ def test_angle_deltas(prng, num_clusters, angle_std):
     assert angles.shape == (num_clusters,)
 
     # Check that all angles are between -π/2 and π/2
-    assert all(abs(angles) <= pi / 2)
+    assert np.all(np.abs(angles) <= np.pi / 2)
 
 
 def test_clucenters(ndims, prng, num_clusters, cluoff_fn, clusep_fn):
@@ -68,7 +68,7 @@ def test_clupoints_n_1(ndims, num_points, prng, lat_std, llength_mu, uvector, ve
     # The point minus its projection should yield an approximately
     # orthogonal vector to the cluster line
     for u in pts - proj:
-        assert_allclose(dot(direc, u), 0, atol=1e-7)
+        assert_allclose(np.dot(direc, u), 0, atol=1e-7)
 
 
 def test_clupoints_n(ndims, num_points, prng, lat_std, llength_mu, uvector, vector):
@@ -108,11 +108,11 @@ def test_clusizes(prng, num_clusters, num_points, allow_empty):
     assert clu_sizes.shape == (num_clusters,)
 
     # Check that the total number of points is correct
-    assert sum(clu_sizes) == num_points
+    assert np.sum(clu_sizes) == num_points
 
     # If empty clusters are not allowed, check that all of them have points
     if not allow_empty:
-        assert min(clu_sizes) > 0
+        assert np.min(clu_sizes) > 0
 
 
 def test_llengths(prng, num_clusters, llength_mu, llength_sigma):
@@ -127,4 +127,4 @@ def test_llengths(prng, num_clusters, llength_mu, llength_sigma):
     assert lens.shape == (num_clusters,)
 
     # Check that all lengths are >= 0
-    assert all(lens >= 0)
+    assert np.all(lens >= 0)

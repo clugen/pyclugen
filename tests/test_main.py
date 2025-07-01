@@ -11,8 +11,8 @@ import warnings
 from collections.abc import Mapping, MutableSequence
 from typing import Any, NamedTuple, cast
 
+import numpy as np
 import pytest
-from numpy import abs, all, arange, array, can_cast, int64, pi, repeat, sum, unique
 from numpy.random import Generator, Philox
 from numpy.testing import assert_allclose, assert_array_equal
 from numpy.typing import ArrayLike, NDArray
@@ -88,19 +88,19 @@ def test_clugen_mandatory(
     assert result.lengths.shape == (num_clusters,)
 
     # Check point cluster indexes
-    assert all(unique(result.clusters) == arange(num_clusters))
+    assert np.all(np.unique(result.clusters) == np.arange(num_clusters))
 
     # Check total points
-    assert sum(result.sizes) == num_points
+    assert np.sum(result.sizes) == num_points
 
     # Check that cluster directions have the correct angles with the main direction
     if ndims > 1:
         if direc.ndim == 1:
-            direc = repeat(direc.reshape((1, -1)), num_clusters, axis=0)
+            direc = np.repeat(direc.reshape((1, -1)), num_clusters, axis=0)
         for i in range(num_clusters):
             assert_allclose(
                 angle_btw(direc[i, :], result.directions[i, :]),
-                abs(result.angles[i]),
+                np.abs(result.angles[i]),
                 atol=1e-5,
             )
 
@@ -123,7 +123,7 @@ def test_clugen_optional(
     # Valid arguments
     nclu = 7
     tpts = 500
-    astd = pi / 256
+    astd = np.pi / 256
     len_mu = 9
     len_std = 1.2
     lat_std = 2
@@ -167,23 +167,23 @@ def test_clugen_optional(
 
     # Check point cluster indexes
     if not allow_empty:
-        assert all(unique(result.clusters) == arange(nclu))
+        assert np.all(np.unique(result.clusters) == np.arange(nclu))
     else:
-        assert all(result.clusters < nclu)
+        assert np.all(result.clusters < nclu)
 
     # Check total points
-    assert sum(result.sizes) == tpts
+    assert np.sum(result.sizes) == tpts
     # This might not be the case if the specified clusize_fn does not obey
     # the total number of points
 
     # Check that cluster directions have the correct angles with the main direction
     if ndims > 1:
         if direc.ndim == 1:
-            direc = repeat(direc.reshape((1, -1)), nclu, axis=0)
+            direc = np.repeat(direc.reshape((1, -1)), nclu, axis=0)
         for i in range(nclu):
             assert_allclose(
                 angle_btw(direc[i, :], result.directions[i, :]),
-                abs(result.angles[i]),
+                np.abs(result.angles[i]),
                 atol=1e-11,
             )
 
@@ -201,11 +201,11 @@ def test_clugen_optional_direct(
     csz_direct = prng.integers(1, 100, num_clusters)
     cctr_direct = prng.normal(size=(num_clusters, ndims))
     llen_direct = 20 * prng.random(num_clusters)
-    lang_direct = pi * prng.random(num_clusters) - pi / 2
+    lang_direct = np.pi * prng.random(num_clusters) - np.pi / 2
 
     # Valid arguments
-    tpts = sum(csz_direct)
-    astd = pi / 333
+    tpts = np.sum(csz_direct)
+    astd = np.pi / 333
     len_mu = 6
     len_std = 1.1
     lat_std = 1.6
@@ -246,23 +246,23 @@ def test_clugen_optional_direct(
 
     # Check point cluster indexes
     if not allow_empty:
-        assert all(unique(result.clusters) == arange(num_clusters))
+        assert np.all(np.unique(result.clusters) == np.arange(num_clusters))
     else:
-        assert all(result.clusters < num_clusters)
+        assert np.all(result.clusters < num_clusters)
 
     # Check total points
-    assert sum(result.sizes) == tpts
+    assert np.sum(result.sizes) == tpts
     # This might not be the case if the specified clusize_fn does not obey
     # the total number of points
 
     # Check that cluster directions have the correct angles with the main direction
     if ndims > 1:
         if direc.ndim == 1:
-            direc = repeat(direc.reshape((1, -1)), num_clusters, axis=0)
+            direc = np.repeat(direc.reshape((1, -1)), num_clusters, axis=0)
         for i in range(num_clusters):
             assert_allclose(
                 angle_btw(direc[i, :], result.directions[i, :]),
-                abs(result.angles[i]),
+                np.abs(result.angles[i]),
                 atol=1e-11,
             )
 
@@ -301,7 +301,7 @@ def test_clugen_reproducibility(seed, ndims, use_rng):
     with warnings.catch_warnings():
         # Check that the function runs without warnings
         warnings.simplefilter("error")
-        r2 = run_clugen(int64(seed), ndims)
+        r2 = run_clugen(np.int64(seed), ndims)
 
     # Check that results are the same
     assert_array_equal(r1.points, r2.points)
@@ -315,7 +315,7 @@ def test_clugen_exceptions(prng):
     nclu = 5
     tpts = 1000
     direc = [1, 0, 0]
-    astd = pi / 64
+    astd = np.pi / 64
     clu_sep = [10, 10, 5]
     len_mu = 5
     len_std = 0.5
@@ -458,7 +458,7 @@ def test_clugen_exceptions(prng):
         )
 
     # Direction needs to have nd size (or nd columns)
-    bad_dir = array([1, 1])
+    bad_dir = np.array([1, 1])
     with pytest.raises(
         ValueError,
         match=re.escape(
@@ -488,7 +488,7 @@ def test_clugen_exceptions(prng):
         )
 
     # Direction needs to have 1 or nclu rows
-    bad_dir = repeat([[1, 1]], nclu + 1, axis=0)
+    bad_dir = np.repeat([[1, 1]], nclu + 1, axis=0)
     with pytest.raises(
         ValueError,
         match=re.escape(
@@ -548,7 +548,7 @@ def test_clugen_exceptions(prng):
         )
 
     # cluster_sep needs to have nd dims
-    bad_clusep = array([10, 0, 5, 1.4])
+    bad_clusep = np.array([10, 0, 5, 1.4])
     with pytest.raises(
         ValueError,
         match=re.escape(
@@ -578,7 +578,7 @@ def test_clugen_exceptions(prng):
         )
 
     # cluster_offset needs to have nd dims
-    bad_cluoff = array([0, 1])
+    bad_cluoff = np.array([0, 1])
     with pytest.raises(
         ValueError,
         match=re.escape(
@@ -901,7 +901,7 @@ def test_clumerge_general(
                 if no_clusters_field:
                     tclu = max(tclu, max(ds_cg.clusters))
                 else:
-                    tclu += len(unique(ds_cg.clusters))
+                    tclu += len(np.unique(ds_cg.clusters))
 
                 tpts += len(ds_cg.points)
 
@@ -917,7 +917,7 @@ def test_clumerge_general(
             if no_clusters_field:
                 tclu = max(tclu, max(ds_ot.clusters))
             else:
-                tclu += len(unique(ds_ot.clusters))
+                tclu += len(np.unique(ds_ot.clusters))
 
             tpts += npts
 
@@ -934,7 +934,7 @@ def test_clumerge_general(
             if no_clusters_field:
                 tclu = max(tclu, max(ds_od["clusters"]))
             else:
-                tclu += len(unique(ds_od["clusters"]))
+                tclu += len(np.unique(ds_od["clusters"]))
 
             tpts += npts
 
@@ -957,7 +957,7 @@ def test_clumerge_general(
 
         assert mds["points"].shape == expect_shape
         assert max(mds["clusters"]) == tclu
-        assert can_cast(mds["clusters"].dtype, int64)
+        assert np.can_cast(mds["clusters"].dtype, np.int64)
 
 
 def test_clumerge_fields(
@@ -992,7 +992,7 @@ def test_clumerge_fields(
                 rng=prng,
             )
 
-            tclu += len(unique(ds_cgs.clusters))
+            tclu += len(np.unique(ds_cgs.clusters))
             tpts += len(ds_cgs.points)
             tclu_i += len(ds_cgs.sizes)
             datasets.append(ds_cgs)
@@ -1009,7 +1009,7 @@ def test_clumerge_fields(
         assert mds["points"].shape == expect_shape
         assert mds["projections"].shape == expect_shape
         assert max(mds["clusters"]) == tclu
-        assert can_cast(mds["clusters"].dtype, int64)
+        assert np.can_cast(mds["clusters"].dtype, np.int64)
 
         # Check that clumerge() is able to merge data set fields related to clusters
         # without warnings
@@ -1025,7 +1025,7 @@ def test_clumerge_fields(
         # Check that the cluster-related fields have the correct sizes
         expect_shape = (tclu_i,) if ndims == 1 else (tclu_i, ndims)
         assert len(mds["sizes"]) == tclu_i
-        assert can_cast(mds["sizes"], int64)
+        assert np.can_cast(mds["sizes"], np.int64)
         assert mds["centers"].shape == expect_shape
         assert mds["directions"].shape == expect_shape
         assert len(mds["angles"]) == tclu_i
