@@ -6,7 +6,7 @@
 
 from typing import Callable
 
-from numpy import abs, arctan, argmax, argmin, sum, zeros
+import numpy as np
 from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import NDArray
@@ -53,7 +53,7 @@ def angle_btw(v1: NDArray, v2: NDArray) -> float:
     y = u1 - u2
     x = u1 + u2
 
-    return 2 * arctan(norm(y) / norm(x))
+    return 2 * np.arctan(norm(y) / norm(x))
 
 
 def clupoints_n_1_template(
@@ -114,13 +114,13 @@ def clupoints_n_1_template(
     points_dist = dist_fn(clu_num_points, lat_disp, rng)
 
     # Get normalized vectors, orthogonal to the current line, for each point
-    orth_vecs = zeros((clu_num_points, num_dims))
+    orth_vecs = np.zeros((clu_num_points, num_dims))
 
     for j in range(clu_num_points):
         orth_vecs[j, :] = rand_ortho_vector(clu_dir, rng=rng).ravel()
 
     # Set vector magnitudes
-    orth_vecs = abs(points_dist).reshape(-1, 1) * orth_vecs
+    orth_vecs = np.abs(points_dist).reshape(-1, 1) * orth_vecs
 
     # Add perpendicular vectors to point projections on the line,
     # yielding final cluster points
@@ -168,12 +168,12 @@ def fix_empty(clu_num_points: NDArray, allow_empty: bool = False) -> NDArray:
         empty_clusts = [idx for idx, val in enumerate(clu_num_points) if val == 0]
 
         # If there are empty clusters and enough points for all clusters...
-        if len(empty_clusts) > 0 and sum(clu_num_points) >= clu_num_points.size:
+        if len(empty_clusts) > 0 and np.sum(clu_num_points) >= clu_num_points.size:
             # Go through the empty clusters...
             for i0 in empty_clusts:
                 # ...get a point from the largest cluster and assign it to the
                 # current empty cluster
-                imax = argmax(clu_num_points)
+                imax = np.argmax(clu_num_points)
                 clu_num_points[imax] -= 1
                 clu_num_points[i0] += 1
 
@@ -210,11 +210,11 @@ def fix_num_points(clu_num_points: NDArray, num_points: int) -> NDArray:
       Number of points in each cluster, after being fixed by this function (vector
         of size $c$, which is the same reference than `clu_num_points`).
     """
-    while sum(clu_num_points) < num_points:
-        imin = argmin(clu_num_points)
+    while np.sum(clu_num_points) < num_points:
+        imin = np.argmin(clu_num_points)
         clu_num_points[imin] += 1
-    while sum(clu_num_points) > num_points:
-        imax = argmax(clu_num_points)
+    while np.sum(clu_num_points) > num_points:
+        imax = np.argmax(clu_num_points)
         clu_num_points[imax] -= 1
 
     return clu_num_points

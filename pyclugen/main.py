@@ -10,24 +10,7 @@ from collections.abc import Mapping, MutableSequence, MutableSet
 from dataclasses import dataclass
 from typing import Callable, NamedTuple, Optional, cast
 
-from numpy import (
-    any,
-    apply_along_axis,
-    asarray,
-    can_cast,
-    concatenate,
-    cumsum,
-    empty,
-    int32,
-    int64,
-    integer,
-    isclose,
-    promote_types,
-    repeat,
-    sum,
-    unique,
-    zeros,
-)
+import numpy as np
 from numpy.linalg import norm
 from numpy.random import PCG64, Generator
 from numpy.typing import ArrayLike, DTypeLike, NDArray
@@ -109,7 +92,7 @@ def clugen(
     angle_deltas_fn: (
         Callable[[int, float, Generator], NDArray] | ArrayLike
     ) = angle_deltas,
-    rng: int | integer | Generator = _default_rng,
+    rng: int | np.integer | Generator = _default_rng,
 ) -> Clusters:
     """Generate multidimensional clusters.
 
@@ -239,7 +222,7 @@ def clugen(
         raise ValueError("Number of clusters, `num_clust`, must be > 0")
 
     # Convert given direction into a NumPy array
-    arrdir: NDArray = asarray(direction)
+    arrdir: NDArray = np.asarray(direction)
 
     # Get number of dimensions in `direction` array
     dir_ndims = arrdir.ndim
@@ -275,8 +258,8 @@ def clugen(
         )
 
     # Check that directions have magnitude > 0
-    dir_magnitudes = apply_along_axis(norm, 1, arrdir)
-    if any(isclose(dir_magnitudes, 0)):
+    dir_magnitudes = np.apply_along_axis(norm, 1, arrdir)
+    if np.any(np.isclose(dir_magnitudes, 0)):
         raise ValueError("Directions in `direction` must have magnitude > 0")
 
     # If allow_empty is false, make sure there are enough points to distribute
@@ -288,7 +271,7 @@ def clugen(
         )
 
     # Check that cluster_sep has num_dims dimensions
-    cluster_sep = asarray(cluster_sep)
+    cluster_sep = np.asarray(cluster_sep)
     if cluster_sep.size != num_dims:
         raise ValueError(
             "Length of `cluster_sep` must be equal to `num_dims` "
@@ -298,9 +281,9 @@ def clugen(
     # If given, cluster_offset must have the correct number of dimensions,
     # if not given then it will be a num_dims x 1 vector of zeros
     if cluster_offset is None:
-        cluster_offset = zeros(num_dims)
+        cluster_offset = np.zeros(num_dims)
     else:
-        cluster_offset = asarray(cluster_offset)
+        cluster_offset = np.asarray(cluster_offset)
         if cluster_offset.size != num_dims:
             raise ValueError(
                 "Length of `cluster_offset` must be equal to `num_dims` "
@@ -311,7 +294,7 @@ def clugen(
     rng_sel: Generator
     if isinstance(rng, Generator):
         rng_sel = cast(Generator, rng)
-    elif isinstance(rng, (int, integer)):
+    elif isinstance(rng, (int, np.integer)):
         rng_sel = Generator(PCG64(cast(int, rng)))
     else:
         raise ValueError(
@@ -384,17 +367,17 @@ def clugen(
     # ############################ #
 
     # Normalize main direction(s)
-    arrdir = apply_along_axis(lambda a: a / norm(a), 1, arrdir)
+    arrdir = np.apply_along_axis(lambda a: a / norm(a), 1, arrdir)
 
     # If only one main direction was given, expand it for all clusters
     if dir_ndims == 1:
-        arrdir = repeat(arrdir, num_clusters, axis=0)
+        arrdir = np.repeat(arrdir, num_clusters, axis=0)
 
     # Determine cluster sizes
     if callable(clusizes_fn):
         cluster_sizes = clusizes_fn(num_clusters, num_points, allow_empty, rng_sel)
-    elif len(asarray(clusizes_fn)) == num_clusters:
-        cluster_sizes = asarray(clusizes_fn)
+    elif len(np.asarray(clusizes_fn)) == num_clusters:
+        cluster_sizes = np.asarray(clusizes_fn)
     else:
         raise ValueError(
             "clusizes_fn has to be either a function or a `num_clusters`-sized array"
@@ -402,15 +385,15 @@ def clugen(
 
     # Custom clusizes_fn's are not required to obey num_points, so we update
     # it here just in case it's different from what the user specified
-    num_points = sum(cluster_sizes)
+    num_points = np.sum(cluster_sizes)
 
     # Determine cluster centers
     if callable(clucenters_fn):
         cluster_centers = clucenters_fn(
             num_clusters, cluster_sep, cluster_offset, rng_sel
         )
-    elif asarray(clucenters_fn).shape == (num_clusters, num_dims):
-        cluster_centers = asarray(clucenters_fn)
+    elif np.asarray(clucenters_fn).shape == (num_clusters, num_dims):
+        cluster_centers = np.asarray(clucenters_fn)
     else:
         raise ValueError(
             "clucenters_fn has to be either a function or a matrix of size "
@@ -420,8 +403,8 @@ def clugen(
     # Determine length of lines supporting clusters
     if callable(llengths_fn):
         cluster_lengths = llengths_fn(num_clusters, llength, llength_disp, rng_sel)
-    elif len(asarray(llengths_fn)) == num_clusters:
-        cluster_lengths = asarray(llengths_fn)
+    elif len(np.asarray(llengths_fn)) == num_clusters:
+        cluster_lengths = np.asarray(llengths_fn)
     else:
         raise ValueError(
             "llengths_fn has to be either a function or a `num_clusters`-sized array"
@@ -430,8 +413,8 @@ def clugen(
     # Obtain angles between main direction and cluster-supporting lines
     if callable(angle_deltas_fn):
         cluster_angles = angle_deltas_fn(num_clusters, angle_disp, rng_sel)
-    elif len(asarray(angle_deltas_fn)) == num_clusters:
-        cluster_angles = asarray(angle_deltas_fn)
+    elif len(np.asarray(angle_deltas_fn)) == num_clusters:
+        cluster_angles = np.asarray(angle_deltas_fn)
     else:
         raise ValueError(
             "angle_deltas_fn has to be either a function or a "
@@ -439,7 +422,7 @@ def clugen(
         )
 
     # Determine normalized cluster directions by applying the obtained angles
-    cluster_directions = apply_along_axis(
+    cluster_directions = np.apply_along_axis(
         lambda v, a: rand_vector_at_angle(v, next(a), rng_sel),
         1,
         arrdir,
@@ -451,15 +434,15 @@ def clugen(
     # ################################# #
 
     # Aux. vector with cumulative sum of number of points in each cluster
-    cumsum_points = concatenate((asarray([0]), cumsum(cluster_sizes)))
+    cumsum_points = np.concatenate((np.asarray([0]), np.cumsum(cluster_sizes)))
 
     # Pre-allocate data structures for holding cluster info and points
-    point_clusters: NDArray = empty(
-        num_points, dtype=int32
+    point_clusters: NDArray = np.empty(
+        num_points, dtype=np.int32
     )  # Cluster indices of each point
-    point_projections = empty((num_points, num_dims))  # Point projections on
+    point_projections = np.empty((num_points, num_dims))  # Point projections on
     #                                                  # cluster-supporting lines
-    points = empty((num_points, num_dims))  # Final points to be generated
+    points = np.empty((num_points, num_dims))  # Final points to be generated
 
     # Loop through clusters and create points for each one
     for i in range(num_clusters):
@@ -593,7 +576,7 @@ def clumerge(
             ddt = ntdt._asdict()
 
         # Convert dictionary values to NDArrays
-        ddtnp: Mapping[str, NDArray] = {k: asarray(v) for k, v in ddt.items()}
+        ddtnp: Mapping[str, NDArray] = {k: np.asarray(v) for k, v in ddt.items()}
 
         # Add converted dictionary to our sequence of dictionaries
         ddata.append(ddtnp)
@@ -607,8 +590,8 @@ def clumerge(
         for field in fields_set:
             if field not in dt:
                 raise ValueError(f"Data item does not contain required field `{field}`")
-            elif field == clusters_field and not can_cast(
-                dt[clusters_field].dtype, int64
+            elif field == clusters_field and not np.can_cast(
+                dt[clusters_field].dtype, np.int64
             ):
                 raise ValueError(f"`{clusters_field}` must contain integer types")
 
@@ -646,7 +629,7 @@ def clumerge(
                     raise ValueError(f"Dimension mismatch in field `{field}`")
 
                 # Get the common supertype
-                fields_info[field].dtype = promote_types(
+                fields_info[field].dtype = np.promote_types(
                     fields_info[field].dtype, value.dtype
                 )
 
@@ -656,9 +639,9 @@ def clumerge(
     # Initialize output dictionary fields with room for all items
     for field in fields_info:
         if fields_info[field].ncol == 1:
-            output[field] = empty((numel,), dtype=fields_info[field].dtype)
+            output[field] = np.empty((numel,), dtype=fields_info[field].dtype)
         else:
-            output[field] = empty(
+            output[field] = np.empty(
                 (numel, fields_info[field].ncol), dtype=fields_info[field].dtype
             )
 
@@ -676,7 +659,7 @@ def clumerge(
             # Copy elements
             if field == clusters_field:
                 # If this is a clusters field, update the cluster IDs
-                old_clusters = unique(dt[clusters_field])
+                old_clusters = np.unique(dt[clusters_field])
                 new_clusters = list(
                     range(last_cluster + 1, last_cluster + len(old_clusters) + 1)
                 )

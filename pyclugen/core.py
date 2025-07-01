@@ -6,7 +6,7 @@
 
 from math import tan
 
-from numpy import abs, dot, isclose, pi
+import numpy as np
 from numpy.linalg import norm
 from numpy.random import Generator
 from numpy.typing import NDArray
@@ -103,11 +103,11 @@ def rand_ortho_vector(u: NDArray, rng: Generator = _default_rng) -> NDArray:
         r = rand_unit_vector(u.size, rng=rng)
 
         # If not parallel to u we can keep it and break the loop
-        if not isclose(abs(dot(u, r)), 1):
+        if not np.isclose(np.abs(np.dot(u, r)), 1):
             break
 
     # Get vector orthogonal to u using 1st iteration of Gram-Schmidt process
-    v = r - dot(u, r) / dot(u, u) * u
+    v = r - np.dot(u, r) / np.dot(u, u) * u
 
     # Normalize it
     v = v / norm(v)
@@ -172,9 +172,9 @@ def rand_vector_at_angle(
       Random unit vector with $n$ components which is at `angle` radians
         with vector `u`.
     """
-    if isclose(abs(angle), pi / 2) and u.size > 1:
+    if np.isclose(abs(angle), np.pi / 2) and u.size > 1:
         return rand_ortho_vector(u, rng=rng)
-    elif -pi / 2 < angle < pi / 2 and u.size > 1:
+    elif -np.pi / 2 < angle < np.pi / 2 and u.size > 1:
         v = u + rand_ortho_vector(u, rng=rng) * tan(angle)
         return v / norm(v)
     else:

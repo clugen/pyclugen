@@ -4,7 +4,7 @@
 
 """This module contains the algorithm module functions."""
 
-from numpy import abs, arctan2, cos, diag, pi, rint, sign, sin, sum, where
+import numpy as np
 from numpy.random import Generator
 from numpy.typing import NDArray
 
@@ -48,10 +48,12 @@ def angle_deltas(
     angles = angle_disp * rng.normal(size=num_clusters)
 
     # Reduce angle differences to the interval [-π, π]
-    angles = arctan2(sin(angles), cos(angles))
+    angles = np.arctan2(np.sin(angles), np.cos(angles))
 
     # Make sure angle differences are within interval [-π/2, π/2]
-    return where(abs(angles) > pi / 2, angles - sign(angles) * pi / 2, angles)
+    return np.where(
+        np.abs(angles) > np.pi / 2, angles - np.sign(angles) * np.pi / 2, angles
+    )
 
 
 def clucenters(
@@ -102,7 +104,7 @@ def clucenters(
     # between -0.5 and 0.5 representing the relative cluster centers
     ctr_rel = rng.random((num_clusters, clu_sep.size)) - 0.5
 
-    return num_clusters * (ctr_rel @ diag(clu_sep)) + clu_offset
+    return num_clusters * (ctr_rel @ np.diag(clu_sep)) + clu_offset
 
 
 def clupoints_n_1(
@@ -276,15 +278,15 @@ def clusizes(
     clu_num_points = std * rng.normal(size=num_clusters) + mean
 
     # Set negative values to zero
-    clu_num_points = where(clu_num_points > 0, clu_num_points, 0)
+    clu_num_points = np.where(clu_num_points > 0, clu_num_points, 0)
 
     # Fix imbalances, so that num_points is respected
-    if sum(clu_num_points) > 0:  # Be careful not to divide by zero
-        clu_num_points *= num_points / sum(clu_num_points)
+    if np.sum(clu_num_points) > 0:  # Be careful not to divide by zero
+        clu_num_points *= num_points / np.sum(clu_num_points)
 
     # Round the real values to integers since a cluster sizes is represented by
     # an integer
-    clu_num_points = rint(clu_num_points).astype(int)
+    clu_num_points = np.rint(clu_num_points).astype(int)
 
     # Make sure total points is respected, which may not be the case at this time due
     # to rounding
@@ -324,4 +326,4 @@ def llengths(
     Returns:
       Lengths of cluster-supporting lines (vector of size `num_clusters`).
     """
-    return abs(llength + llength_disp * rng.normal(size=num_clusters))
+    return np.abs(llength + llength_disp * rng.normal(size=num_clusters))
