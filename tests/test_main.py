@@ -1,4 +1,4 @@
-# Copyright (c) 2020-2024 Nuno Fachada and contributors
+# Copyright (c) 2020-2025 Nuno Fachada and contributors
 # Distributed under the MIT License (See accompanying file LICENSE.txt or copy
 # at http://opensource.org/licenses/MIT)
 
