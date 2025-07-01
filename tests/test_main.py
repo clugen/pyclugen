@@ -297,11 +297,11 @@ def test_clugen_reproducibility(seed, ndims, use_rng):
         warnings.simplefilter("error")
         r1 = run_clugen(seed, ndims)
 
-    # Run clugen again with the same seed and get results
+    # Run clugen again with the same seed as type np.int64 and get results
     with warnings.catch_warnings():
         # Check that the function runs without warnings
         warnings.simplefilter("error")
-        r2 = run_clugen(seed, ndims)
+        r2 = run_clugen(int64(seed), ndims)
 
     # Check that results are the same
     assert_array_equal(r1.points, r2.points)
