@@ -232,7 +232,7 @@ def pytest_generate_tests(metafunc):
     param_if("ds_cgs_n", t_ds_cgs_n)
 
 
-@pytest.fixture()
+@pytest.fixture
 def vector(prng):
     """Provides random vectors."""
 
@@ -242,7 +242,7 @@ def vector(prng):
     return _vector
 
 
-@pytest.fixture()
+@pytest.fixture
 def uvector(prng):
     """Provides random unit vectors."""
 
