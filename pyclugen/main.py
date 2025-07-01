@@ -20,6 +20,7 @@ from numpy import (
     empty,
     int32,
     int64,
+    integer,
     isclose,
     promote_types,
     repeat,
@@ -95,16 +96,20 @@ def clugen(
     allow_empty: bool = False,
     cluster_offset: Optional[ArrayLike] = None,
     proj_dist_fn: str | Callable[[float, int, Generator], NDArray] = "norm",
-    point_dist_fn: str
-    | Callable[[NDArray, float, float, NDArray, NDArray, Generator], NDArray] = "n-1",
+    point_dist_fn: (
+        str | Callable[[NDArray, float, float, NDArray, NDArray, Generator], NDArray]
+    ) = "n-1",
     clusizes_fn: Callable[[int, int, bool, Generator], NDArray] | ArrayLike = clusizes,
-    clucenters_fn: Callable[[int, NDArray, NDArray, Generator], NDArray]
-    | ArrayLike = clucenters,
-    llengths_fn: Callable[[int, float, float, Generator], NDArray]
-    | ArrayLike = llengths,
-    angle_deltas_fn: Callable[[int, float, Generator], NDArray]
-    | ArrayLike = angle_deltas,
-    rng: int | Generator = _default_rng,
+    clucenters_fn: (
+        Callable[[int, NDArray, NDArray, Generator], NDArray] | ArrayLike
+    ) = clucenters,
+    llengths_fn: (
+        Callable[[int, float, float, Generator], NDArray] | ArrayLike
+    ) = llengths,
+    angle_deltas_fn: (
+        Callable[[int, float, Generator], NDArray] | ArrayLike
+    ) = angle_deltas,
+    rng: int | integer | Generator = _default_rng,
 ) -> Clusters:
     """Generate multidimensional clusters.
 
@@ -306,7 +311,7 @@ def clugen(
     rng_sel: Generator
     if isinstance(rng, Generator):
         rng_sel = cast(Generator, rng)
-    elif isinstance(rng, int):
+    elif isinstance(rng, (int, integer)):
         rng_sel = Generator(PCG64(cast(int, rng)))
     else:
         raise ValueError(
